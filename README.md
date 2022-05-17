@@ -9,6 +9,7 @@ Here are some ideas to get you started:
  -C# Unity Game Projects
  
  🌱 I’m currently learning ...
+ -Node.js
  -C/C++
  -C#
  -Python
