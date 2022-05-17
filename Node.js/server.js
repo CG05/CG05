@@ -8,7 +8,7 @@ const server = app.listen(3000, () => {
 });
 //서버에서 request된 반응을 어떤 기능으로 mapping 하는 것을 'routing'이라고 한다.
 //html페이지를 render하기 위한 사전작업
-app.set('views', __dirname + '/Node.js/views'); //path 설정
+app.set('views', __dirname + '/views'); //path 설정
 app.set('view engine', 'ejs'); //엔진 정의
 app.engine('html', require('ejs').renderFile); //엔진 사용
 
