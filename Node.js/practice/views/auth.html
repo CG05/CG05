@@ -1,0 +1,39 @@
+/* auth.html */
+<html>
+
+<body>
+    LOGIN
+    <form name="paging">
+        <h1>
+            ID : <input class="authdata" type="text" name="id">
+        </h1>
+        <h1>
+            src password : <input class="authdata" type="password" name="pwd">
+        </h1>
+        <button type="submit" name="submit" onclick="postData('localhost:8080','login',document.getElementsByClassName('authdata'))">
+    </form>
+
+    <script>
+        // Find our form in the DOM using its class name.
+        // Get the form data with our (yet to be defined) function.
+
+        function postData(host, path, data) {
+            const url = `http://${host}/${path}`;
+            const f=document.paging;
+            console.log(data);
+
+            const options = {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+
+                    },
+                    body: JSON.stringify(data)
+                }
+                // 옵션 기본 값은 *로 강조
+            return fetch(url, options).then((response) => response.json());
+        }
+    </script>
+
+</html>
