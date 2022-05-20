@@ -1,0 +1,65 @@
+<html>
+
+<head>
+    <link rel="stylesheet" href="css/auth.css">
+</head>
+
+<body>
+    LOGIN
+    <div class="login-form">
+        <input class="id" type="text" placeholder="계정이름"></input>
+        <input class="pwd" type="password" placeholder="비밀번호"></input>
+        <button onclick="Login()">→</button>
+    </div>
+
+    <script>
+        const tokens = {};
+
+        // Find our form in the DOM using its class name.
+        // Get the form data with our (yet to be defined) function.
+
+        function Login() {
+            let data = {
+                id: document.querySelector("input.id").value,
+                pw: document.querySelector("input.pwd").value
+            };
+
+            postData('login', data).then((json) => {
+                if (json.result === "success") {
+                    tokens.accessToken = json.accessToken;
+                    tokens.refreshToken = json.refreshToken;
+
+                    // 성공 받음
+                    fetch("/hello", {
+                        method: "GET",
+                        headers: {
+                            "Content-Type": "application/text",
+                            "authorization": 'bearer ' + tokens.accessToken,
+                            "refreshToken": tokens.refreshToken,
+                        }
+                    }).then(res => res.text()).then(html => {
+                        document.documentElement.innerHTML = html;
+                    });
+                }
+            });
+        }
+
+        function postData(path, data) {
+            // fetch는 기본적으로 연결된 서버로 요청을 보내므로 앞에 host는 생략 가능
+            const url = `${path}`;
+
+            const options = {
+                method: 'POST',
+                headers: {
+                    "Accept": "application/json",
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            };
+
+            return fetch(url, options).then((response) => response.json());
+        }
+    </script>
+</body>
+
+</html>

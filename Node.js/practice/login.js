@@ -1,28 +1,32 @@
 /* login.js */
-require("dotenv").config();
+require('dotenv').config();
 
-const http = require("http");
-const express = require("express");
-const jwt = require("jsonwebtoken");
-const bodyParser = require("body-parser");
-const exp = require("constants");
-const url = require("url");
-const { response } = require("express");
+const http = require('http');
+const express = require('express');
+const jwt = require('jsonwebtoken');
+const bodyParser = require('body-parser');
+const exp = require('constants');
+const url = require('url');
+const { response } = require('express');
+const path = require("path");
 
 const app = express();
 const server = http.createServer(app);
 const PORT = 8080;
 
 const users = [
-    { id: "hello", pw: "world" },
-    { id: "good", pw: "bye" },
+    { id: 'hello', pw: 'world' },
+    { id: 'good', pw: 'bye' },
 ];
 
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true })); // encode once : true
 app.use(bodyParser.json());
 
-app.set('views', './views');
+// static 경로 추가
+app.use(express.static(path.join(__dirname, "login-src/public")));
+
+app.set('views', './login-src/views');
 app.set('view engine', 'ejs'); //엔진 정의
 app.engine('html', require('ejs').renderFile); //엔진 사용
 
@@ -31,22 +35,21 @@ const login = (id, pw) => {
     let len = users.length;
 
     for (let i = 0; i < len; i++) {
-        if (id === users[i].id && pw === users[i].pw)
-            return id;
-
+        if (id === users[i].id && pw === users[i].pw) return id;
     }
-    return "";
+
+    return '';
 };
 
 const generateAccessToken = (id) => {
     return jwt.sign({ id }, process.env.ACCESS_TOKEN_SECRET, {
-        expiresIn: "15m",
+        expiresIn: '15m',
     });
 };
 
 const generateRefreshToken = (id) => {
     return jwt.sign({ id }, process.env.REFRESH_TOKEN_SECRET, {
-        expiresIn: "180days",
+        expiresIn: '180days',
     });
 };
 
@@ -57,30 +60,31 @@ app.get('/auth', (req, res) => {
 });
 
 //submit
-app.post("/login", (req, res) => {
+app.post('/login', (req, res) => {
     console.log(req.body);
-    var json = req.body;
-    var keys = Object.keys(json);
-    let id = keys[0];
-    let pw = keys[1];
-    console.log(`${id},${pw}`);
+    var { id, pw } = req.body;
 
     let user = login(id, pw);
+
+    if (user === "") {
+        res.status(500).json({ result: "fail" });
+
+        return;
+    }
 
     let accessToken = generateAccessToken(user);
     let refreshToken = generateRefreshToken(user);
 
-    res.json({ accessToken, refreshToken });
-
+    // 성공했음
+    res.json({ result: "success", accessToken, refreshToken });
 });
 
-
 const authenticateAccessToken = (req, res, next) => {
-    let authHeader = req.headers["authorization"];
-    let token = authHeader && authHeader.split(" ")[1];
+    let authHeader = req.headers['authorization'];
+    let token = authHeader && authHeader.split(' ')[1];
 
     if (!token) {
-        console.log("wrong token format or token is not sended");
+        console.log('wrong token format or token is not sended');
         return res.sendStatus(400);
     }
 
@@ -93,34 +97,30 @@ const authenticateAccessToken = (req, res, next) => {
         req.user = user;
         next();
     });
-}
+};
 
-app.post("/refresh", (req, res) => {
+app.post('/refresh', (req, res) => {
     req.header('refreshToken', refreshToken).send();
     let refreshToken = req.body.refreshToken;
     if (!refreshToken) return res.sendStatus(401);
 
-    jwt.verify(
-        refreshToken,
-        process.env.REFRESH_TOKEN_SECRET,
-        (error, user) => {
-            if (error) return res.sendStatus(403);
+    jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (error, user) => {
+        if (error) return res.sendStatus(403);
 
-            const accessToken = generateRefreshToken(user.id);
+        const accessToken = generateRefreshToken(user.id);
 
-            res.json({ accessToken });
-        }
-    );
+        res.json({ accessToken });
+    });
 });
-app.get("/hello", authenticateAccessToken, (req, res) => {
-    req.header('accessToken', 'bearer ' + accessToken).send();
+
+app.get('/hello', authenticateAccessToken, (req, res) => {
+    // req.header('accessToken', 'bearer ' + accessToken).send();
     console.log(req.user);
     res.render('hello.html');
 });
 
-
 //로그인 후 유저 활동 단계
-app.get("/userInfo", authenticateAccessToken, (req, res) => {
+app.get('/userInfo', authenticateAccessToken, (req, res) => {
     req.header('accessToken', 'bearer ' + accessToken).send();
     console.log(req.user);
     res.json(users.filter((user) => user.id === req.user.id));
