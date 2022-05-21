@@ -61,7 +61,6 @@ app.get('/auth', (req, res) => {
 
 //submit
 app.post('/login', (req, res) => {
-    console.log(req.body);
     var { id, pw } = req.body;
 
     let user = login(id, pw);

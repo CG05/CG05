@@ -1,0 +1,3 @@
+why JS
+모든 브라우저엔 JS가 내장.
+많은 JS기반 FrameWorks를 사용 가능. (React Native, Electron, Node.js, Socket.io, TenserFlow, ...)
