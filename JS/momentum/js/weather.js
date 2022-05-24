@@ -13,7 +13,7 @@ function onGeoOk(position) {
     .then(Response => Response.json())
     .then(data => {
       city.innerText = data.name;
-      weatherContainer.innerText = `${data.weather[0].main} / ${data.main.temp}`;
+      weatherContainer.innerText = `Today weather is ${data.weather[0].main} @ ${data.main.temp}˚C`;
     });
 }
 
