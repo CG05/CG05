@@ -1,3 +1,5 @@
+'use strict';
+
 const images = ["0.jpeg", "1.jpeg", "2.jpeg", ];
 
 const randomImg = Math.floor(Math.random() * images.length);
