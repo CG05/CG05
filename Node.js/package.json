@@ -8,5 +8,19 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "file:../../../../usr/local/lib/node_modules/body-parser",
+    "constant": "file:../../../../usr/local/lib/node_modules/constant",
+    "dotenv": "file:../../../../usr/local/lib/node_modules/dotenv",
+    "ejs": "file:../../../../usr/local/lib/node_modules/ejs",
+    "express": "file:../../../../usr/local/lib/node_modules/express",
+    "http": "file:../../../../usr/local/lib/node_modules/http",
+    "jsonwebtoken": "file:../../../../usr/local/lib/node_modules/jsonwebtoken",
+    "node-localstorage": "file:../../../../usr/local/lib/node_modules/node-localstorage",
+    "path": "file:../../../../usr/local/lib/node_modules/path",
+    "socket.io": "file:../../../../usr/local/lib/node_modules/socket.io",
+    "store": "file:../../../../usr/local/lib/node_modules/store",
+    "url": "file:../../../../usr/local/lib/node_modules/url"
+  }
 }

@@ -1,0 +1,61 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/css/style.css" />
+  <title>socketChat</title>
+</head>
+
+<body>
+  <div class="login-form hidden">
+    <input class="id" type="text" placeholder="계정이름"></input>
+    <input class="pw" type="password" placeholder="비밀번호"></input>
+    <button id="login" type="submit" value="Log In">→</button>
+    <button id="signUp" value="Sign Up">Sign Up</button>
+  </div>
+  <div class="signUp-form hidden">
+    <input class="id" type="text" placeholder="계정이름을 입력하세요"></input>
+    <input class="pw" type="password" placeholder="비밀번호를 입력하세요"></input>
+    <input class="check" type="password" placeholder="비밀번호를 다시 입력하세요"></input>
+    <button id="signUp" type="submit" value="Submit">Ok</button>
+  </div>
+  <div class="chat hidden">
+    <ul id="messages"></ul>
+    <form action="">
+      <input autocomplete="off" /> <button>Send</button>
+    </form>
+  </div>
+
+  <script src="/js/login.js"></script>
+  <script src="socket.io/socket.io.js "></script>
+
+  <script>
+    var socket = io( /*host*/ );
+    //connect to the host
+
+    var form = document.querySelector('.chat form');
+    var input = document.querySelector('.chat input');
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      if (input.value) {
+        socket.emit('chat message', input.value);
+        input.value = '';
+      }
+    });
+    socket.on('chat message', function(msg) {
+      var item = document.createElement('li');
+      const userId = localStorage.getItem("userId");
+      item.textContent = `#${userId}>>${msg}`;
+      messages.appendChild(item);
+      window.scrollTo(0, document.body.scrollHeight);
+    });
+  </script>
+
+</body>
+
+</html>
