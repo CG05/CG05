@@ -1,0 +1,8 @@
+{
+  "name": "js",
+  "version": "1.0.0",
+  "description": "",
+  "main": "login.js",
+  "type": "commonjs"
+  
+}

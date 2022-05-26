@@ -1,26 +1,28 @@
 {
   "name": "node",
   "version": "1.0.0",
-  "description": "",
   "main": "app.js",
-  "type": "commonjs",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "body-parser": "file:../../../../usr/local/lib/node_modules/body-parser",
-    "constant": "file:../../../../usr/local/lib/node_modules/constant",
-    "dotenv": "file:../../../../usr/local/lib/node_modules/dotenv",
-    "ejs": "file:../../../../usr/local/lib/node_modules/ejs",
-    "express": "file:../../../../usr/local/lib/node_modules/express",
-    "http": "file:../../../../usr/local/lib/node_modules/http",
-    "jsonwebtoken": "file:../../../../usr/local/lib/node_modules/jsonwebtoken",
-    "node-localstorage": "file:../../../../usr/local/lib/node_modules/node-localstorage",
-    "path": "file:../../../../usr/local/lib/node_modules/path",
-    "socket.io": "file:../../../../usr/local/lib/node_modules/socket.io",
-    "store": "file:../../../../usr/local/lib/node_modules/store",
-    "url": "file:../../../../usr/local/lib/node_modules/url"
-  }
+    "body-parser": "file:../../.nvm/versions/node/v18.2.0/lib/node_modules/body-parser",
+    "constant": "file:../../.nvm/versions/node/v18.2.0/lib/node_modules/constant",
+    "dotenv": "file:../../.nvm/versions/node/v18.2.0/lib/node_modules/dotenv",
+    "ejs": "file:../../.nvm/versions/node/v18.2.0/lib/node_modules/ejs",
+    "express": "file:../../.nvm/versions/node/v18.2.0/lib/node_modules/express",
+    "http": "file:../../.nvm/versions/node/v18.2.0/lib/node_modules/http",
+    "jsonwebtoken": "file:../../.nvm/versions/node/v18.2.0/lib/node_modules/jsonwebtoken",
+    "mysql": "file:../../.nvm/versions/node/v18.2.0/lib/node_modules/mysql",
+    "node-localstorage": "file:../../.nvm/versions/node/v18.2.0/lib/node_modules/node-localstorage",
+    "path": "file:../../.nvm/versions/node/v18.2.0/lib/node_modules/path",
+    "socket.io": "file:../../.nvm/versions/node/v18.2.0/lib/node_modules/socket.io",
+    "socket.io-client": "file:../../.nvm/versions/node/v18.2.0/lib/node_modules/socket.io-client",
+    "store": "file:../../.nvm/versions/node/v18.2.0/lib/node_modules/store",
+    "url": "file:../../.nvm/versions/node/v18.2.0/lib/node_modules/url"
+  },
+  "description": ""
 }
