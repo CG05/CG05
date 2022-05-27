@@ -54,7 +54,6 @@ function successLogin(userId) {
 	loginPwInput.value = EMPTY_VALUE;
 	socket.emit('connecting', userId);
 }
-socket.on('connecting', (userId) => console.log(userId, ' successed to login'));
 
 function onLoginSubmit(event) {
 	event.preventDefault();

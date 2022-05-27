@@ -5,10 +5,9 @@ const { Server } = require('socket.io');
 const mysql = require('mysql');
 
 const app = express();
-const PORT = 8080;
+const PORT = 3000;
 const server = http.createServer(app);
 const io = new Server(server);
-const date = new Date();
 const userDb = mysql.createConnection({
 	host: 'localhost',
 	user: 'root',
@@ -16,13 +15,14 @@ const userDb = mysql.createConnection({
 	database: 'Users',
 });
 const AUTHDATA_TABLE = 'auth_data';
-let userId = 'unknown user';
+const LOGGEDUSERS_TABLE = 'logged_users';
 
 app.set('views', '../../views'); //path 설정
 app.set('view engine', 'ejs'); //엔진 정의
 app.engine('html', require('ejs').renderFile); //엔진 사용
 
 let usersAuthData = [];
+let userId = 'unknown';
 
 function getUserDb(table) {
 	userDb.query(`SELECT * FROM ${table};`, function (error, auth_data) {
@@ -30,7 +30,6 @@ function getUserDb(table) {
 			return console.log(error);
 		}
 		usersAuthData = auth_data;
-		console.log(usersAuthData);
 	});
 }
 function signUp(id, pw) {
@@ -45,6 +44,39 @@ function signUp(id, pw) {
 	getUserDb(AUTHDATA_TABLE);
 }
 getUserDb(AUTHDATA_TABLE);
+
+function insertLoggedUser(id, name) {
+	userDb.query(
+		`INSERT INTO ${LOGGEDUSERS_TABLE} (id, name) VALUES ('${id}', '${name}');`,
+		function (error, logged_users) {
+			if (error) {
+				return console.log(error);
+			}
+		}
+	);
+}
+function deleteLoggedUser(id) {
+	userDb.query(
+		`DELETE FROM ${LOGGEDUSERS_TABLE} WHERE id = '${id}';`,
+		function (error, logged_users) {
+			if (error) {
+				return console.log(error);
+			}
+		}
+	);
+}
+function nameLoggedUser(id) {
+	userDb.query(
+		`SELECT name FROM ${LOGGEDUSERS_TABLE} where id = '${id}';`,
+		function (error, logged_users) {
+			if (error) {
+				console.log(error);
+			}
+			console.log(logged_users[0].name, 'name');
+			userId = logged_users[0].name;
+		}
+	);
+}
 
 app.use(express.static(path.join('../../public')));
 
@@ -62,26 +94,22 @@ io.emit('some event', {
 });
 
 io.on('connection', (socket) => {
-	console.log(`${userId} connected`);
-
 	socket.on('login', (user) => {
 		let resId = '';
 		let auth = false;
 		let i = 0;
 		while (i < usersAuthData.length) {
-			console.log(user);
-			console.log({ id: usersAuthData[i].id, pw: usersAuthData[i].pw });
-
 			if (user.id === usersAuthData[i].id && user.pw === usersAuthData[i].pw) {
-				console.log('same');
 				resId = user.id;
+				insertLoggedUser(socket.id, resId);
+				io.emit('saveSocketId', socket.id);
+				console.log(socket.id);
 				auth = true;
 				break;
 			}
 			i = i + 1;
 		}
 		const res = { id: resId, auth: auth };
-		console.log(res);
 		io.emit('login', res);
 	});
 
@@ -105,12 +133,22 @@ io.on('connection', (socket) => {
 	});
 
 	socket.on('connecting', (id) => {
-		userId = id;
-		io.emit('connecting', userId);
-		socket.broadcast.emit(`${userId} logged in`);
+		const date = new Date();
+		const hours = String(date.getHours()).padStart(2, '0');
+		const minutes = String(date.getMinutes()).padStart(2, '0');
+		io.emit('greeting', `${id} logged in @[${hours}:${minutes}]`);
 	});
-	socket.on('chat message', (msg) => {
+	socket.on('resSocketId', (socketId) => {
+		console.log(socketId);
+		nameLoggedUser(socketId);
+	});
+	socket.on('chat message', (res) => {
+		const msg = res.input;
+		const socketId = res.socketId;
+		nameLoggedUser(socketId);
+		console.log(userId, 'chat message');
 		console.log('message: ' + msg);
+		const date = new Date();
 		const hours = String(date.getHours()).padStart(2, '0');
 		const minutes = String(date.getMinutes()).padStart(2, '0');
 		const _msg = `#${userId}>> ${msg} @[${hours}:${minutes}]`;
@@ -118,6 +156,6 @@ io.on('connection', (socket) => {
 	});
 
 	socket.on('disconnect', () => {
-		console.log(`${userId} disconnected`);
+		console.log(`someone disconnected`);
 	});
 });
