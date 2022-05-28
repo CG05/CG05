@@ -5,7 +5,7 @@ const { Server } = require('socket.io');
 const mysql = require('mysql');
 
 const app = express();
-const PORT = 3000;
+const PORT = 8080;
 const server = http.createServer(app);
 const io = new Server(server);
 const userDb = mysql.createConnection({
