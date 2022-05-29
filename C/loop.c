@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-int main(void)
+int main_loop(void)
 {
   int floor;
   printf("how many floor?: ");
