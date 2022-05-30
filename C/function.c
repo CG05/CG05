@@ -9,7 +9,7 @@ int get_respond(char stageName[256], int num1, int num2);
 int check_answer(int respond, int answer);
 void report(int result);
 
-int main(void)
+int main_function(void)
 {
   int result;
 
