@@ -28,6 +28,7 @@ int main_m_array(void)
 {
 
   srand((unsigned)time(NULL));
+  initAnimalName();
   initAnimalArray();
   shuffleAnimal();
 
@@ -35,14 +36,14 @@ int main_m_array(void)
 
   while (1)
   {
-    int *select1 = 0;
-    int *select2 = 0;
+    int select1 = 0;
+    int select2 = 0;
 
     printAnimals();
     printQuestions();
 
-    printf("뒤집을 카드를 2개 고르세요 : ");
-    scanf("%d %d", select1, select2);
+    printf("0부터 19까지, 뒤집을 카드를 2개 고르세요 : ");
+    scanf("%d %d", &select1, &select2);
 
     if (select1 == select2)
       continue;
@@ -56,15 +57,28 @@ int main_m_array(void)
     int secondSelect_y = conv_pos_y(select2);
     //입력받은 정수를 좌표로 변환
     //뒤집히지 않은 카드 && 같은 동물
-    if ((checkAnimal[firstSelect_x][firstSelect_y] == 0 && checkAnimal[secondSelect_x][secondSelect_y] == 0) && (arrayAnimal[firstSelect_x][firstSelect_y] && arrayAnimal[secondSelect_x][secondSelect_y]))
+    if (checkAnimal[firstSelect_x][firstSelect_y] == 0 && checkAnimal[secondSelect_x][secondSelect_y] == 0)
     {
-      printf("\n\n 빙고! : %s 발견 \n\n", strAnimal[arrayAnimal[firstSelect_x][firstSelect_y]]);
-      checkAnimal[firstSelect_x][firstSelect_y] = 1;
-      checkAnimal[secondSelect_x][secondSelect_y] = 1;
+      if (arrayAnimal[firstSelect_x][firstSelect_y] == arrayAnimal[secondSelect_x][secondSelect_y])
+      {
+        printf("\n\n 빙고! : %s 발견 \n\n", strAnimal[arrayAnimal[firstSelect_x][firstSelect_y]]);
+        checkAnimal[firstSelect_x][firstSelect_y] = 1;
+        checkAnimal[secondSelect_x][secondSelect_y] = 1;
+      }
+      else
+      {
+        printf("\n\n 땡! 틀렸습니다)\n");
+        printf("%d : %s", select1, strAnimal[arrayAnimal[firstSelect_x][firstSelect_y]]);
+        printf("%d : %s", select2, strAnimal[arrayAnimal[secondSelect_x][secondSelect_y]]);
+        printf("\n\n");
+
+        failCount++;
+      }
     }
+
     else
     {
-      printf("\n\n 땡! 틀렸거나, 이미 뒤집힌 카드입니다)\n");
+      printf("\n\n 이미 뒤집힌 카드입니다)\n");
       printf("%d : %s", select1, strAnimal[arrayAnimal[firstSelect_x][firstSelect_y]]);
       printf("%d : %s", select2, strAnimal[arrayAnimal[secondSelect_x][secondSelect_y]]);
       printf("\n\n");
@@ -76,6 +90,7 @@ int main_m_array(void)
     {
       printf("\n\n축하합니다! 모든 동물을 다 찾았네요 \n");
       printf("지금까지 %d번 실수하셨습니다.", failCount);
+      break;
     }
   }
 
@@ -147,14 +162,15 @@ void printQuestions()
       {
         printf("%s", strAnimal[arrayAnimal[i][j]]);
       }
+      //맞추지 못했으면 뒷면
       else
       {
         printf("%d", seq);
       }
-
-      //맞추지 못했으면 뒷면
     }
+    printf("\n");
   }
+  printf("\n");
 }
 
 int foundAllAnimals()
