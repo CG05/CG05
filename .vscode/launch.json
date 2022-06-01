@@ -13,7 +13,7 @@
         null,
         null
       ],
-      "terminal": "external"
+      "terminal": "integrated"
     },
     {
       "type": "lldb",
@@ -27,7 +27,7 @@
         null,
         null
       ],
-      "terminal": "external"
+      "terminal": "integrated"
     }
   ]
 }
