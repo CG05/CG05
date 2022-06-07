@@ -27,8 +27,25 @@ int main(void)
     sprintf(name, "test%d", i);
     push(i, name);
   }
+  int index = 0;
+  printf("What index you want to find?");
+  scanf("%d", &index);
+  data *found = find(index);
+  if (found != NULL)
+  {
+    printf("*******************\n");
+    printf("Found\n index : %d\n name: %s\n", found->index, found->name);
+    printf("*******************\n");
+  }
 
-  printAll();
+  for (int i = 0; i < MAX; i++)
+  {
+    data *node = pop();
+    printf("*******************\n");
+    printf("index: %d\nname: %s\n", node->index, node->name);
+    printf("*******************\n");
+    printAll();
+  }
 
   return 0;
 }
@@ -36,6 +53,8 @@ int main(void)
 void push(int index, char *name)
 {
   data *node = (data *)malloc(sizeof(data));
+  data *temp;
+
   node->index = index;
   if (name != NULL)
   {
@@ -47,29 +66,68 @@ void push(int index, char *name)
     head = node;
     tail = node;
     node->next = NULL;
+    node->before = NULL;
     return;
   }
   else
   {
-    data *temp = head;
-
+    temp = head;
     while (temp->next)
     {
       temp = temp->next;
     }
     temp->next = node;
+    node->before = temp;
+    node->next = NULL;
     tail = node;
   }
-
   return;
 }
 
 data *pop()
 {
+  if (tail == NULL)
+  {
+    printf("Stack is empty..\n");
+    return NULL;
+  }
+
+  data *node = tail;
+  if (node == head)
+  {
+    tail = NULL;
+    head = NULL;
+
+    return node;
+  }
+
+  data *temp = node->before;
+  temp->next = NULL;
+  tail = temp;
+  return node;
 }
 
 data *find(int index)
 {
+  if (tail == NULL)
+  {
+    printf("Stack is empty..\n");
+    return NULL;
+  }
+
+  data *node = tail;
+  while (node->index != index)
+  {
+    if (node->before == NULL)
+    {
+      printf("Cant find data\n");
+      return NULL;
+    }
+
+    node = node->before;
+  }
+
+  return node;
 }
 
 void printAll()
@@ -79,7 +137,7 @@ void printAll()
   {
     if (temp == NULL)
     {
-      printf("ERROR: Unknown NULL data");
+      printf("ERROR: Unknown NULL data\n");
       break;
     }
     else
@@ -90,5 +148,5 @@ void printAll()
       printf("=====================\n");
     }
     temp = temp->next;
-  } while (temp->next);
+  } while (temp);
 }
