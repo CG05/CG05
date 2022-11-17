@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdint.h>
 #include <unistd.h>
 #include <string.h>
 #include <arpa/inet.h>
@@ -9,17 +10,22 @@
 #include <pthread.h>
 
 #define CLNT_MAX 10
-#define PORT_NUM 7989
+#define PORT_NUM 3000
 #define BLOG_LEN 5
 #define BUFF_LEN 200
 
 int g_clnt_socks[CLNT_MAX];
 int g_clnt_count = 0;
 
+void* clnt_connection(void* arg);
+
 int main(int argc, char** argv){
 	
 	int serv_sock;
 	int clnt_sock;
+	
+	pthread_t t_thread;
+	
 	serv_sock = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
 	
 	struct sockaddr_in serv_addr;
@@ -40,7 +46,7 @@ int main(int argc, char** argv){
 		printf("listen error\n");
 	}
 	long int serv_ip =serv_addr.sin_addr.s_addr;
-	printf("%ld : %d Server Setup\n", serv_ip, PORT_NUM);
+	printf("172.17.0.42 : %d Server Setup\n", PORT_NUM);
 	
 	struct sockaddr_in clnt_addr;
 	unsigned int clnt_addr_size;
@@ -55,16 +61,31 @@ int main(int argc, char** argv){
 						   , (struct sockaddr *)&clnt_addr
 						   , &clnt_addr_size);
 		
-		// g_clnt_socks[g_clnt_count++] = clnt_sock;
-		
-		recv_len = read(clnt_sock, buff, BUFF_LEN);
-		
-		printf("recv : ");
-		for(int i = 0; i < recv_len; i++){
-			printf("%02X", (unsigned char)buff[i]);
-		}
-		printf("\n");
+		pthread_create(&t_thread, NULL, clnt_connection, (void*)clnt_sock);
+		g_clnt_socks[g_clnt_count++] = clnt_sock;
 		
 	}
 	
+}
+
+void* clnt_connection(void* arg){
+	int clnt_sock = (intptr_t)arg;
+	int str_len = 0;
+	
+	char msg[BUFF_LEN];
+	int i;
+	
+	while(1){
+		str_len = read(clnt_sock, msg, sizeof(msg));
+		if(str_len == -1){
+			printf("clnt[%d] close\n", clnt_sock);
+			break;
+		}
+		
+		printf("%s\n", msg);
+	}
+	
+	close(clnt_sock);
+	pthread_exit(0);
+	return NULL;
 }
