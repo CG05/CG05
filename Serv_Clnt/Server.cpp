@@ -10,7 +10,7 @@
 #include <thread>
 
 #define IP_ADDR "172.17.0.2"
-#define PORT_NUM 3000
+#define PORT_NUM 8080
 #define ERROR_NEGATIVE -1
 #define BACKLOG_LENGTH 2048
 #define MAX_CLIENT_NUM 10
@@ -81,6 +81,7 @@ void* acceptClient(int serverSocket){
 		cout << "Client" << countClient << " is connected" << endl;
 
 		thread userThread(msgExchanger, clientSocket, countClient);
+		userThread.detach();
 
 	}
 	
@@ -88,21 +89,23 @@ void* acceptClient(int serverSocket){
 }
 
 void* msgExchanger(unsigned int clientSocket, int countClient){
+	char c_msg[BACKLOG_LENGTH];
 	string msg;
 	while(true){
-		int msgLength = read(clientSocket, (char*)msg.c_str(), sizeof(msg));
+		int msgLength = read(clientSocket, (char*)c_msg, sizeof(c_msg));
+		msg = c_msg;
 		string speaker;
 		speaker = "Client" + to_string(countClient);
-
-		if(msgLength == ERROR_NEGATIVE || strcmp((char*)msg.c_str(), " : exit")){
+		
+		if(msgLength == ERROR_NEGATIVE || strcmp(c_msg, " : exit") == 0){
 			cout << speaker << " is closed" << endl;
 			break;
 		}
 		string sendMsg = speaker + msg;
-		cout << sendMsg << endl;
+		cout << sendMsg;
 
 		for(int i = 0; i < countClient; i++){
-			write(listClient[i], (char*)sendMsg.c_str(), sizeof(sendMsg)+1);
+			write(listClient[i], (char*)sendMsg.c_str(), sizeof(sendMsg));
 				
 		}
 	}
