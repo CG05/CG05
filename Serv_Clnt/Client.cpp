@@ -8,7 +8,7 @@
 #include <netinet/in.h>
 #include <thread>
 
-#define IP_ADDR "172.17.0.2"
+#define IP_ADDR "172.17.0.16"
 #define PORT_NUM 8080
 #define ERROR_NEGATIVE -1
 #define BACKLOG_LENGTH 2048
@@ -20,7 +20,7 @@ struct sockaddr_in serv_addr;
 bool isSending = false;
 bool isRecving = false;
 
-void* sendMsg(int clientSocket);
+void* sendMsg(int clientSocket, char* c_id);
 void* recvMsg(int clientSocket);
 
 int main(int argc, char** argv){
@@ -50,7 +50,7 @@ int main(int argc, char** argv){
 	cout << "connect OK\n";
 	
 	
-	thread sendThread(sendMsg, clientSocket);
+	thread sendThread(sendMsg, clientSocket, id);
 	sendThread.detach();
 	thread recvThread(recvMsg, clientSocket);
 	recvThread.detach();
@@ -61,27 +61,35 @@ int main(int argc, char** argv){
 		//sending, recieving
 	}
 	
+	cout << "Chat is closing. Bye Bye\n";
 	return 0;
 }
 
-void* sendMsg(int clientSocket){
-	string msg;
+void* sendMsg(int clientSocket, char* c_id){
+	string id(c_id);
+	cout << "Server is connected. Enjoy your chatting, < " + id + " >!!\n";
 	
-	msg = " : hello world\n";
-	cout << "send" << msg;
-
-	int sendResult = write(clientSocket, (char*)msg.c_str(), sizeof(msg));
+	string msg;
+	int sendResult = write(clientSocket, c_id, sizeof(c_id) + 1);
 	if(sendResult == ERROR_NEGATIVE){
 		cout << " connect is missing\n";
 		isSending = false;
 		return NULL;
 	}
-	cout << "send : ";
+	
+	msg = " : hello world\n";
+	sendResult = write(clientSocket, (char*)msg.c_str(), sizeof(msg) + 1);
+	if(sendResult == ERROR_NEGATIVE){
+		cout << " connect is missing\n";
+		isSending = false;
+		return NULL;
+	}
+	
 	while(true){
-		cin >> msg;
+		getline(cin, msg);
 		
 		msg = " : " + msg;
-		sendResult = write(clientSocket, (char*)msg.c_str(), sizeof(msg));
+		sendResult = write(clientSocket, (char*)msg.c_str(), sizeof(msg) + 1);
 
 		if(sendResult == ERROR_NEGATIVE){
 			cout << " connect is missing\n";
@@ -109,7 +117,7 @@ void* recvMsg(int clientSocket){
 			isRecving = false;
 			break;
 		}
-		cout << "\n" + msg + "\nsend : ";
+		cout << msg << endl;
 		
 	}
 	
