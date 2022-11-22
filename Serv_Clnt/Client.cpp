@@ -8,7 +8,7 @@
 #include <netinet/in.h>
 #include <thread>
 
-#define IP_ADDR "172.17.0.14"
+#define IP_ADDR "172.17.0.21"
 #define PORT_NUM 8080
 #define ERROR_NEGATIVE -1
 #define BACKLOG_LENGTH 2048
@@ -28,14 +28,18 @@ int main(int argc, char** argv){
 	char id[BACKLOG_LENGTH];
 	strcpy(id, argv[1]);
 	printf("id : %s\n", id);
+	//printMyId(argv);
 	
 	int clientSocket;
 	clientSocket = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
+	//clientSocket = createClientSocket();
 	if(clientSocket == ERROR_NEGATIVE){
 		cout << "socket error\n";
 	}else{
 		cout << "socket OK\n";
 	}
+	//socketErrorHandler(clientSocket);
+	
 	memset(&serv_addr, 0, sizeof(serv_addr));
 	serv_addr.sin_family= AF_INET;
 	serv_addr.sin_addr.s_addr= inet_addr(IP_ADDR);
@@ -44,6 +48,7 @@ int main(int argc, char** argv){
 	
 	int connectResult = 0;
 	connectResult = connect(clientSocket, (struct sockaddr*)&serv_addr, sizeof(serv_addr));
+	//connectTo(clientSocket);
 	
 	if(connectResult == ERROR_NEGATIVE){
 		cout << "connect error\n";
@@ -75,6 +80,8 @@ void* sendMsg(int clientSocket, char* c_id){
 	
 	string msg;
 	int sendResult = write(clientSocket, c_id, sizeof(c_id) + 1);
+	//sendMsgTo(clientSocket, c_id);
+
 	if(sendResult == ERROR_NEGATIVE){
 		cout << " connect is missing\n";
 		isSending = false;
@@ -84,24 +91,34 @@ void* sendMsg(int clientSocket, char* c_id){
 	
 	msg = " : hello world\n";
 	sendResult = write(clientSocket, (char*)msg.c_str(), sizeof(msg) + 1);
+	//sendMsgTo(clientSocket, msg);
+
 	if(sendResult == ERROR_NEGATIVE){
 		cout << " connect is missing\n";
 		isSending = false;
 		return NULL;
 	}
+	//sendErrorHandler(sendResult);
+	//sendHelloMsg(clientSocket);
 	
 	while(true){
 		getline(cin, msg);
-		
 		msg = " : " + msg;
+		//msg = getMsgLine();
+		
 		sendResult = write(clientSocket, (char*)msg.c_str(), sizeof(msg) + 1);
+		//sendMsgTo(clientSocket, msg);
+
 
 		if(sendResult == ERROR_NEGATIVE){
 			cout << " connect is missing\n";
 			isSending = false;
 			break;
 		}
+		//sendErrorHandler(sendResult);
+
 	}
+	//loopSendingMsg(clientSocket);
 	
 	close(clientSocket);
 	return NULL;
@@ -113,6 +130,8 @@ void* recvMsg(int clientSocket){
 	while(true){
 		int msgLength = read(clientSocket, c_msg, sizeof(c_msg));
 		msg = c_msg;
+		//recvMsgFrom(clientSocket, msg);
+		
 		if(msgLength == ERROR_NEGATIVE){
 			cout << " connect is missing\n";
 			isRecving = false;
@@ -122,9 +141,12 @@ void* recvMsg(int clientSocket){
 			isRecving = false;
 			break;
 		}
+		//RecvErrorHandler(msgLength);
+		
 		cout << msg << endl;
 		
 	}
+	//loopRecvingMsg(clientSocket);
 	
 	close(clientSocket);
 	return NULL;
