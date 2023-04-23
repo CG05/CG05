@@ -1,0 +1,342 @@
+[
+	//전사
+	{
+		"name": "브론즈 소드",
+		"type": "무기",
+		"rarity": "일반",
+		"job": "전사",
+		"stats": { "attackPoint": 5, "maxHp": 0 },
+		"chance": 50
+	},
+	{
+		"name": "아이언 망치",
+		"type": "무기",
+		"rarity": "일반",
+		"job": "전사",
+		"stats": { "attackPoint": 7, "maxHp": 0 },
+		"chance": 50
+	},
+	{
+		"name": "가죽 투구",
+		"type": "모자",
+		"rarity": "일반",
+		"job": "전사",
+		"stats": { "attackPoint": 0, "maxHp": 5 },
+		"chance": 50
+	},
+	{
+		"name": "철제 투구",
+		"type": "모자",
+		"rarity": "일반",
+		"job": "전사",
+		"stats": { "attackPoint": 0, "maxHp": 7 },
+		"chance": 50
+	},
+	{
+		"name": "가죽 갑옷",
+		"type": "상의",
+		"rarity": "일반",
+		"job": "전사",
+		"stats": { "attackPoint": 0, "maxHp": 10 },
+		"chance": 50
+	},
+	{
+		"name": "사슬 갑옷",
+		"type": "상의",
+		"rarity": "일반",
+		"job": "전사",
+		"stats": { "attackPoint": 0, "maxHp": 12 },
+		"chance": 50
+	},
+	{
+		"name": "사슬 바지",
+		"type": "하의",
+		"rarity": "일반",
+		"job": "전사",
+		"stats": { "attackPoint": 0, "maxHp": 8 },
+		"chance": 50
+	},
+	{
+		"name": "가죽 바지",
+		"type": "하의",
+		"rarity": "일반",
+		"job": "전사",
+		"stats": { "attackPoint": 0, "maxHp": 10 },
+		"chance": 50
+	},
+	{
+		"name": "가죽 부츠",
+		"type": "신발",
+		"rarity": "일반",
+		"job": "전사",
+		"stats": { "attackPoint": 0, "maxHp": 5 },
+		"chance": 50
+	},
+	{
+		"name": "철제 부츠",
+		"type": "신발",
+		"rarity": "일반",
+		"job": "전사",
+		"stats": { "attackPoint": 0, "maxHp": 7 },
+		"chance": 50
+	}
+	//궁수
+	{
+		"name": "월계수 활",
+		"type": "무기",
+		"rarity": "일반",
+		"job": "궁수",
+		"stats": { "attackPoint": 5, "maxHp": 0 },
+		"chance": 50
+	},
+	{
+		"name": "나무 석궁",
+		"type": "무기",
+		"rarity": "일반",
+		"job": "궁수",
+		"stats": { "attackPoint": 7, "maxHp": 0 },
+		"chance": 50
+	},
+	{
+		"name": "가죽 모자",
+		"type": "모자",
+		"rarity": "일반",
+		"job": "궁수",
+		"stats": { "attackPoint": 0, "maxHp": 5 },
+		"chance": 50
+	},
+	{
+		"name": "비단 복면",
+		"type": "모자",
+		"rarity": "일반",
+		"job": "궁수",
+		"stats": { "attackPoint": 0, "maxHp": 7 },
+		"chance": 50
+	},
+	{
+		"name": "가죽 갑옷",
+		"type": "상의",
+		"rarity": "일반",
+		"job": "궁수",
+		"stats": { "attackPoint": 0, "maxHp": 10 },
+		"chance": 50
+	},
+	{
+		"name": "캔버스 조끼",
+		"type": "상의",
+		"rarity": "일반",
+		"job": "궁수",
+		"stats": { "attackPoint": 0, "maxHp": 12 },
+		"chance": 50
+	},
+	{
+		"name": "가죽 바지",
+		"type": "하의",
+		"rarity": "일반",
+		"job": "궁수",
+		"stats": { "attackPoint": 0, "maxHp": 8 },
+		"chance": 50
+	},
+	{
+		"name": "천 바지",
+		"type": "하의",
+		"rarity": "일반",
+		"job": "궁수",
+		"stats": { "attackPoint": 0, "maxHp": 10 },
+		"chance": 50
+	},
+	{
+		"name": "가죽 부츠",
+		"type": "신발",
+		"rarity": "일반",
+		"job": "궁수",
+		"stats": { "attackPoint": 0, "maxHp": 5 },
+		"chance": 50
+	},
+	{
+		"name": "천 신발",
+		"type": "신발",
+		"rarity": "일반",
+		"job": "궁수",
+		"stats": { "attackPoint": 0, "maxHp": 7 },
+		"chance": 50
+	},
+	//도적
+	{
+		"name": "단도",
+		"type": "무기",
+		"rarity": "일반",
+		"job": "도적",
+		"stats": { "attackPoint": 5, "maxHp": 0 },
+		"chance": 50
+	},
+	{
+		"name": "돌검",
+		"type": "무기",
+		"rarity": "일반",
+		"job": "도적",
+		"stats": { "attackPoint": 7, "maxHp": 0 },
+		"chance": 50
+	},
+	{
+		"name": "가죽 모자",
+		"type": "모자",
+		"rarity": "일반",
+		"job": "도적",
+		"stats": { "attackPoint": 0, "maxHp": 5 },
+		"chance": 50
+	},
+	{
+		"name": "천 모자",
+		"type": "모자",
+		"rarity": "일반",
+		"job": "도적",
+		"stats": { "attackPoint": 0, "maxHp": 7 },
+		"chance": 50
+	},
+	{
+		"name": "가죽 갑옷",
+		"type": "상의",
+		"rarity": "일반",
+		"job": "도적",
+		"stats": { "attackPoint": 0, "maxHp": 10 },
+		"chance": 50
+	},
+	{
+		"name": "천 갑옷",
+		"type": "상의",
+		"rarity": "일반",
+		"job": "도적",
+		"stats": { "attackPoint": 0, "maxHp": 12 },
+		"chance": 50
+	},
+	{
+		"name": "가죽 바지",
+		"type": "하의",
+		"rarity": "일반",
+		"job": "도적",
+		"stats": { "attackPoint": 0, "maxHp": 8 },
+		"chance": 50
+	},
+	{
+		"name": "천 바지",
+		"type": "하의",
+		"rarity": "일반",
+		"job": "도적",
+		"stats": { "attackPoint": 0, "maxHp": 10 },
+		"chance": 50
+	},
+	{
+		"name": "가죽 부츠",
+		"type": "신발",
+		"rarity": "일반",
+		"job": "도적",
+		"stats": { "attackPoint": 0, "maxHp": 5 },
+		"chance": 50
+	},
+	{
+		"name": "천 신발",
+		"type": "신발",
+		"rarity": "일반",
+		"job": "도적",
+		"stats": { "attackPoint": 0, "maxHp": 7 },
+		"chance": 50
+	},
+	//기사
+	{
+		"name": "나무 검",
+		"type": "무기",
+		"rarity": "일반",
+		"job": "기사",
+		"stats": { "attackPoint": 5, "maxHp": 0 },
+		"chance": 50
+	},
+	{
+		"name": "철검",
+		"type": "무기",
+		"rarity": "일반",
+		"job": "기사",
+		"stats": { "attackPoint": 7, "maxHp": 0 },
+		"chance": 50
+	},
+	{
+		"name": "원형 방패",
+		"type": "방패",
+		"rarity": "일반",
+		"job": "기사",
+		"stats": { "attackPoint": 0, "maxHp": 5 },
+		"chance": 50
+	},
+	{
+		"name": "타워 방패",
+		"type": "방패",
+		"rarity": "일반",
+		"job": "기사",
+		"stats": { "attackPoint": 0, "maxHp": 7 },
+		"chance": 50
+	},
+	{
+		"name": "철 투구",
+		"type": "모자",
+		"rarity": "일반",
+		"job": "기사",
+		"stats": { "attackPoint": 0, "maxHp": 5 },
+		"chance": 50
+	},
+	{
+		"name": "강철 투구",
+		"type": "모자",
+		"rarity": "일반",
+		"job": "기사",
+		"stats": { "attackPoint": 0, "maxHp": 7 },
+		"chance": 50
+	},
+	{
+		"name": "철 갑옷",
+		"type": "상의",
+		"rarity": "일반",
+		"job": "기사",
+		"stats": { "attackPoint": 0, "maxHp": 10 },
+		"chance": 50
+	},
+	{
+		"name": "사슬 갑옷",
+		"type": "상의",
+		"rarity": "일반",
+		"job": "기사",
+		"stats": { "attackPoint": 0, "maxHp": 12 },
+		"chance": 50
+	},
+	{
+		"name": "강철 바지",
+		"type": "하의",
+		"rarity": "일반",
+		"job": "기사",
+		"stats": { "attackPoint": 0, "maxHp": 8 },
+		"chance": 50
+	},
+	{
+		"name": "사슬 바지",
+		"type": "하의",
+		"rarity": "일반",
+		"job": "기사",
+		"stats": { "attackPoint": 0, "maxHp": 10 },
+		"chance": 50
+	},
+	{
+		"name": "강철 부츠",
+		"type": "신발",
+		"rarity": "일반",
+		"job": "기사",
+		"stats": { "attackPoint": 0, "maxHp": 5 },
+		"chance": 50
+	},
+	{
+		"name": "사슬 부츠",
+		"type": "신발",
+		"rarity": "일반",
+		"job": "기사",
+		"stats": { "attackPoint": 0, "maxHp": 7 },
+		"chance": 50
+	}
+]
