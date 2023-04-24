@@ -1,0 +1,31 @@
+[
+	//고블린
+	{
+		"name": "하급 고블린",
+		"type": "nonBoss",
+		"rarity": "하위",
+		"job": "전사",
+		"stats": { "attackPoint": 5, "maxHp": 20 },
+	},
+	{
+		"name": "궁수 고블린",
+		"type": "nonBoss",
+		"rarity": "하위",
+		"job": "궁수",
+		"stats": { "attackPoint": 3, "maxHp": 15 },
+	},
+	{
+		"name": "마법사 고블린",
+		"type": "nonBoss",
+		"rarity": "하위",
+		"job": "마법사",
+		"stats": { "attackPoint": 3, "maxHp": 20 },
+	},
+	{
+		"name": "대장 고블린",
+		"type": "Boss",
+		"rarity": "중위",
+		"job": "전사",
+		"stats": { "attackPoint": 15, "maxHp": 200 },
+	},
+]

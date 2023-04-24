@@ -242,100 +242,84 @@
 		"stats": { "attackPoint": 0, "maxHp": 7 },
 		"chance": 50
 	},
-	//기사
+	//마법사
 	{
-		"name": "나무 검",
+		"name": "나무 완드",
 		"type": "무기",
 		"rarity": "일반",
-		"job": "기사",
+		"job": "마법사",
 		"stats": { "attackPoint": 5, "maxHp": 0 },
 		"chance": 50
 	},
 	{
-		"name": "철검",
+		"name": "덩쿨 스태프",
 		"type": "무기",
 		"rarity": "일반",
-		"job": "기사",
+		"job": "마법사",
 		"stats": { "attackPoint": 7, "maxHp": 0 },
 		"chance": 50
 	},
 	{
-		"name": "원형 방패",
-		"type": "방패",
+		"name": "천 모자",
+		"type": "모자",
 		"rarity": "일반",
-		"job": "기사",
+		"job": "마법사",
 		"stats": { "attackPoint": 0, "maxHp": 5 },
 		"chance": 50
 	},
 	{
-		"name": "타워 방패",
-		"type": "방패",
+		"name": "비단 모자",
+		"type": "모자",
 		"rarity": "일반",
-		"job": "기사",
+		"job": "마법사",
 		"stats": { "attackPoint": 0, "maxHp": 7 },
 		"chance": 50
 	},
 	{
-		"name": "철 투구",
-		"type": "모자",
-		"rarity": "일반",
-		"job": "기사",
-		"stats": { "attackPoint": 0, "maxHp": 5 },
-		"chance": 50
-	},
-	{
-		"name": "강철 투구",
-		"type": "모자",
-		"rarity": "일반",
-		"job": "기사",
-		"stats": { "attackPoint": 0, "maxHp": 7 },
-		"chance": 50
-	},
-	{
-		"name": "철 갑옷",
+		"name": "천 상의",
 		"type": "상의",
 		"rarity": "일반",
-		"job": "기사",
+		"job": "마법사",
 		"stats": { "attackPoint": 0, "maxHp": 10 },
 		"chance": 50
 	},
 	{
-		"name": "사슬 갑옷",
+		"name": "비단 상의",
 		"type": "상의",
 		"rarity": "일반",
-		"job": "기사",
+		"job": "마법사",
 		"stats": { "attackPoint": 0, "maxHp": 12 },
 		"chance": 50
 	},
 	{
-		"name": "강철 바지",
+		"name": "천 바지",
 		"type": "하의",
 		"rarity": "일반",
-		"job": "기사",
+		"job": "마법사",
 		"stats": { "attackPoint": 0, "maxHp": 8 },
 		"chance": 50
 	},
 	{
-		"name": "사슬 바지",
+		"name": "비단 바지",
 		"type": "하의",
 		"rarity": "일반",
-		"job": "기사",
+		"job": "마법사",
 		"stats": { "attackPoint": 0, "maxHp": 10 },
 		"chance": 50
 	},
 	{
-		"name": "강철 부츠",
+		"name": "천 부츠",
 		"type": "신발",
 		"rarity": "일반",
-		"job": "기사",
+		"job": "마법사",
 		"stats": { "attackPoint": 0, "maxHp": 5 },
 		"chance": 50
 	},
 	{
-		"name": "사슬 부츠",
+		"name": "비단 부츠",
 		"type": "신발",
 		"rarity": "일반",
-		"job": "기사",
+		"job": "마법사",
 		"stats": { "attackPoint": 0, "maxHp": 7 },
 		"chance": 50
 	}

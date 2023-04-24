@@ -14,7 +14,7 @@ class Item {
 
 function loadItems() {
   const xhr = new XMLHttpRequest();
-  xhr.open("GET", "items.json", false);
+  xhr.open("GET", "../Data/items.json", false);
   xhr.send(null);
   const itemsData = JSON.parse(xhr.responseText);
   const items = [];

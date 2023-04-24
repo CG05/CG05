@@ -1,0 +1,67 @@
+[
+	{
+		"name": "용사",
+		"skills": {
+			name: "휘두르기",
+			effect: "용사는 겁에 질려 손에 잡히는 아무 것이나 휘두릅니다.",
+			defaultDamage: 5,
+			increasePerLevel: 2,
+			damageRank: 1.5,
+			cooldown: 5
+		},
+		"nextJob": {
+			1: "전사",
+			2: "궁수",
+			3: "도적",
+			4: "마법사"
+		}
+	},
+	{
+		"name": "전사",
+		"skills": {
+			name: "휘두르기",
+			effect: "전사는 용맹하게 적을 향해 무기를 휘두릅니다.",
+			defaultDamage: 8,
+			increasePerLevel: 8,
+			damageRank: 1.5,
+			cooldown: 5
+		},
+		"nextJob": "무신"
+	},
+	{
+		"name": "궁수",
+		"skills": {
+			name: "사격",
+			effect: "궁수는 용맹하게 적을 향해 화살을 2발 발사합니다.",
+			defaultDamage: 3,
+			increasePerLevel: 5,
+			damageRank: 2,
+			cooldown: 5
+		},
+		"nextJob": "헌터"
+	},
+	{
+		"name": "도적",
+		"skills": {
+			name: "찌르기",
+			effect: "도적은 은밀하게 적을 향해 단검을 2번 찔러넣습니다.",
+			defaultDamage: 5,
+			increasePerLevel: 5,
+			damageRank: 2.5,
+			cooldown: 5
+		},
+		"nextJob": "로그"
+	},
+	{
+		"name": "마법사",
+		"skills": {
+			name: "에너지볼",
+			effect: "마법사는 적을 향해 강력한 에너지 구체를 발사합니다.",
+			defaultDamage: 10,
+			increasePerLevel: 5,
+			damageRank: 1.5,
+			cooldown: 5
+		},
+		"nextJob": "알케니스트"
+	},
+]
