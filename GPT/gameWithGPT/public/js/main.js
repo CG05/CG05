@@ -46,15 +46,19 @@ function signUp(id, pw) {
 getUserDb(AUTHDATA_TABLE);
 
 // 유저 정보를 찾는 함수
-function userName(socketId) {
-	let name;
-	userDb.query(`SELECT name FROM ${LOGGEDUSERS_TABLE} WHERE socket_id = '${socketId}';`, name, error => {
+async function userName(socketId) {
+	return new Promise((res,rej) => {
+		userDb.query(`SELECT name FROM ${LOGGEDUSERS_TABLE} WHERE socket_id = '${socketId}';`, (error, results) => {
     if (error) {
       console.log(error);
+			rej(undefined);
     } else {
+			const name = results[0] && results[0].name;
       console.log(`${socketId}: ${name}`);
-			return name;
+			res(name);
     }
+	})
+	
   });
 }
 
@@ -70,10 +74,17 @@ function updateUser(name, socketId) {
   });
 }
 
-function deleteLoggedUser(socketId) {
-	let deleted = loggedUsers.filter(o => o.socketId !== socketId);
-	console.log(`deleted user: {name: ${deleted.name}, socketId: ${deleted.socketId}}`);
+async function deleteLoggedUser(socketId) {
+	const name = await userName(socketId);
+	userDb.query(`DELETE FROM ${LOGGEDUSERS_TABLE} WHERE socket_id = '${socketId}';`, (error, results) => {
+   	if (error) {
+    	  console.log(error);
+   	} else {
+      console.log(`${name}: ${socketId} has deleted.`);
+    }
+	});
 }
+
 
 app.use(express.static(path.join('../../public')));
 
@@ -135,28 +146,24 @@ io.on('connection', (socket) => {
 	});
 	
 	
-	/**socket.on('nextRequest', (res) =>{
+	/**socket.on('nextRequest', (req) =>{
 	//데이터베이스에서 현재 상태, 다음 선택지를 respond에 담기
 		io.emit('nextRespond', respond);
 	}*/
 	
-	/**socket.on('choice', (res) =>{
+	/**socket.on('choice', (choice) =>{
 	//데이터베이스에서 choice에 대한 결과를 result에 담기
 		io.emit('result',result);
 	}*/
-
-	/**socket.on('loopBack', (res) =>{
-	//데이터베이스에서 현재 상태, 다음 선택지를 respond에 담기
-		io.emit('nextRespond',respond);
-	}*/
 	
-	socket.on('chat message', (res) => {
+	socket.on('chat message', async(res) => {
+		console.log(res);
 		const msg = res.msg;
 		const socketId = socket.id;
 		if(res.msg === 'memorizing user name...'){
 			updateUser(res.name, socket.id);
 		}else{
-			const name = userName(socketId);
+			const name = await userName(socketId);
 			console.log(`${name}: ${socketId} chat message`);
 			console.log('message: ' + msg);
 			const date = new Date();
@@ -167,9 +174,9 @@ io.on('connection', (socket) => {
 		}
 	});
 
-	socket.on('disconnect', () => {
+	socket.on('disconnect', async() => {
 		const socketId = socket.id;
-		const name = loggedUsers[socketId];
+		const name = await userName(socketId);
 		console.log(`${name} disconnected`);
 		deleteLoggedUser(socketId);
 	});

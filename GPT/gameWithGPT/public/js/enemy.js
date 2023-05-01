@@ -25,6 +25,6 @@ function loadEnemies() {
   return enemies;
 }
 
-const enemies = loadEnemies();
+const Enemies = loadEnemies();
 
-export default {enemies};
+export default {Enemy, Enemies};

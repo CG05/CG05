@@ -1,4 +1,4 @@
-class stats {
+class Stats {
 	constructor(maxHp, currentHp, attackPoint, deffense, deffensePierce, damageAmplify) {
 		this.maxHp = maxHp;
 		this.currentHp = currentHp;
