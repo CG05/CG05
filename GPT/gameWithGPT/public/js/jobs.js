@@ -1,3 +1,5 @@
+const fs = require('fs');
+
 // 전직 정보와 스킬을 담을 클래스
 class Job {
   constructor(name, skills, nextJob) {
@@ -5,24 +7,21 @@ class Job {
     this.skills = skills;
 		this.nextJob = nextJob;
   }
-	
-	
 }
 
 // 전직 정보와 스킬을 담은 배열
-function loadJobs() {
-  const xhr = new XMLHttpRequest();
-  xhr.open("GET", "../Data/jobs.json", false);
-  xhr.send(null);
-  const jobsData = JSON.parse(xhr.responseText);
+async function loadJobs() {
+  const response = await fs.readFileSync("../../Database/jobs.json");
+  const jobsData = await JSON.parse(response);
   const jobs = [];
-  for (const jobsData of jobsData) {
-    const job = new Enemy(jobsData.name, jobsData.skills, jobsData.nextJob);
+  for (const data of jobsData) {
+    const job = new Job(jobsData.name, jobsData.skills, jobsData.nextJob);
     jobs.push(job);
   }
   return jobs;
 }
 
+
 const jobs = loadJobs();
 
-export default {jobs};
+module.exports = {Job, jobs};

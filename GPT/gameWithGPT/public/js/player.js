@@ -1,3 +1,4 @@
+const Character = require('./character.js');
 
 class Player extends Character {
 	#maxExp;
@@ -5,7 +6,7 @@ class Player extends Character {
 	#currentPosition;
 	#equipment;
 	
-  constructor(name, level, maxExp, exp, job, stats, currentPosition, skills, equipment){
+  constructor(name, level, maxExp, exp, job, stats, skills, currentPosition, equipment){
 		super(name, level, job, stats, skills);
 		this.#maxExp = maxExp;
 		this.#exp = exp;
@@ -17,11 +18,32 @@ class Player extends Character {
 		const characterInfo = {
 			name: this._name,
 			level: this._level,
-			expPercent: this.#exp / this.#maxExp * 100,
+			maxExp: this.#maxExp,
+			exp: this.#exp,
 			job: this._job,
 			stats: this._stats,
+			skills: this._skills,
+			currentPosition: this.#currentPosition,
+			equipment: this.#equipment
 		}
 		return characterInfo;
+	}
+	
+	setCharacterInfo(characterInfo){
+		const info = this.getCharacterInfo();
+		for (const key in characterInfo) {
+			if (characterInfo.hasOwnProperty(key)) {
+				info[key] = characterInfo[key];
+			}
+		}
+		this._level = info.level;
+		this.#maxExp = info.maxExp;
+		this.#exp = info.exp;
+		this._job = info.job;
+		this._stats = info.stats;
+		this._skills = info.skills;
+		this.#currentPosition = info.currentPosition;
+		this.#equipment = info.equipment;
 	}
 	
 	plusExp(exp){
@@ -59,4 +81,4 @@ class Player extends Character {
 
 }
 
-export default Player;
+module.exports = {Player};

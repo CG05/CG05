@@ -13,14 +13,34 @@ class Character {
 		this._skills = skills;
 	}
 
+	get name(){
+		return this._name;
+	}
+	
+	set name(name){
+		this._name = name;
+	}
+	
 	getCharacterInfo() {
 		const characterInfo = {
-			name: this._name,
 			level: this._level,
 			job: this._job,
 			stats: this._stats,
 		};
 		return characterInfo;
+	}
+	
+	setCharacterInfo(characterInfo){
+		const info = this.getCharacterInfo();
+		for (const key in characterInfo) {
+			if (characterInfo.hasOwnProperty(key)) {
+				info[key] += characterInfo[key];
+			}
+		}
+		this._level = info.level;
+		this._job = info.job;
+		this._stats = info.stats;
+		this._skills = info.skills;
 	}
 
 	set stats(deltaStats) {
@@ -90,7 +110,7 @@ class Character {
 			defaultDamage: defaultDamage,
 			increasePerLevel: increasePerLevel,
 			damageFactor: damageFactor,
-			cooldown: effect,
+			cooldown: cooldown,
 		} = skill.getSkillInfo();
 		const damage = this.skillAttackDamage(
 			defaultDamage + level * increasePerLevel,
@@ -139,4 +159,4 @@ class Character {
 	}
 }
 
-export default Character;
+module.exports = Character;

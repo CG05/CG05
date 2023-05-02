@@ -1,3 +1,5 @@
+const fs = require('fs');
+
 // 전체 아이템 목록을 담을 클래스
 class Item {
   constructor(name, type, rarity, job, stats, probability) {
@@ -12,14 +14,12 @@ class Item {
 
 // 전체 아이템 목록을 담은 배열
 
-function loadItems() {
-  const xhr = new XMLHttpRequest();
-  xhr.open("GET", "../Data/items.json", false);
-  xhr.send(null);
-  const itemsData = JSON.parse(xhr.responseText);
+async function loadItems() {
+  const response = await fs.readFileSync("../../Database/items.json");
+  const itemsData = await JSON.parse(response);
   const items = [];
-  for (const itemData of itemsData) {
-    const item = new Item(itemData.name, itemData.type, itemData.rarity, itemData.job, itemData.stats, itemData.probability);
+  for (const data of itemsData) {
+    const item = new Item(itemsData.name, itemsData.type, itemsData.rarity, itemsData.job, itemsData.stats, itemsData.probability);
     items.push(item);
   }
   return items;
@@ -27,4 +27,4 @@ function loadItems() {
 
 const Items = loadItems();
 
-export default {Item, Items};
+module.exports = {Item, Items};

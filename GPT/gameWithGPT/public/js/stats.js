@@ -9,4 +9,4 @@ class Stats {
 	}
 }
 
-export default Stats;
+module.exports = {Stats};
