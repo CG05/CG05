@@ -19,7 +19,7 @@ async function loadItems() {
   const itemsData = await JSON.parse(response);
   const items = [];
   for (const data of itemsData) {
-    const item = new Item(itemsData.name, itemsData.type, itemsData.rarity, itemsData.job, itemsData.stats, itemsData.probability);
+    const item = new Item(data.name, data.type, data.rarity, data.job, data.stats, data.probability);
     items.push(item);
   }
   return items;

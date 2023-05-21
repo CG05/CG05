@@ -1,5 +1,4 @@
 [
-	//전사
 	{
 		"name": "브론즈 소드",
 		"type": "무기",
@@ -79,8 +78,7 @@
 		"job": "전사",
 		"stats": { "attackPoint": 0, "maxHp": 7 },
 		"chance": 50
-	}
-	//궁수
+	},
 	{
 		"name": "월계수 활",
 		"type": "무기",
@@ -161,7 +159,6 @@
 		"stats": { "attackPoint": 0, "maxHp": 7 },
 		"chance": 50
 	},
-	//도적
 	{
 		"name": "단도",
 		"type": "무기",
@@ -242,7 +239,6 @@
 		"stats": { "attackPoint": 0, "maxHp": 7 },
 		"chance": 50
 	},
-	//마법사
 	{
 		"name": "나무 완드",
 		"type": "무기",

@@ -16,15 +16,14 @@ class Player extends Character {
 	
 	getCharacterInfo(){
 		const characterInfo = {
-			name: this._name,
-			level: this._level,
-			maxExp: this.#maxExp,
-			exp: this.#exp,
-			job: this._job,
-			stats: this._stats,
-			skills: this._skills,
-			currentPosition: this.#currentPosition,
-			equipment: this.#equipment
+			"level": this._level,
+			"maxExp": this.#maxExp,
+			"exp": this.#exp,
+			"job": this._job,
+			"stats": this._stats,
+			"skills": this._skills,
+			"currentPosition": this.#currentPosition,
+			"equipment": this.#equipment
 		}
 		return characterInfo;
 	}
@@ -78,6 +77,10 @@ class Player extends Character {
 		this._level += 1;
 		//레벨업으로 올라가는 모든 수치 증가
 	}
+	
+	clone() {
+    return new Player(this._name, this._level, this.#maxExp, this.#exp, this._job, this._stats, this._skills, this.#currentPosition, this.#equipment);
+  }
 
 }
 

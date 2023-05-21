@@ -13,15 +13,19 @@ class Job {
 async function loadJobs() {
   const response = await fs.readFileSync("../../Database/jobs.json");
   const jobsData = await JSON.parse(response);
-  const jobs = [];
-  for (const data of jobsData) {
-    const job = new Job(jobsData.name, jobsData.skills, jobsData.nextJob);
-    jobs.push(job);
-  }
-  return jobs;
+  
+	const _jobs = [];
+	return new Promise((res, rej)=>{
+		for (const data of jobsData) {
+    	const job = new Job(data.name, data.skills, data.nextJob);
+    	_jobs.push(job);
+  	}
+		res(_jobs);
+	});
 }
 
 
 const jobs = loadJobs();
+
 
 module.exports = {Job, jobs};

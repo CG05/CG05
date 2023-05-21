@@ -1,107 +1,132 @@
+const fs = require('fs');
+
 class Node {
-	constructor(name, edges) {
-		this.name = name; // 노드의 이름
-		this.edges = edges; // 이 노드와 연결된 다른 노드들의 리스트
+	
+	constructor(num, type, branch) {
+		this.num = num;
+		this.type = type;
+		this.branch = branch;
 	}
+	
+	// get num(){
+	// 	return this.#num;
+	// }
+	// get type(){
+	// 	return this.#type;
+	// }
+	// set type(type){
+	// 	this.#type = type;
+	// }
+	// get branch(){
+	// 	return this.#branch;
+	// }
+	// set branch(branch){
+	// 	this.#branch = branch;
+	// }
 }
 
-const nodes = [
-	new Node(0, [1, 2, 3]),
-	new Node(1, [0, 4, 5]),
-	new Node(2, [0, 6, 7]),
-	new Node(3, [0, 8, 9]),
-	new Node(4, [1]),
-	new Node(5, [1]),
-	new Node(6, [2]),
-	new Node(7, [2]),
-	new Node(8, [3]),
-	new Node(9, [3]),
-	new Node(10, [11]),
-	new Node(11, [10, 12]),
-	new Node(12, [11, 13, 14]),
-	new Node(13, [12]),
-	new Node(14, [12, 15]),
-	new Node(15, [14]),
-];
-
-function drawMap() {
-	// 노드들을 초기화합니다.
-	const nodes = new vis.DataSet([]);
-
-	// 간선들을 초기화합니다.
-	const edges = new vis.DataSet([]);
-
-	// 노드를 추가합니다.
-	nodes.add([
-		{ id: 1, label: '시작', color: 'lightgreen' },
-		{ id: 2, label: '전투 1', color: 'red' },
-		{ id: 3, label: 'NPC 이벤트 1', color: 'orange' },
-		{ id: 4, label: '전투 2', color: 'red' },
-		{ id: 5, label: 'NPC 이벤트 2', color: 'orange' },
-		{ id: 6, label: '전투 3', color: 'red' },
-		{ id: 7, label: 'NPC 이벤트 3', color: 'orange' },
-		{ id: 8, label: '전투 4', color: 'red' },
-		{ id: 9, label: 'NPC 이벤트 4', color: 'orange' },
-		{ id: 10, label: '전투 5', color: 'red' },
-		{ id: 11, label: 'NPC 이벤트 5', color: 'orange' },
-		{ id: 12, label: '전투 6', color: 'red' },
-		{ id: 13, label: 'NPC 이벤트 6', color: 'orange' },
-		{ id: 14, label: '전투 7', color: 'red' },
-		{ id: 15, label: 'NPC 이벤트 7', color: 'orange' },
-		{ id: 16, label: '휴식', color: 'lightblue' },
-	]);
-
-	// 간선을 추가합니다.
-	edges.add([
-		{ from: 1, to: 2 },
-		{ from: 1, to: 3 },
-		{ from: 2, to: 4 },
-		{ from: 2, to: 5 },
-		{ from: 3, to: 6 },
-		{ from: 3, to: 7 },
-		{ from: 4, to: 8 },
-		{ from: 4, to: 9 },
-		{ from: 5, to: 10 },
-		{ from: 5, to: 11 },
-		{ from: 6, to: 12 },
-		{ from: 6, to: 13 },
-		{ from: 7, to: 14 },
-		{ from: 7, to: 15 },
-		{ from: 8, to: 16 },
-		{ from: 9, to: 16 },
-		{ from: 10, to: 16 },
-		{ from: 11, to: 16 },
-		{ from: 12, to: 16 },
-		{ from: 13, to: 16 },
-		{ from: 14, to: 16 },
-		{ from: 15, to: 16 },
-	]);
-
-	// 그래프 옵션을 설정합니다.
-	const options = {
-		layout: {
-			hierarchical: {
-				enabled: true,
-				direction: 'UD',
-				nodeSpacing: 150,
-				levelSeparation: 150,
-				blockShifting: true,
-				edgeMinimization: true,
-			},
-		},
-		edges: {
-			arrows: {
-				to: { enabled: true, scaleFactor: 1, type: 'arrow' },
-			},
-		},
-		physics: {
-			enabled: false,
-		},
-		nodes: {
-			shape: 'box',
-			font: {
-				size: 24,
-			},
-		},
-	};
+function loadRoute() {
+	const route = [];
+	for (let i = 1; i < 14; i++) {
+		const node = new Node(i, "yet", false);
+		route.push(node);
+	}
+	
+	return route;
 }
+
+function setNodeType(route) {
+	let combatCount = 0;
+	let minor = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
+	while (combatCount < 8) {
+		const index = Math.floor(Math.random() * 13);
+		console.log(`setTypeIndex: ${index}`);
+		const num = index + 1;
+		if (minor.includes(num)) {
+			if(route[index].type !== undefined){
+				minor = minor.filter((number) => (number = num));
+				route[index].type = "combat";
+				combatCount++;
+			}else{
+				continue;
+			}
+			
+		} else {
+			continue;
+		}
+	}
+	let restCount = 0;
+	minor.map((e)=>{
+		const option = Math.random();
+		if(option > 0.5 && restCount < 1){
+			route[e - 1].type = "rest";
+			restCount++;
+		}else if(option > 0.5){
+			route[e - 1].type = "event";
+		}else{
+			route[e - 1].type = "combat";
+		}
+	})
+	return route;
+}
+
+function setNodeBranch(routeA, routeB, routeC) {
+	let branchCount = 0;
+	let minor = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13];
+	while (branchCount < 2) {
+		const index = Math.floor(Math.random() * 13);
+		console.log(`setBranchIndex: ${index}`);
+		const num = index + 1;
+		if (minor.includes(num)) {
+			const option = Math.random();
+			console.log(`option: ${option}`);
+			if (option > 0.75 && index < 12) {
+				if(!routeA[index + 1].branch){
+					minor = minor.filter((number) => (number = num));
+					routeB[index].branch = true;
+					routeA[index + 1].branch = true;
+					branchCount++;
+				}
+			} else if (option > 0.5 && index > 0) {
+				if(!routeA[index - 1].branch){
+					minor = minor.filter((number) => (number = num));
+					routeB[index].branch = true;
+					routeA[index - 1].branch = true;
+					branchCount++;
+				}
+			} else if (option > 0.25 && index < 12) {
+				if(!routeC[index + 1].branch){
+					minor = minor.filter((number) => (number = num));
+					routeB[index].branch = true;
+					routeC[index + 1].branch = true;
+					branchCount++;
+				}
+				
+			} else if (option > 0 && index > 0) {
+				if(!routeC[index - 1].branch){
+					minor = minor.filter((number) => (number = num));
+					routeB[index].branch = true;
+					routeC[index - 1].branch = true;
+					branchCount++;
+				}
+				
+			}
+			
+			continue;
+			
+		} else {
+			continue;
+		}
+	}
+	return [routeA, routeB, routeC];
+}
+
+function initRoutes(routeA, routeB, routeC) {
+	return setNodeBranch(setNodeType(routeA), setNodeType(routeB), setNodeType(routeC));
+}
+
+function displayMap(routes) {
+	console.log(routes);
+}
+
+module.exports = { Node, loadRoute, initRoutes, displayMap };
