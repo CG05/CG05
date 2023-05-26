@@ -3,12 +3,14 @@ const http = require('http');
 const path = require('path');
 const { Server } = require('socket.io');
 const mysql = require('mysql');
-const Character = require('./character.js');
-const { Player } = require('./player.js');
-const {Enemy, enemies} = require('./enemy.js');
+const {Character} = require('./character.js');
+const playerModule = require('./player.js');
+const Player = playerModule.Player;
+const { Enemy, enemies } = require('./enemy.js');
 const { Stats } = require('./stats.js');
 const { Job, jobs } = require('./jobs.js');
 const { Node, loadRoute, initRoutes, displayMap } = require('./map.js');
+const { Item, Items } = require('./item.js');
 
 const app = express();
 const PORT = 3000;
@@ -44,36 +46,37 @@ function getUserDb(table) {
 }
 
 async function setPlayerOnline(name, player) {
-	const _playerData = player.playerData;
 	console.log('setting player online...');
-	const playerInfo = _playerData.getCharacterInfo();
-	const _enemyData = player.enemyData;
-	const enemyInfo = _enemyData.getCharacterInfo();
-	return new Promise((res, rej)=>{
-		onlinePlayers.set(name, { playerData: playerInfo, mapData: player.mapData , enemyData: enemyInfo, stateData: player.stateData});
+	return new Promise((res, rej) => {
+		onlinePlayers.set(name, {
+			playerInfo: player.playerInfo,
+			mapData: player.mapData,
+			enemyInfo: player.enemyInfo,
+			stateData: player.stateData,
+		});
 		res();
 	});
 }
 
-function getPlayerInfo(name){
+function getPlayerInfo(name) {
 	const _playerOnline = onlinePlayers.get(name);
-	const playerInfo = _playerOnline.playerData;
+	const playerInfo = _playerOnline.playerInfo;
 	return playerInfo;
 }
 
-function getPlayerMap(name){
+function getPlayerMap(name) {
 	const _playerOnline = onlinePlayers.get(name);
 	const playerMap = _playerOnline.mapData;
 	return playerMap;
 }
 
-function getPlayerEnemy(name){
+function getPlayerEnemy(name) {
 	const _playerOnline = onlinePlayers.get(name);
-	const playerEnemy = _playerOnline.enemyData;
+	const playerEnemy = _playerOnline.enemyInfo;
 	return playerEnemy;
 }
 
-function getPlayerState(name){
+function getPlayerState(name) {
 	const _playerOnline = onlinePlayers.get(name);
 	const playerState = _playerOnline.stateData;
 	return playerState;
@@ -140,32 +143,38 @@ async function deleteLoggedUser(socketId) {
 		}
 	);
 }
-function playerSetting(name, info){
-	const playerData = new Player(
-		name,
-		info.level,
-		info.maxExp,
-		info.exp,
-		info.job,
-		info.stats,
-		info.skills,
-		info.currentPosition,
-		info.equipment
-	);
-	return playerData;
+function playerSetting(info) {
+	const playerData = () => {
+		return new Player(
+			info.name,
+			info.level,
+			info.maxExp,
+			info.exp,
+			info.job,
+			info.stats,
+			info.skills,
+			info.currentPosition,
+			info.items,
+			info.equipment
+		);
+	}
+	console.log(playerData());
+	return playerData();
 }
 
-function enemySetting(info){
-	const enemyData = new Enemy(
-		info.name,
-		info.level,
-		info.type,
-		info.rarity,
-		info.job,
-		info.stats,
-		info.skills,
-	);
-	return enemyData;
+function enemySetting(info) {
+	const enemyData = () => {
+		return new Enemy(
+			info.name,
+			info.level,
+			info.type,
+			info.rarity,
+			info.job,
+			info.stats,
+			info.skills
+		);
+	}
+	return enemyData();
 }
 
 async function initPlayerData(name) {
@@ -182,26 +191,42 @@ async function initPlayerData(name) {
 		initStats,
 		initialJob.skills,
 		{ route: 'Start', stage: 0 },
+		[],
 		{}
 	);
 	const mapData = mapping();
-	const enemyData = new Enemy(undefined, undefined, undefined, undefined, undefined, undefined, undefined);
-	await setPlayerOnline(name, { playerData: playerData, mapData: mapData , enemyData: enemyData, stateData: 'lull'});
+	const enemyData = new Enemy(
+		undefined,
+		undefined,
+		undefined,
+		undefined,
+		undefined,
+		undefined,
+		undefined
+	);
+	await setPlayerOnline(name, {
+		playerInfo: playerData.getCharacterInfo(),
+		mapData: mapData,
+		enemyInfo: enemyData.getCharacterInfo(),
+		stateData: 'lull',
+	});
 	const info = JSON.stringify(playerData.getCharacterInfo());
 	const map = JSON.stringify(mapData);
 	const enemy = JSON.stringify(enemyData.getCharacterInfo());
 	await new Promise((res, rej) => {
-		userDb.query(`INSERT INTO ${PLAYER_DATA}(name, info, map, enemy, state) VALUES('${name}', '${info}', '${map}', '${enemy}', 'lull')`, (error, results) => {
-			if (error) {
-				console.log(error);
-				rej(error);
-			} else {
-				console.log(`Player name ${name}: player init completed.`);
-				res();
+		userDb.query(
+			`INSERT INTO ${PLAYER_DATA}(name, info, map, enemy, state) VALUES('${name}', '${info}', '${map}', '${enemy}', 'lull')`,
+			(error, results) => {
+				if (error) {
+					console.log(error);
+					rej(error);
+				} else {
+					console.log(`Player name ${name}: player init completed.`);
+					res();
+				}
 			}
-		});
+		);
 	});
-	
 }
 
 async function saveData(name) {
@@ -222,13 +247,13 @@ async function saveData(name) {
 					console.log(`Player name ${name}: player save completed.`);
 					res();
 				}
-			});
+			}
+		);
 	});
-	
 }
 
 async function loadData(name) {
-	let data = {info: undefined, enemy: undefined, state: undefined, map: undefined};
+	let data = { info: undefined, enemy: undefined, state: undefined, map: undefined };
 	let isLoadedPlayerData;
 	let isLoadedEnemyData;
 	let isLoadedStateData;
@@ -239,9 +264,9 @@ async function loadData(name) {
 				rej(error);
 			} else if (results[0] !== undefined) {
 				console.log(results[0].info);
-				data.info =	JSON.parse(results[0].info)
+				data.info = JSON.parse(results[0].info);
 				console.log(`Player name ${name}: player load completed.`);
-				
+
 				res(true);
 			} else {
 				res(false);
@@ -255,7 +280,7 @@ async function loadData(name) {
 			} else if (results[0] !== undefined) {
 				data.enemy = JSON.parse(results[0].enemy);
 				console.log(`Player name ${name}: enemy load completed.`);
-	
+
 				res(true);
 			} else {
 				res(false);
@@ -269,7 +294,7 @@ async function loadData(name) {
 			} else if (results[0] !== undefined) {
 				data.state = results[0].state;
 				console.log(`Player name ${name}: state load completed.`);
-	
+
 				res(true);
 			} else {
 				res(false);
@@ -283,7 +308,7 @@ async function loadData(name) {
 			} else if (results[0] !== undefined) {
 				data.map = JSON.parse(results[0].map);
 				console.log(`Player name ${name}: map load completed.`);
-	
+
 				res(true);
 			} else {
 				res(false);
@@ -294,17 +319,20 @@ async function loadData(name) {
 	isLoadedEnemyData = await loadingEnemyData;
 	isLoadedStateData = await loadingStateData;
 	isLoadedMapData = await loadingMapData;
-	if(isLoadedPlayerData && isLoadedMapData && isLoadedEnemyData && isLoadedStateData){
-		await setPlayerOnline(name, {playerData: playerSetting(name, data.info), mapData: data.map, enemyData: enemySetting(data.enemy), stateData: data.state});
+	if (isLoadedPlayerData && isLoadedMapData && isLoadedEnemyData && isLoadedStateData) {
+		await setPlayerOnline(name, {
+			playerInfo: data.info,
+			mapData: data.map,
+			enemyInfo: data.enemy,
+			stateData: data.state,
+		});
 		return true;
-	}else{
+	} else {
 		console.log(`Load failed.\nNew Player name ${name}: player data initiating...`);
 		await initPlayerData(name);
 		return false;
 	}
 }
-
-
 
 function mapping() {
 	const routeA = loadRoute();
@@ -315,9 +343,9 @@ function mapping() {
 	return routes;
 }
 
-function mapRouteToIndex(route){
+function mapRouteToIndex(route) {
 	let index;
-	switch(route){
+	switch (route) {
 		case 'A':
 			index = 0;
 			break;
@@ -333,9 +361,9 @@ function mapRouteToIndex(route){
 	}
 	return index;
 }
-function mapIndexToRoute(index){
+function mapIndexToRoute(index) {
 	let route;
-	switch(index){
+	switch (index) {
 		case 0:
 			route = 'A';
 			break;
@@ -352,9 +380,8 @@ function mapIndexToRoute(index){
 	return route;
 }
 
-
-function sendStats(name){
-	const playerData = playerSetting(name, getPlayerInfo(name));
+function sendStats(name) {
+	const playerData = playerSetting(getPlayerInfo(name));
 	const playerInfo = playerData.getCharacterInfo();
 	let _msg = `#Player Status`;
 	io.emit('text', _msg);
@@ -362,48 +389,47 @@ function sendStats(name){
 	io.emit('text', _msg);
 	_msg = `level: ${playerInfo.level}`;
 	io.emit('text', _msg);
+	_msg = `job: ${playerInfo.job}`;
+	io.emit('text', _msg);
 	_msg = `exp: ${playerInfo.exp}/${playerInfo.maxExp}`;
 	io.emit('text', _msg);
-	_msg = `hp: ${playerInfo.stats.currentHp}/${
-		playerInfo.stats.maxHp
-	}`;
+	_msg = `hp: ${playerInfo.stats.currentHp.toFixed(1)}/${playerInfo.stats.maxHp.toFixed(1)}`;
 	io.emit('text', _msg);
-	_msg = `attackPoint: ${playerInfo.stats.attackPoint}`;
+	_msg = `attackPoint: ${playerInfo.stats.attackPoint.toFixed(1)}`;
 	io.emit('text', _msg);
 	const playerPosition = playerData.currentPosition;
 	const playerRoute = playerPosition.route;
 	const playerStage = playerPosition.stage;
 	_msg = `currentPosition: Route${playerRoute}: Stage -${playerStage}-`;
 	io.emit('text', _msg);
-
 }
 
-function sendChoices(name){
-	const playerData = playerSetting(name, getPlayerInfo(name));
+function sendChoices(name) {
+	const playerData = playerSetting(getPlayerInfo(name));
 	const playerInfo = playerData.getCharacterInfo();
 	const mapData = getPlayerMap(name);
 	let _msg = '';
-	
+
 	const routeA = mapData[0];
 	const routeB = mapData[1];
 	const routeC = mapData[2];
-	
+
 	const playerPosition = playerData.currentPosition;
 	const playerRoute = playerPosition.route;
 	const playerStage = playerPosition.stage;
 	let _choices;
 	let isBranch = false;
-	switch(playerRoute){
+	switch (playerRoute) {
 		case 'Start':
 			_msg = `Next Route: A-1, B-1, C-1`;
 			_choices = [`A`, `B`, `C`];
 			break;
 		case 'A':
 			isBranch = routeA[playerStage].branch && routeB[playerStage + 1].branch;
-			if(isBranch){
+			if (isBranch) {
 				_msg = `Next Route: A-${playerStage + 1}, B-${playerStage + 1}`;
-				_choices = [`A`,`B`];
-			}else{
+				_choices = [`A`, `B`];
+			} else {
 				_msg = `Next Route: A-${playerStage + 1}`;
 				_choices = [`A`];
 			}
@@ -411,26 +437,26 @@ function sendChoices(name){
 		case 'B':
 			let BAisBranched = routeA[playerStage + 1].branch && routeB[playerStage].branch;
 			let BCisBranched = routeB[playerStage].branch && routeC[playerStage + 1].branch;
-			if(!(BAisBranched && BCisBranched)){
+			if (!(BAisBranched && BCisBranched)) {
 				_msg = `Next Route: B-${playerStage + 1}`;
 				_choices = [`B`];
-			}else if(BAisBranched){
+			} else if (BAisBranched) {
 				_msg = `Next Route: A-${playerStage + 1}, B-${playerStage + 1}`;
 				_choices = [`A`, `B`];
-			}else if(BCisBranched){
+			} else if (BCisBranched) {
 				_msg = `Next Route: B-${playerStage + 1}, C-${playerStage + 1}`;
 				_choices = [`B`, `C`];
-			}else{
+			} else {
 				console.log(`Branch Error Occured: B-${playerStage}`);
 			}
 			break;
 		case 'C':
 			isBranch = false;
 			isBranch = routeC[playerStage].branch && routeB[playerStage + 1].branch;
-			if(isBranch){
+			if (isBranch) {
 				_msg = `Next Route: B-${playerStage + 1}, C-${playerStage + 1}`;
 				_choices = [`B`, `C`];
-			}else{
+			} else {
 				_msg = `Next Route: C-${playerStage + 1}`;
 				_choices = [`C`];
 			}
@@ -439,34 +465,46 @@ function sendChoices(name){
 			console.log(`Route Error Occured`);
 			break;
 	}
-	io.emit('choices', {msg: _msg, choices: _choices});
+	io.emit('choices', { msg: _msg, choices: _choices });
 }
 
 function sendStatsWithChoices(name) {
+	io.emit(
+		'text',
+		'=================================================================================='
+	);
 	sendStats(name);
+	io.emit(
+		'text',
+		'----------------------------------------------------------------------------------'
+	);
 	sendChoices(name);
-	
+
 	const _msg = `What do you wanna do? Need some help, command "/help" will give you some advice.`;
-	io.emit('next respond ', {msg: _msg, type: 'lull'});
+	io.emit('next respond', { msg: _msg, type: 'lull' });
+	io.emit(
+		'text',
+		'=================================================================================='
+	);
 }
 
-function processCommand(name, command){
-	
+function processCommand(name, command) {
+	// help, stats, skills, items, equipments
 }
 
-async function goAhead(playerData, choice){
-	const _playerData = new Promise((res, rej)=>{
+async function goAhead(playerData, choice) {
+	const _playerData = new Promise((res, rej) => {
 		const playerPosition = playerData.currentPosition;
 		const currentRoute = choice;
 		const currentStage = playerPosition.stage + 1;
-		playerData.currentPosition = {route: currentRoute, stage: currentStage};
+		playerData.currentPosition = { route: currentRoute, stage: currentStage };
 		res(playerData);
-	})
+	});
 	return _playerData;
 }
 
-async function processChoice(name, choice){
-	let playerData = playerSetting(name, getPlayerInfo(name));
+async function processChoice(name, choice) {
+	let playerData = playerSetting(getPlayerInfo(name));
 	const mapData = getPlayerMap(name);
 	const playerPosition = playerData.currentPosition;
 	const currentRoute = choice;
@@ -475,67 +513,258 @@ async function processChoice(name, choice){
 	const playerInfo = playerData.getCharacterInfo();
 	playerData.setCharacterInfo(playerInfo);
 	const type = mapData[mapRouteToIndex(currentRoute)][currentStage].type;
-	await setPlayerOnline(name, {playerData: playerData, mapData: mapData, enemyData: enemySetting(getPlayerEnemy(name)), stateData: type});
+	await setPlayerOnline(name, {
+		playerInfo: playerInfo,
+		mapData: mapData,
+		enemyInfo: getPlayerEnemy(name),
+		stateData: type,
+	});
 	const _msg = `${currentRoute}-${currentStage} => ${type} encountered.`;
-	io.emit('next respond', {msg: _msg, type: type});
+	io.emit('next respond', { msg: _msg, type: type });
 }
 
-function processCombat(name, controll){
-	const playerData = playerSetting(name, getPlayerInfo(name));
+async function playerAttack(name, controll) {
+	const playerData = playerSetting(getPlayerInfo(name));
 	const playerInfo = playerData.getCharacterInfo();
+	const enemyData = enemySetting(getPlayerEnemy(name));
+	const defaultAttackDamage = playerInfo.stats.attackPoint;
 	const skills = playerInfo.skills;
-	const result = {finish: false, effects: {}, reward: []};
-	if(result.finish){
-		io.emit('combat result', result.reward);
+	const skillMap = new Map();
+	skillMap.set('defaultAttack', {
+		effect: '들고 있는 무기로 아무렇게나 때려봅니다.',
+		defaultDamage: defaultAttackDamage,
+		increasePerLevel: 0,
+		damageFactor: 1,
+		cooldown: 0,
+	});
+	for (const skill of skills) {
+		skillMap.set(skill.name, {
+			name: skill.name,
+			level: skill.level,
+			effect: skill.effect,
+			defaultDamage: skill.defaultDamage,
+			increasePerLevel: skill.increasePerLevel,
+			damageFactor: skill.damageFactor,
+			cooldown: skill.cooldown,
+		});
+	}
+	let damage;
+	const playerControll = skillMap.get(controll);
+	let enemyInfo = enemyData.getCharacterInfo();
+	if (controll === 'defaultAttack') {
+		playerData.defaultAttack(enemyInfo);
+		damage = playerData.defaultAttackDamage(enemyInfo);
+	} else {
+		playerData.skillAttack(playerControll, enemyInfo);
+		damage = playerData.skillAttackDamage(playerControll, enemyInfo);
+	}
+
+	io.emit('text', playerControll.effect);
+	io.emit('text', `효과는 굉장했다! <${enemyInfo.name}>에게 [${damage}]의 데미지를 주었다.`);
+	io.emit(
+		'text',
+		'----------------------------------------------------------------------------------'
+	);
+	await setPlayerOnline(name, {
+			playerInfo: playerData.getCharacterInfo(),
+			mapData: getPlayerMap(name),
+			enemyInfo: enemyData.getCharacterInfo(),
+			stateData: getPlayerState(name),
+	});
+	const isFinished = !enemyData.isAlive();
+	if(isFinished){
+		return true;
 	}else{
-		sendStats(name);
-		sendEnemyStats(name);
-		io.emit('combat', result.effects);
+		return false;
+	}
+	
+}
+
+async function enemyAttack(name) {
+	let playerData = playerSetting(getPlayerInfo(name));
+	const enemyData = enemySetting(getPlayerEnemy(name));
+	enemyData.defaultAttack(playerData.getCharacterInfo());
+	playerData = playerSetting(getPlayerInfo(name));
+	await setPlayerOnline(name, {
+			playerInfo: playerData.getCharacterInfo(),
+			mapData: getPlayerMap(name),
+			enemyInfo: enemyData.getCharacterInfo(),
+			stateData: getPlayerState(name),
+	});
+	const isDead = !playerData.isAlive();
+	if(isDead){
+		return true;
+	}else{
+		return false;
 	}
 }
 
-async function startCombat(name){
+async function processCombat(name, controll) {
+	const playerData = playerSetting(getPlayerInfo(name));
+	const playerInfo = playerData.getCharacterInfo();
+	const isFinished = await playerAttack(name, controll);
+	const enemyData = enemySetting(getPlayerEnemy(name));
+	const enemyInfo = enemyData.getCharacterInfo();
+
+	if (isFinished) {
+		io.emit('text', `방금의 일격으로 <${enemyInfo.name}>가 사망했다. 보상이 들어온다!`);
+		const reward = await rewardSetting(enemyInfo.level);
+		console.log(reward);
+
+		const rewardItem = reward.item;
+		const rewardExp = reward.exp;
+		playerData.pushItem(rewardItem);
+		const isLevelUp = playerData.plusExp(rewardExp);
+		const enemyNone = new Enemy(
+			undefined,
+			undefined,
+			undefined,
+			undefined,
+			undefined,
+			undefined,
+			undefined
+		);
+		
+		if (rewardItem === null) {
+			io.emit('combat result', `경험치 [${rewardExp}]를 얻었다!`);
+		} else {
+			io.emit(
+				'combat result',
+				`<${rewardItem.name}(${rewardItem.job})>와(과) 경험치 [${rewardExp}]를 얻었다!`
+			);
+		}
+		if (isLevelUp) {
+			const info = playerData.getCharacterInfo();
+			io.emit('text', `##레벨업!! 축하합니다. ${info.level}이 되셨습니다.`);
+		}
+		setPlayerOnline(name, {
+			playerInfo: playerData.getCharacterInfo(),
+			mapData: getPlayerMap(name),
+			enemyInfo: enemyNone.getCharacterInfo(),
+			stateData: 'lull',
+		});
+	} else {
+		const isDead = await enemyAttack(name);
+		const damage = enemyData.defaultAttackDamage(playerInfo);
+		if (isDead) {
+			io.emit(
+				'text',
+				`당신은 <${enemyInfo.name}>에게 [${damage}]의 데미지를 입고 사망하였습니다..`
+			);
+		}else{
+			io.emit('text', `당신은 <${enemyInfo.name}>의 반격으로 [${damage}]의 데미지를 입었습니다..!`);
+			setPlayerOnline(name, {
+			playerInfo: playerData.getCharacterInfo(),
+			mapData: getPlayerMap(name),
+			enemyInfo: enemyData.getCharacterInfo(),
+			stateData: 'combat',
+		});
+			sendStats(name);
+			sendEnemyStats(name);
+			sendCombatChoices(name);
+		}
+		
+	}
+}
+
+async function rewardSetting(level) {
+	const itemList = await Items;
+	let reward;
+	for (const item of itemList) {
+		if (Math.random() < 1 / itemList.length) {
+			reward = { item: item, exp: 10 };
+			return reward;
+		} else {
+			reward = { item: null, exp: 10 };
+		}
+	}
+	return reward;
+}
+
+function pickEnemy(enemyMeetLevel) {
+	const option = Math.floor(Math.random() * enemyMeetLevel.length);
+	return enemyMeetLevel[option];
+}
+async function startCombat(name) {
 	const enemyList = await enemies;
-	const enemyData = enemyList[0];
-	console.log(enemyData.getCharacterInfo());
-	const playerData = playerSetting(name, getPlayerInfo(name));
-	await setPlayerOnline(name,{playerData: playerData, mapData: getPlayerMap(name), enemyData: enemyData, stateData: getPlayerState(name)})
+	const playerInfo = getPlayerInfo(name);
+	const playerData = playerSetting(playerInfo);
+
+	let enemyMeetLevel = [];
+	for (const enemy of enemyList) {
+		const info = enemy.getCharacterInfo();
+		if (playerInfo.level < 5) {
+			if (info.rarity === '하위' && info.level <= playerInfo.level) {
+				enemyMeetLevel.push(enemy);
+			}
+		} else if (playerInfo.level < 10) {
+			if (info.rarity === '중위' && info.level <= playerInfo.level) {
+				enemyMeetLevel.push(enemy);
+			}
+		}
+	}
+	console.log(enemyMeetLevel);
+	const pickedEnemy = pickEnemy(enemyMeetLevel);
+	const enemyData = enemySetting(pickedEnemy.getCharacterInfo());
+	enemyData.hpReset();
+
+	await setPlayerOnline(name, {
+		playerInfo: playerInfo,
+		mapData: getPlayerMap(name),
+		enemyInfo: enemyData.getCharacterInfo(),
+		stateData: getPlayerState(name),
+	});
 	sendEnemyStats(name);
-	
+
+	sendCombatChoices(name);
+}
+
+function sendCombatChoices(name) {
+	const playerData = playerSetting(getPlayerInfo(name));
 	const playerInfo = playerData.getCharacterInfo();
 	const skills = playerInfo.skills;
 
 	let choices = ['defaultAttack'];
-	for(const skill of skills){
+	for (const skill of skills) {
 		choices.push(skill.name);
 	}
-	io.emit('combat', "Player can choice under:");
+	io.emit('combat', 'Player can choice under:');
 	let i = 1;
-	for(const choice of choices){
+	for (const choice of choices) {
 		io.emit('combat', `${i}. ${choice}`);
-		io.emit('combat choices', {choice: choice, num: i});
+		io.emit('combat choices', { choice: choice, num: i });
 		i++;
 	}
-	
+	io.emit(
+		'text',
+		'----------------------------------------------------------------------------------'
+	);
 }
 
-function sendEnemyStats(name){
+function sendEnemyStats(name) {
 	const enemyData = enemySetting(getPlayerEnemy(name));
 	const enemyInfo = enemyData.getCharacterInfo();
+	io.emit(
+		'text',
+		'----------------------------------------------------------------------------------'
+	);
 	let _msg = `#Enemy Status`;
 	io.emit('text', _msg);
-	_msg = `name: ${name}`;
+	_msg = `name: ${enemyInfo.name}`;
+	io.emit('text', _msg);
+	_msg = `job: ${enemyInfo.job}`;
 	io.emit('text', _msg);
 	_msg = `level: ${enemyInfo.level}`;
 	io.emit('text', _msg);
-	_msg = `hp: ${enemyInfo.stats.currentHp}/${enemyInfo.stats.maxHp}`;
+	_msg = `hp: ${enemyInfo.stats.currentHp.toFixed(1)}/${enemyInfo.stats.maxHp.toFixed(1)}`;
 	io.emit('text', _msg);
+	io.emit(
+		'text',
+		'----------------------------------------------------------------------------------'
+	);
 }
 
-function processDecision(name, type, decision){
-	
-}
-
+function processDecision(name, type, decision) {}
 
 //Socket Server Boundary
 app.use(express.static(path.join('../../public')));
@@ -594,13 +823,13 @@ io.on('connection', (socket) => {
 		console.log(`${name} is connecting to server...`);
 		let newbie = true;
 		await loadData(name);
-	
+
 		io.emit('greeting', {
 			name: name,
 			greeting: `Welcome, ${name}. Wanna start game, Please enter "start".`,
 		});
 	});
-	
+
 	socket.on('memorizing user name', (name) => {
 		const socketId = socket.id;
 		updateUser(name, socket.id);
@@ -611,65 +840,58 @@ io.on('connection', (socket) => {
 		const name = await userName(socketId);
 		console.log(`${name}: ${socketId} >> ${res}`);
 		const map = getPlayerMap(name);
-		displayMap(map);
-			
+
 		await sendStatsWithChoices(name);
 	});
-	
-	socket.on('command', async (command) =>{
+
+	socket.on('command', async (command) => {
 		const socketId = socket.id;
 		const name = await userName(socketId);
 		console.log(`command recieved from ${name}: ${command}`);
 		//데이터베이스에서 command에 대한 결과를 result에 담기
-		const result = await processCommand(command);
-		await saveData(name);
-		await sendStatsWithChoices(name);
-		io.emit('result', result);
+		const result = await processCommand(name, command);
 	});
-	
+
 	socket.on('choice', async (choice) => {
 		const socketId = socket.id;
 		const name = await userName(socketId);
 		console.log(`choice recieved from ${name}: ${choice}`);
-		
+
 		const result = await processChoice(name, choice);
 		await saveData(name);
-		io.emit('result', result);
 	});
-	
+
 	socket.on('combat encounter', async (res) => {
 		const socketId = socket.id;
 		const name = await userName(socketId);
 		console.log(`combat encounter recieved from ${name}`);
-		
+
 		await startCombat(name);
 		await saveData(name);
 	});
-	
+
 	socket.on('combat', async (controll) => {
 		const socketId = socket.id;
 		const name = await userName(socketId);
 		console.log(`controll for combat recieved from ${name}: ${controll}`);
-		
-		await processCombat(controll);
+
+		await processCombat(name, controll);
 		await saveData(name);
 	});
-	
+
 	socket.on('decision', async (res) => {
 		const type = res.type;
 		const decision = res.decision;
 		const socketId = socket.id;
 		const name = await userName(socketId);
 		console.log(`decision for ${type} recieved from ${name}: ${decision}`);
-		
-		const result = await processDecision(type, decision);
+
+		const result = await processDecision(name, type, decision);
 		await saveData(name);
 		io.emit('result', result);
 	});
-	
-	
-	
-	socket.on('next request', async (res) =>{
+
+	socket.on('next request', async (res) => {
 		//데이터베이스에서 현재 상태, 다음 선택지를 respond에 담기
 		const socketId = socket.id;
 		const name = await userName(socketId);
@@ -677,7 +899,6 @@ io.on('connection', (socket) => {
 		await sendStatsWithChoices(name);
 	});
 
-	
 	socket.on('disconnect', async (res) => {
 		const socketId = socket.id;
 		const name = await userName(socketId);

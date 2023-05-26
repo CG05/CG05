@@ -6,6 +6,7 @@ class Character {
 	_skills;
 
 	constructor(name, level, job, stats, skills) {
+		console.log(stats);
 		this._name = name;
 		this._level = level;
 		this._job = job;
@@ -43,7 +44,7 @@ class Character {
 		this._skills = info.skills;
 	}
 
-	set stats(deltaStats) {
+	setStats(deltaStats) {
 		for (const key in deltaStats) {
 			if (deltaStats.hasOwnProperty(key)) {
 				this._stats[key] += deltaStats[key];
@@ -88,63 +89,74 @@ class Character {
 		}
 	}
 
-	defaultAttack(target) {
-		const damage = this.defaultAttackDamage(target);
+	defaultAttack(targetInfo) {
+		const target = this.targetSetting(targetInfo);
+		const damage = this.defaultAttackDamage(targetInfo);
 		target.takeDamage(damage);
 		console.log(
-			`${target.getCharacterInfo().name}에게 기본공격으로 ${damage}만큼의 피해를 입혔습니다.`
+			`${targetInfo.name}에게 기본공격으로 ${damage}만큼의 피해를 입혔습니다.`
 		);
 	}
 
-	defaultAttackDamage(target) {
-		const damage = this.criticalProcedure(this._stats.attackDamage * this._stats.damageAmplify);
-		const targetDeffense = target.getCharacterInfo().stats.deffense - this._stats.deffensePierce;
-		return damage * this.damageReduce(targetDeffense);
+	defaultAttackDamage(targetInfo) {
+		const target = this.targetSetting(targetInfo);
+		// const damage = this.criticalProcedure(this._stats.attackPoint * this._stats.damageAmplify);
+		const damage = this._stats.attackPoint * this._stats.damageAmplify;
+		const targetStats = target.getCharacterInfo().stats;
+		const targetDeffense = targetStats.deffense - this._stats.deffensePierce;
+		console.log(this.damageReduce(targetDeffense));
+		const resultDamage = damage * this.damageReduce(targetDeffense);
+
+		return resultDamage.toFixed(1);
 	}
 
-	skillAttack(skill, target) {
-		const {
-			name: name,
-			level: level,
-			effect: effect,
-			defaultDamage: defaultDamage,
-			increasePerLevel: increasePerLevel,
-			damageFactor: damageFactor,
-			cooldown: cooldown,
-		} = skill.getSkillInfo();
-		const damage = this.skillAttackDamage(
-			defaultDamage + level * increasePerLevel,
-			damageFactor,
-			target
-		);
+	skillAttack(skill, targetInfo) {
+		const target = this.targetSetting(targetInfo);
+		const damage = this.skillAttackDamage(skill, targetInfo);
 		target.takeDamage(damage);
 		console.log(
-			`${target.getCharacterInfo().name}에게 ${name}(으)로 ${damage}만큼의 피해를 입혔습니다.`
+			`${targetInfo.name}에게 ${skill.name}(으)로 ${damage}만큼의 피해를 입혔습니다.`
 		);
 	}
 
-	skillAttackDamage(defaultDamage, damageFactor, target) {
+	skillAttackDamage(skill, targetInfo) {
+		const target = this.targetSetting(targetInfo);
 		const damage1 =
-			defaultDamage + this._stats.attackDamage * damageFactor * this._stats.damageAmplify;
-		const damage2 = this.criticalProcedure(damage1);
-		const targetDeffense = target.getCharacterInfo().stats.deffense - this._stats.deffensePierce;
-		return damage2 * this.damageReduce(targetDeffense);
+			skill.defaultDamage + this._stats.attackPoint * skill.damageFactor * this._stats.damageAmplify;
+		// const damage2 = this.criticalProcedure(damage1);
+		const targetStats = target.getCharacterInfo().stats;
+		const targetDeffense = targetStats.deffense - this._stats.deffensePierce;
+		// return damage2 * this.damageReduce(targetDeffense);
+		const resultDamage = damage1 * this.damageReduce(targetDeffense);
+		return resultDamage.toFixed(1);
 	}
 
-	criticalProcedure(damage) {
-		let d;
+	// criticalProcedure(damage) {
+	// 	let d;
 
-		if (Math.random() * 100 <= this._stats.criticalChance) {
-			d = damage * this._stats.criticalDamage;
-		} else {
-			d = damage * this._stats.damageAmplify;
-		}
+	// 	if (Math.random() * 100 <= this._stats.criticalChance) {
+	// 		d = damage * this._stats.criticalDamage;
+	// 	} else {
+	// 		d = damage * this._stats.damageAmplify;
+	// 	}
 
-		return d;
-	}
+	// 	return d;
+	// }
 
 	damageReduce(deffense) {
 		return 100 / (100 + deffense);
+	}
+	
+	targetSetting(){
+		
+	}
+	
+	heal(amount){
+		this._stats.currentHp += amount;
+	}
+	
+	hpReset(){
+		this._stats.currentHp = this._stats.maxHp;
 	}
 
 	takeDamage(damage) {
@@ -159,4 +171,4 @@ class Character {
 	}
 }
 
-module.exports = Character;
+module.exports = {Character};

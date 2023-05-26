@@ -7,6 +7,7 @@ class Stats {
 		this.deffensePierce = deffensePierce;
 		this.damageAmplify = damageAmplify;
 	}
+	
 }
 
 module.exports = {Stats};
