@@ -2,13 +2,13 @@ const fs = require('fs');
 
 // 전체 아이템 목록을 담을 클래스
 class Item {
-  constructor(name, type, rarity, job, stats, probability) {
+  constructor(name, type, rarity, job, stats, set) {
     this.name = name;
     this.type = type;
 		this.rarity = rarity;
 		this.job = job;
     this.stats = stats;
-		this.probability = probability;
+		this.set = set;
   }
 }
 
@@ -19,7 +19,17 @@ async function loadItems() {
   const itemsData = await JSON.parse(response);
   const items = [];
   for (const data of itemsData) {
-    const item = new Item(data.name, data.type, data.rarity, data.job, data.stats, data.probability);
+    const item = new Item(data.name, data.type, data.rarity, data.job, data.stats, data.set);
+    items.push(item);
+  }
+  return items;
+}
+async function loadBossItems() {
+  const response = await fs.readFileSync("../../Database/bossItems.json");
+  const itemsData = await JSON.parse(response);
+  const items = [];
+  for (const data of itemsData) {
+    const item = new Item(data.name, data.type, data.rarity, data.job, data.stats, data.set);
     items.push(item);
   }
   return items;
@@ -27,4 +37,6 @@ async function loadItems() {
 
 const Items = loadItems();
 
-module.exports = {Item, Items};
+const BossItems = loadBossItems();
+
+module.exports = {Item, Items, BossItems};

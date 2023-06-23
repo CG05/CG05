@@ -2,8 +2,10 @@ const fs = require('fs');
 
 // 전직 정보와 스킬을 담을 클래스
 class Job {
-  constructor(name, skills, nextJob) {
+  constructor(name, comment, line, skills, nextJob) {
     this.name = name;
+		this.comment = comment;
+		this.line = line;
     this.skills = skills;
 		this.nextJob = nextJob;
   }
@@ -17,7 +19,7 @@ async function loadJobs() {
 	const _jobs = [];
 	return new Promise((res, rej)=>{
 		for (const data of jobsData) {
-    	const job = new Job(data.name, data.skills, data.nextJob);
+    	const job = new Job(data.name, data.comment, data.line, data.skills, data.nextJob);
     	_jobs.push(job);
   	}
 		res(_jobs);

@@ -2,6 +2,7 @@ const fs = require('fs');
 const {Character} = require('./character.js');
 const playerModule = require('./player.js');
 const { Stats } = require('./stats.js');
+const { Equips } = require('./equips.js');
 
 // 전체 몬스터 목록을 담을 클래스
 class Enemy extends Character {
@@ -25,6 +26,13 @@ class Enemy extends Character {
 		};
 		return characterInfo;
 	}
+	
+	skillCooltimeReset(){
+		for(const skill of this._skills){
+			skill.currentCool = skill.cooltime;
+			
+		}
+	}
 
 	targetSetting(info) {
 		const Player = playerModule.Player;
@@ -39,7 +47,7 @@ class Enemy extends Character {
 				info.skills,
 				info.currentPosition,
 				info.items,
-				info.equipment
+				new Equips(info.equipment)
 			);
 		}
 		return targetData();

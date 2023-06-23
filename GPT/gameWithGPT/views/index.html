@@ -11,7 +11,11 @@
 </head>
 
 <body>
-  <div class="login-form hidden">
+	<header class="player-status hidden" >
+		<a class="NameLevelJob status"></a><a class="exp status"></a><a class="hp status"></a><a class="atk status"></a><a class="gold status"></a>
+	</header>
+	<main>
+		<div class="login-form hidden">
     <input class="id" type="text" placeholder="계정이름"></input>
     <input class="pw" type="password" placeholder="비밀번호"></input>
     <button id="login" type="submit" value="Log In">→</button>
@@ -23,12 +27,15 @@
     <input class="check" type="password" maxlength="30" placeholder="비밀번호를 다시 입력하세요"></input>
     <button id="signUp" type="submit" value="Submit">Ok</button>
   </div>
+  
   <div class="chat hidden">
     <ul id="messages"></ul>
     <form action="">
       <input autocomplete="off" /> <button>Send</button>
     </form>
   </div>
+	</main>
+  
   <script type="module" src="/js/login.js"></script>
   <script src="socket.io/socket.io.js "></script>
 
@@ -36,55 +43,178 @@
     var socket = io();
     var form = document.querySelector('.chat form');
     var input = document.querySelector('.chat input');
+		const HIDDEN_CLASSNAME = 'hidden';
+		var s = document.querySelector('.chat input');
 		var state = 'default';
 		var inputables = [];
+		var nameStored = "undefined";
+		var beforeStatus = {level: 0, job: "", exp: 0, maxExp: 0, hp: 0, maxHp: 0, atk: 0, gold: 0};
 		
-		function printChat(msg){
+		function printChat(msg, type){
+			let _msg = msg;
 		  var item = document.createElement('li');
-      item.textContent = msg;
+			switch(type){
+				case 'enemy attack':
+					item.style.color = 'orange'
+					break;
+				case 'player attack':
+					item.style.color = 'blue'
+					break;
+				case 'effect':
+					item.style.color = 'purple'
+					item.classList.add('blinking');
+					setTimeout(function(){
+						item.classList.remove('blinking');
+					}, 495);
+					break;
+				case 'critical effect':
+					_msg = 'Critical!! ' + _msg; 
+					item.style.color = 'purple'
+					item.style.fontWeight = 'bold'
+					item.classList.add('blinking');
+					setTimeout(function(){
+						item.classList.remove('blinking');
+					}, 495);
+					break;
+				case 'enemy skill attack':
+					item.style.color = 'red'
+					item.style.fontWeight = 'bold'
+					item.classList.add('blinking');
+					setTimeout(function(){
+						item.classList.remove('blinking');
+					}, 495);
+					break;
+				case 'text':
+					
+					break;
+				default:
+					break;
+			}
+			
+      item.textContent = _msg;
       messages.appendChild(item);
       window.scrollTo(0, document.body.scrollHeight);
 		}
 		//구 'greeting'
     socket.on('greeting', (msg) => {
       printChat(msg.greeting);
-			
-			socket.emit('memorizing user name', msg.name);
+			nameStored = msg.name;
+			// socket.emit('memorizing user name', msg.name);
+			const status = document.querySelector('.player-status');
+			status.classList.remove(HIDDEN_CLASSNAME);
+			var NameLevelJob = document.querySelector('.NameLevelJob');
+			NameLevelJob.textContent = `| Name: ${msg.name} |`;
     });
 		
-		socket.on('text', (msg) => {
-      printChat(msg);
+		socket.on('text', (res) => {
+			const msg = res.msg;
+			const type = res.type;
+      printChat(msg, type);
     });
+		
+		function isAlter(info){
+			const stats = info.stats;
+			return new Promise((res, rej) => {
+				let altered = [];
+				if(info.level !== beforeStatus.level || info.job.name !== beforeStatus.job){
+					altered.push('.NameLevelJob');
+				}
+				if(info.exp !== beforeStatus.exp || info.maxExp !== beforeStatus.maxExp){
+					altered.push('.exp');
+				}
+				if(stats.currentHp.toFixed(1) !== beforeStatus.hp || info.maxHp !== beforeStatus.maxHp){
+					altered.push('.hp');
+				}
+				if(stats.attackPoint !== beforeStatus.atk){
+					altered.push('.atk');
+				}
+				if(info.gold !== beforeStatus.gold){
+					altered.push('.gold');
+				}
+				res(altered);
+			});
+		}
+		
+		socket.on('info', (res) => {
+			const name = res.whose;
+			const info = res.info;
+			const stats = info.stats;
+
+			var NameLevelJob = document.querySelector('.NameLevelJob');
+			var exp = document.querySelector('.exp');
+			var hp = document.querySelector('.hp');
+			var atk = document.querySelector('.atk');
+			var gold = document.querySelector('.gold');
+			let altered = [];
+			isAlter(info).then(a => {
+				altered = a;
+				beforeStatus.level = info.level;
+				beforeStatus.job = info.job.name;
+				beforeStatus.exp = info.exp;
+				beforeStatus.maxExp = info.maxExp;
+				beforeStatus.hp = stats.currentHp.toFixed(1);
+				beforeStatus.maxHp = stats.maxHp;
+				beforeStatus.atk = stats.attackPoint;
+				beforeStatus.gold = info.gold;
+			}).then(() => {
+				NameLevelJob.textContent = `| Name: ${name} | Level: ${info.level} | Job: ${info.job.name} | `;
+				exp.textContent = ` EXP: ${info.exp}/${info.maxExp} |`;
+				hp.textContent = `HP: ${stats.currentHp.toFixed(1)}/${stats.maxHp} |`;
+				atk.textContent = `ATK: ${stats.attackPoint} |`;
+				gold.textContent = `GOLD: ${info.gold} |`;
+				console.log(altered);
+				for(const a of altered){
+					const blinkA =  document.querySelector(a);
+					blinkA.classList.add('blinking');
+					setTimeout(function(){
+						blinkA.classList.remove('blinking');
+					}, 495);
+				}
+				
+			});
+			socket.emit('memorizing user name', name);
+		})
 		
 		socket.on('next respond', (res) =>{
 			const msg = res.msg;
 			const type = res.type;
 			state = type;
 		//서버사이드 respond(현재상태, 다음 선택지) 출력
-			printChat(msg);
+			if(msg !== undefined){
+				printChat(msg);
+			}
 			switch(state){
 				case 'combat':
 					printChat("Enemy encountered!!");
-					socket.emit('combat encounter');
+					socket.emit('combat encounter', nameStored);
 					break;
-				case 'skill':
-					printChat("Skill set is below...");
+				case 'event':
+					printChat("Event encountered!!");
+					socket.emit('event encounter', nameStored);
 					break;
-				case 'item':
-					printChat("Items are below...");
+				case 'rest':
+					printChat("Rest encountered!!");
+					socket.emit('rest encounter', nameStored);
 					break;
-				case 'equip':
-					printChat("Equipments are below...");
+				case 'skills':
+					break;
+				case 'items':
+					break;
+				case 'equips':
+					break;
+				case 'moveOn':
+					break;
+				case 'shop':
+					
 					break;
 				default:
 					break;
 			}
 		});
 		
-		socket.on('result', (msg) =>{
+		socket.on('type', (type) =>{
 		//서버사이드 result(선택에 대한 결과 메시지) 출력
-			printChat(msg);
-			socket.emit('next request');
+			state = type;
 		});
 		
 		socket.on('choices', (res) =>{
@@ -96,51 +226,125 @@
 		
 		const combatChoices = new Map();
 		socket.on('combat choices', function (res) {
-				combatChoices.set(`${res.num}`, res.choice);
+			combatChoices.set(`${res.num}`, res.choice);
 		});
 		
-    socket.on('combat', function (msg) {
-      printChat(msg);
-    });
+		const eventChoices = new Map();
+		socket.on('event choices', function (res) {
+			eventChoices.set(`${res.num}`, res.choice);
+		});
 		
-		socket.on('combat result', function (msg){
+		const commandChoices = new Map();
+		socket.on('command choices', function (res) {
+			commandChoices.set(`${res.num}`, res.choice);
+		});
+		
+		const moveOnChoices = new Map();
+		socket.on('move on choices', function (res) {
+			moveOnChoices.set(`${res.num}`, res.choice);
+		});
+		
+		const shopItems = new Map();
+		socket.on('shop choices', function (res) {
+			shopItems.set(`${res.num}`, {"name": res.name, "cost": res.cost});
+		});
+		
+		socket.on('result', function (msg){
 			printChat(msg);
 			
-			socket.emit('next request');
-		})
-		
+			socket.emit('next request',nameStored);
+		});
+
 		form.addEventListener('submit', function (e) {
       e.preventDefault();
 			const msg = input.value;
 			console.log(msg);
       if (msg) {
 				if(msg[0] === '/'){
-					socket.emit('command', msg);
+					socket.emit('command', {msg: msg, name: nameStored});
 				}else if(msg === 'start'){
-					socket.emit('start', msg);
+					socket.emit('start', nameStored);
 				}else{
+					let choice;
 					switch(state){
 						case 'combat':
 							console.log(msg);
 							console.log(combatChoices);
-							const choice = combatChoices.get(msg);
+							choice = combatChoices.get(msg);
 							console.log(choice);
 							if(choice !== undefined){
-								socket.emit('combat', choice);
+								socket.emit('combat',{ choice: choice, name: nameStored});
+								combatChoices.clear();
 							}
 							break;
-						case 'skill':
-							socket.emit('decision', {type: 'skill', decision: msg});
+						case 'event':
+							console.log(msg);
+							console.log(eventChoices);
+							choice = eventChoices.get(msg);
+							console.log(choice);
+							if(choice !== undefined){
+								socket.emit('event', {choice: choice, name: nameStored});
+								eventChoices.clear();
+							}
 							break;
-						case 'item':
-							socket.emit('decision', {type: 'item', decision: msg});
+						case 'skills':
+							console.log(msg);
+							console.log(commandChoices);
+							choice = commandChoices.get(msg);
+							console.log(choice);
+							if(choice !== undefined){
+								socket.emit('decision', {type: 'skills', decision: choice, name: nameStored});
+								commandChoices.clear();
+							}
+							
 							break;
-						case 'equip':
-							socket.emit('decision', {type: 'equip', decision: msg});
+						case 'items':
+							console.log(msg);
+							console.log(commandChoices);
+							choice = commandChoices.get(msg);
+							console.log(choice);
+							if(choice !== undefined){
+								socket.emit('decision', {type: 'items', decision: choice, name: nameStored});
+								commandChoices.clear();
+							}
+							break;
+						case 'equips':
+							console.log(msg);
+							console.log(commandChoices);
+							choice = commandChoices.get(msg);
+							console.log(choice);
+							if(choice !== undefined){
+								socket.emit('decision', {type: 'equips', decision: choice, name: nameStored});
+								commandChoices.clear();
+							}
+
+							break;
+						case 'moveOn':
+							console.log(msg);
+							console.log(moveOnChoices);
+							choice = moveOnChoices.get(msg);
+							console.log(choice);
+							if(choice !== undefined){
+								socket.emit('decision', {type: 'moveOn', decision: choice, name: nameStored});
+								moveOnChoices.clear();
+							}
+
+							break;
+						case 'shop':
+							console.log(msg);
+							console.log(shopItems);
+							choice = shopItems.get(msg);
+							console.log(choice);
+							if(choice !== undefined && choice.cost < beforeStatus.gold){
+								socket.emit('decision', {type: 'shop', decision: choice, name: nameStored});
+								shopItems.clear();
+							}
+
 							break;
 						default:
+							const input = eventChoices.get(msg);
 							if(inputables.includes(msg)){
-								socket.emit('choice', msg);
+								socket.emit('choice', {choice: msg, name: nameStored});
 							}
 							break;
 					}

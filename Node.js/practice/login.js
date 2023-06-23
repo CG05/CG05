@@ -7,7 +7,6 @@ const jwt = require('jsonwebtoken');
 const bodyParser = require('body-parser');
 const exp = require('constants');
 const url = require('url');
-const { response } = require('express');
 const path = require("path");
 
 const app = express();

@@ -4,319 +4,539 @@
 		"type": "무기",
 		"rarity": "일반",
 		"job": "전사",
-		"stats": { "attackPoint": 5, "maxHp": 0 },
-		"chance": 50
+		"stats": { "attackPoint": 5, "maxHp": 20, "deffense": 0 },
+		"level": 1,
+		"set": ""
 	},
 	{
-		"name": "아이언 망치",
+		"name": "강철 검",
 		"type": "무기",
-		"rarity": "일반",
+		"rarity": "희귀",
 		"job": "전사",
-		"stats": { "attackPoint": 7, "maxHp": 0 },
-		"chance": 50
+		"stats": { "attackPoint": 10, "maxHp": 40, "deffense": 0 },
+		"level": 3,
+		"set": "레어"
+	},
+	{
+		"name": "미스릴 검",
+		"type": "무기",
+		"rarity": "영웅",
+		"job": "전사",
+		"stats": { "attackPoint": 25, "maxHp": 80, "deffense": 10 },
+		"level": 10,
+		"set": "미스릴"
 	},
 	{
 		"name": "가죽 투구",
 		"type": "모자",
 		"rarity": "일반",
 		"job": "전사",
-		"stats": { "attackPoint": 0, "maxHp": 5 },
-		"chance": 50
+		"stats": { "attackPoint": 0, "maxHp": 25, "deffense": 10 },
+		"level": 1,
+		"set": ""
 	},
 	{
 		"name": "철제 투구",
 		"type": "모자",
-		"rarity": "일반",
+		"rarity": "희귀",
 		"job": "전사",
-		"stats": { "attackPoint": 0, "maxHp": 7 },
-		"chance": 50
+		"stats": { "attackPoint": 0, "maxHp": 50, "deffense": 15 },
+		"level": 3,
+		"set": "레어"
+	},
+	{
+		"name": "미스릴 투구",
+		"type": "모자",
+		"rarity": "영웅",
+		"job": "전사",
+		"stats": { "attackPoint": 0, "maxHp": 100, "deffense": 20 },
+		"level": 10,
+		"set": "미스릴"
 	},
 	{
 		"name": "가죽 갑옷",
 		"type": "상의",
 		"rarity": "일반",
 		"job": "전사",
-		"stats": { "attackPoint": 0, "maxHp": 10 },
-		"chance": 50
+		"stats": { "attackPoint": 0, "maxHp": 35, "deffense": 5 },
+		"level": 1,
+		"set": ""
 	},
 	{
 		"name": "사슬 갑옷",
 		"type": "상의",
+		"rarity": "희귀",
+		"job": "전사",
+		"stats": { "attackPoint": 0, "maxHp": 80, "deffense": 10 },
+		"level": 3,
+		"set": "레어"
+	},
+	{
+		"name": "미스릴 갑옷 상의",
+		"type": "상의",
+		"rarity": "영웅",
+		"job": "전사",
+		"stats": { "attackPoint": 0, "maxHp": 150, "deffense": 15 },
+		"level": 3,
+		"set": "미스릴"
+	},
+	{
+		"name": "가죽 갑옷 하의",
+		"type": "하의",
 		"rarity": "일반",
 		"job": "전사",
-		"stats": { "attackPoint": 0, "maxHp": 12 },
-		"chance": 50
+		"stats": { "attackPoint": 0, "maxHp": 35, "deffense": 5 },
+		"level": 1,
+		"set": ""
 	},
 	{
 		"name": "사슬 바지",
 		"type": "하의",
-		"rarity": "일반",
+		"rarity": "희귀",
 		"job": "전사",
-		"stats": { "attackPoint": 0, "maxHp": 8 },
-		"chance": 50
+		"stats": { "attackPoint": 0, "maxHp": 80, "deffense": 10 },
+		"level": 3,
+		"set": "레어"
 	},
 	{
-		"name": "가죽 바지",
+		"name": "미스릴 갑옷 하의",
 		"type": "하의",
-		"rarity": "일반",
+		"rarity": "영웅",
 		"job": "전사",
-		"stats": { "attackPoint": 0, "maxHp": 10 },
-		"chance": 50
+		"stats": { "attackPoint": 0, "maxHp": 150, "deffense": 15 },
+		"level": 10,
+		"set": "미스릴"
 	},
 	{
-		"name": "가죽 부츠",
+		"name": "가죽 갑옷 신발",
 		"type": "신발",
 		"rarity": "일반",
 		"job": "전사",
-		"stats": { "attackPoint": 0, "maxHp": 5 },
-		"chance": 50
+		"stats": { "attackPoint": 0, "maxHp": 25, "deffense": 10 },
+		"level": 10,
+		"set": ""
 	},
 	{
 		"name": "철제 부츠",
 		"type": "신발",
-		"rarity": "일반",
+		"rarity": "희귀",
 		"job": "전사",
-		"stats": { "attackPoint": 0, "maxHp": 7 },
-		"chance": 50
+		"stats": { "attackPoint": 0, "maxHp": 50, "deffense": 15 },
+		"level": 3,
+		"set": "레어"
+	},
+	{
+		"name": "미스릴 부츠",
+		"type": "신발",
+		"rarity": "영웅",
+		"job": "전사",
+		"stats": { "attackPoint": 0, "maxHp": 100, "deffense": 20 },
+		"level": 10,
+		"set": "미스릴"
 	},
 	{
 		"name": "월계수 활",
 		"type": "무기",
 		"rarity": "일반",
 		"job": "궁수",
-		"stats": { "attackPoint": 5, "maxHp": 0 },
-		"chance": 50
+		"stats": { "attackPoint": 6, "maxHp": 0, "deffense": 0 },
+		"level": 1,
+		"set": ""
 	},
 	{
-		"name": "나무 석궁",
+		"name": "철제 석궁",
 		"type": "무기",
-		"rarity": "일반",
+		"rarity": "희귀",
 		"job": "궁수",
-		"stats": { "attackPoint": 7, "maxHp": 0 },
-		"chance": 50
+		"stats": { "attackPoint": 13, "maxHp": 0, "deffense": 0 },
+		"level": 3,
+		"set": "레어"
+	},
+	{
+		"name": "정령의 활",
+		"type": "무기",
+		"rarity": "영웅",
+		"job": "궁수",
+		"stats": { "attackPoint": 30, "maxHp": 0, "deffense": 0 },
+		"level": 10,
+		"set": "정령"
 	},
 	{
 		"name": "가죽 모자",
 		"type": "모자",
 		"rarity": "일반",
 		"job": "궁수",
-		"stats": { "attackPoint": 0, "maxHp": 5 },
-		"chance": 50
+		"stats": { "attackPoint": 0, "maxHp": 25, "deffense": 0 },
+		"level": 1,
+		"set": ""
 	},
 	{
 		"name": "비단 복면",
 		"type": "모자",
-		"rarity": "일반",
+		"rarity": "희귀",
 		"job": "궁수",
-		"stats": { "attackPoint": 0, "maxHp": 7 },
-		"chance": 50
+		"stats": { "attackPoint": 0, "maxHp": 30, "deffense": 5 },
+		"level": 3,
+		"set": "레어"
 	},
 	{
-		"name": "가죽 갑옷",
+		"name": "불사조깃털 실크햇",
+		"type": "모자",
+		"rarity": "영웅",
+		"job": "궁수",
+		"stats": { "attackPoint": 0, "maxHp": 70, "deffense": 10 },
+		"level": 10,
+		"set": "정령"
+	},
+	{
+		"name": "가죽 재킷",
 		"type": "상의",
 		"rarity": "일반",
 		"job": "궁수",
-		"stats": { "attackPoint": 0, "maxHp": 10 },
-		"chance": 50
+		"stats": { "attackPoint": 0, "maxHp": 35, "deffense": 0 },
+		"level": 1,
+		"set": ""
 	},
 	{
 		"name": "캔버스 조끼",
 		"type": "상의",
-		"rarity": "일반",
+		"rarity": "희귀",
 		"job": "궁수",
-		"stats": { "attackPoint": 0, "maxHp": 12 },
-		"chance": 50
+		"stats": { "attackPoint": 0, "maxHp": 40, "deffense": 3 },
+		"level": 3,
+		"set": "레어"
+	},
+	{
+		"name": "오색조깃털 가죽재킷",
+		"type": "상의",
+		"rarity": "영웅",
+		"job": "궁수",
+		"stats": { "attackPoint": 0, "maxHp": 90, "deffense": 5 },
+		"level": 3,
+		"set": "정령"
 	},
 	{
 		"name": "가죽 바지",
 		"type": "하의",
 		"rarity": "일반",
 		"job": "궁수",
-		"stats": { "attackPoint": 0, "maxHp": 8 },
-		"chance": 50
+		"stats": { "attackPoint": 0, "maxHp": 35, "deffense": 0 },
+		"level": 1,
+		"set": ""
 	},
 	{
-		"name": "천 바지",
+		"name": "고급천 바지",
 		"type": "하의",
-		"rarity": "일반",
+		"rarity": "희귀",
 		"job": "궁수",
-		"stats": { "attackPoint": 0, "maxHp": 10 },
-		"chance": 50
+		"stats": { "attackPoint": 0, "maxHp": 40, "deffense": 3 },
+		"level": 3,
+		"set": "레어"
+	},
+	{
+		"name": "물새깃털 바지",
+		"type": "하의",
+		"rarity": "영웅",
+		"job": "궁수",
+		"stats": { "attackPoint": 0, "maxHp": 90, "deffense": 5 },
+		"level": 3,
+		"set": "정령"
 	},
 	{
 		"name": "가죽 부츠",
 		"type": "신발",
 		"rarity": "일반",
 		"job": "궁수",
-		"stats": { "attackPoint": 0, "maxHp": 5 },
-		"chance": 50
+		"stats": { "attackPoint": 0, "maxHp": 25, "deffense": 0 },
+		"level": 1,
+		"set": ""
 	},
 	{
 		"name": "천 신발",
 		"type": "신발",
-		"rarity": "일반",
+		"rarity": "희귀",
 		"job": "궁수",
-		"stats": { "attackPoint": 0, "maxHp": 7 },
-		"chance": 50
+		"stats": { "attackPoint": 0, "maxHp": 30, "deffense": 5 },
+		"level": 3,
+		"set": "레어"
+	},
+	{
+		"name": "독수리깃털 부츠",
+		"type": "신발",
+		"rarity": "영웅",
+		"job": "궁수",
+		"stats": { "attackPoint": 0, "maxHp": 70, "deffense": 10 },
+		"level": 3,
+		"set": "정령"
 	},
 	{
 		"name": "단도",
 		"type": "무기",
 		"rarity": "일반",
 		"job": "도적",
-		"stats": { "attackPoint": 5, "maxHp": 0 },
-		"chance": 50
+		"stats": { "attackPoint": 10, "maxHp": 0, "deffense": 0 },
+		"level": 1,
+		"set": ""
 	},
 	{
 		"name": "돌검",
 		"type": "무기",
-		"rarity": "일반",
+		"rarity": "희귀",
 		"job": "도적",
-		"stats": { "attackPoint": 7, "maxHp": 0 },
-		"chance": 50
+		"stats": { "attackPoint": 15, "maxHp": 0, "deffense": 0 },
+		"level": 3,
+		"set": "레어"
 	},
 	{
-		"name": "가죽 모자",
+		"name": "암살용 단검",
+		"type": "무기",
+		"rarity": "영웅",
+		"job": "도적",
+		"stats": { "attackPoint": 35, "maxHp": 0, "deffense": 0 },
+		"level": 3,
+		"set": "칠흑"
+	},
+	{
+		"name": "가죽 슈트 상의",
 		"type": "모자",
 		"rarity": "일반",
 		"job": "도적",
-		"stats": { "attackPoint": 0, "maxHp": 5 },
-		"chance": 50
+		"stats": { "attackPoint": 0, "maxHp": 25, "deffense": 0 },
+		"level": 1,
+		"set": ""
 	},
 	{
-		"name": "천 모자",
+		"name": "천 비니",
 		"type": "모자",
-		"rarity": "일반",
+		"rarity": "희귀",
 		"job": "도적",
-		"stats": { "attackPoint": 0, "maxHp": 7 },
-		"chance": 50
+		"stats": { "attackPoint": 0, "maxHp": 35, "deffense": 3 },
+		"level": 3,
+		"set": "레어"
+	},
+	{
+		"name": "검은 위장복면",
+		"type": "모자",
+		"rarity": "영웅",
+		"job": "도적",
+		"stats": { "attackPoint": 0, "maxHp": 55, "deffense": 7 },
+		"level": 10,
+		"set": "칠흑"
 	},
 	{
 		"name": "가죽 갑옷",
 		"type": "상의",
 		"rarity": "일반",
 		"job": "도적",
-		"stats": { "attackPoint": 0, "maxHp": 10 },
-		"chance": 50
+		"stats": { "attackPoint": 0, "maxHp": 30, "deffense": 0 },
+		"level": 1,
+		"set": ""
 	},
 	{
-		"name": "천 갑옷",
+		"name": "경량형 천 갑옷",
 		"type": "상의",
-		"rarity": "일반",
+		"rarity": "희귀",
 		"job": "도적",
-		"stats": { "attackPoint": 0, "maxHp": 12 },
-		"chance": 50
+		"stats": { "attackPoint": 0, "maxHp": 40, "deffense": 0 },
+		"level": 3,
+		"set": "레어"
 	},
 	{
-		"name": "가죽 바지",
+		"name": "검은 기능성 슈트",
+		"type": "상의",
+		"rarity": "영웅",
+		"job": "도적",
+		"stats": { "attackPoint": 0, "maxHp": 60, "deffense": 5 },
+		"level": 10,
+		"set": "칠흑"
+	},
+	{
+		"name": "가죽 슈트 바지",
 		"type": "하의",
 		"rarity": "일반",
 		"job": "도적",
-		"stats": { "attackPoint": 0, "maxHp": 8 },
-		"chance": 50
+		"stats": { "attackPoint": 0, "maxHp": 30, "deffense": 0 },
+		"level": 1,
+		"set": ""
 	},
 	{
-		"name": "천 바지",
+		"name": "천 슈트 바지",
 		"type": "하의",
-		"rarity": "일반",
+		"rarity": "희귀",
 		"job": "도적",
-		"stats": { "attackPoint": 0, "maxHp": 10 },
-		"chance": 50
+		"stats": { "attackPoint": 0, "maxHp": 40, "deffense": 0 },
+		"level": 3,
+		"set": "레어"
 	},
 	{
-		"name": "가죽 부츠",
+		"name": "검은 기능성 바지",
+		"type": "하의",
+		"rarity": "영웅",
+		"job": "도적",
+		"stats": { "attackPoint": 0, "maxHp": 60, "deffense": 5 },
+		"level": 10,
+		"set": "칠흑"
+	},
+	{
+		"name": "가죽 샌들",
 		"type": "신발",
 		"rarity": "일반",
 		"job": "도적",
-		"stats": { "attackPoint": 0, "maxHp": 5 },
-		"chance": 50
+		"stats": { "attackPoint": 0, "maxHp": 25, "deffense": 0 },
+		"level": 1,
+		"set": ""
 	},
 	{
-		"name": "천 신발",
+		"name": "경량형 천 신발",
 		"type": "신발",
-		"rarity": "일반",
+		"rarity": "희귀",
 		"job": "도적",
-		"stats": { "attackPoint": 0, "maxHp": 7 },
-		"chance": 50
+		"stats": { "attackPoint": 0, "maxHp": 35, "deffense": 3 },
+		"level": 3,
+		"set": "레어"
+	},
+	{
+		"name": "검은 기능성 부츠",
+		"type": "신발",
+		"rarity": "영웅",
+		"job": "도적",
+		"stats": { "attackPoint": 0, "maxHp": 55, "deffense": 7 },
+		"level": 10,
+		"set": "칠흑"
 	},
 	{
 		"name": "나무 완드",
 		"type": "무기",
 		"rarity": "일반",
 		"job": "마법사",
-		"stats": { "attackPoint": 5, "maxHp": 0 },
-		"chance": 50
+		"stats": { "attackPoint": 10, "maxHp": 0, "deffense": 0 },
+		"level": 1,
+		"set": ""
 	},
 	{
 		"name": "덩쿨 스태프",
 		"type": "무기",
-		"rarity": "일반",
+		"rarity": "희귀",
 		"job": "마법사",
-		"stats": { "attackPoint": 7, "maxHp": 0 },
-		"chance": 50
+		"stats": { "attackPoint": 25, "maxHp": 0, "deffense": 0 },
+		"level": 3,
+		"set": "레어"
 	},
 	{
-		"name": "천 모자",
+		"name": "아케인 스태프",
+		"type": "무기",
+		"rarity": "영웅",
+		"job": "마법사",
+		"stats": { "attackPoint": 40, "maxHp": 0, "deffense": 0 },
+		"level": 10,
+		"set": "아케인"
+	},
+	{
+		"name": "천 마법모자",
 		"type": "모자",
 		"rarity": "일반",
 		"job": "마법사",
-		"stats": { "attackPoint": 0, "maxHp": 5 },
-		"chance": 50
+		"stats": { "attackPoint": 0, "maxHp": 25, "deffense": 0 },
+		"level": 1,
+		"set": ""
 	},
 	{
 		"name": "비단 모자",
 		"type": "모자",
-		"rarity": "일반",
+		"rarity": "희귀",
 		"job": "마법사",
-		"stats": { "attackPoint": 0, "maxHp": 7 },
-		"chance": 50
+		"stats": { "attackPoint": 0, "maxHp": 35, "deffense": 3 },
+		"level": 3,
+		"set": "레어"
 	},
 	{
-		"name": "천 상의",
+		"name": "화속강 마법모자",
+		"type": "모자",
+		"rarity": "영웅",
+		"job": "마법사",
+		"stats": { "attackPoint": 17, "maxHp": 50, "deffense": 5 },
+		"level": 10,
+		"set": "아케인"
+	},
+	{
+		"name": "천 마법상의",
 		"type": "상의",
 		"rarity": "일반",
 		"job": "마법사",
-		"stats": { "attackPoint": 0, "maxHp": 10 },
-		"chance": 50
+		"stats": { "attackPoint": 0, "maxHp": 30, "deffense": 0 },
+		"level": 1,
+		"set": ""
 	},
 	{
 		"name": "비단 상의",
 		"type": "상의",
-		"rarity": "일반",
+		"rarity": "희귀",
 		"job": "마법사",
-		"stats": { "attackPoint": 0, "maxHp": 12 },
-		"chance": 50
+		"stats": { "attackPoint": 0, "maxHp": 40, "deffense": 0 },
+		"level": 3,
+		"set": "레어"
 	},
 	{
-		"name": "천 바지",
+		"name": "토속강 마법상의",
+		"type": "상의",
+		"rarity": "영웅",
+		"job": "마법사",
+		"stats": { "attackPoint": 0, "maxHp": 100, "deffense": 40 },
+		"level": 10,
+		"set": "아케인"
+	},
+	{
+		"name": "천 마법바지",
 		"type": "하의",
 		"rarity": "일반",
 		"job": "마법사",
-		"stats": { "attackPoint": 0, "maxHp": 8 },
-		"chance": 50
+		"stats": { "attackPoint": 0, "maxHp": 30, "deffense": 0 },
+		"level": 1,
+		"set": ""
 	},
 	{
 		"name": "비단 바지",
 		"type": "하의",
-		"rarity": "일반",
+		"rarity": "희귀",
 		"job": "마법사",
-		"stats": { "attackPoint": 0, "maxHp": 10 },
-		"chance": 50
+		"stats": { "attackPoint": 0, "maxHp": 40, "deffense": 0 },
+		"level": 3,
+		"set": "레어"
 	},
 	{
-		"name": "천 부츠",
+		"name": "수속강 마법바지",
+		"type": "하의",
+		"rarity": "영웅",
+		"job": "마법사",
+		"stats": { "attackPoint": 0, "maxHp": 80, "deffense": 15 },
+		"level": 10,
+		"set": "아케인"
+	},
+	{
+		"name": "천 마법부츠",
 		"type": "신발",
 		"rarity": "일반",
 		"job": "마법사",
-		"stats": { "attackPoint": 0, "maxHp": 5 },
-		"chance": 50
+		"stats": { "attackPoint": 0, "maxHp": 25, "deffense": 0 },
+		"level": 1,
+		"set": ""
 	},
 	{
 		"name": "비단 부츠",
 		"type": "신발",
-		"rarity": "일반",
+		"rarity": "희귀",
 		"job": "마법사",
-		"stats": { "attackPoint": 0, "maxHp": 7 },
-		"chance": 50
+		"stats": { "attackPoint": 0, "maxHp": 35, "deffense": 3 },
+		"level": 3,
+		"set": "레어"
+	},
+	{
+		"name": "풍속강 마법부츠",
+		"type": "신발",
+		"rarity": "영웅",
+		"job": "마법사",
+		"stats": { "attackPoint": 13, "maxHp": 55, "deffense": 15 },
+		"level": 10,
+		"set": "아케인"
 	}
 ]

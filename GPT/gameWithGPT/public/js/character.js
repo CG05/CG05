@@ -46,7 +46,7 @@ class Character {
 
 	setStats(deltaStats) {
 		for (const key in deltaStats) {
-			if (deltaStats.hasOwnProperty(key)) {
+			if (this._stats.hasOwnProperty(key)) {
 				this._stats[key] += deltaStats[key];
 			}
 		}
@@ -55,30 +55,41 @@ class Character {
 	get skills() {
 		return this._skills;
 	}
-
-	addSkill(skill) {
-		const {
-			name: name,
-			effect: effect,
-			defaultDamage: defaultDamage,
-			increasePerLevel: increasePerLevel,
-			damageFactor: damageFactor,
-			cooldown: cooldown,
-		} = skill.getSkillInfo();
-		const newSkill = {
-			name: name,
-			level: 1,
-			effect: effect,
-			defaultDamage: defaultDamage,
-			increasePerLevel: increasePerLevel,
-			damageFactor: damageFactor,
-			cooldown: cooldown,
+	
+	findSkill(skillName){
+		for(const skill of this._skills){
+			if(skill.name === skillName){
+				return skill;
+			}
 		}
-		this._skill.push(newSkill);
+	}
+	
+	averageSkillLevel(lastSkills){
+		let sum = 0;
+		for(const skill of lastSkills){
+			sum += skill.level;
+		}
+		return sum / lastSkills.length;
+	}
+
+	addSkill(skill, lastSkills) {
+		console.log(this.averageSkillLevel(lastSkills));
+		const newSkill = {
+			name: skill.name,
+			level: Math.floor(this.averageSkillLevel(lastSkills)),
+			effect: skill.effect,
+			defaultDamage: skill.defaultDamage,
+			increasePerLevel: skill.increasePerLevel,
+			damageFactor: skill.damageFactor,
+			attackTimes: skill.attackTimes,
+			cooltime: skill.cooltime,
+			currentCool: 0
+		}
+		this._skills.push(newSkill);
 	}
 
 	increaseSkillLevel(skillName) {
-		const skill = this._skill.find((s) => s.name === skillName);
+		const skill = this.findSkill(skillName);
 
 		// 해당 객체가 존재하면 level 속성 값을 1 증가시킵니다.
 		if (skill) {
@@ -88,18 +99,39 @@ class Character {
 			console.log(`${skillName}을(를) 배우지 않았습니다.`);
 		}
 	}
-
-	defaultAttack(targetInfo) {
+	
+	skillUsed(skillName){
+		const skill = this.findSkill(skillName);
+		
+		skill.currentCool = skill.cooltime;
+	}
+	
+	skillCooldown(){
+		for(const skill of this._skills){
+			if(skill.currentCool > 0){
+				skill.currentCool -= 1;
+			}
+		}
+	}
+	
+	skillCooltimeReset(){
+		for(const skill of this._skills){
+			skill.currentCool = 0;
+			
+		}
+	}
+	async defaultAttack(targetInfo) {
 		const target = this.targetSetting(targetInfo);
-		const damage = this.defaultAttackDamage(targetInfo);
+		const damage = await this.defaultAttackDamage(targetInfo);
 		target.takeDamage(damage);
 		console.log(
-			`${targetInfo.name}에게 기본공격으로 ${damage}만큼의 피해를 입혔습니다.`
+			`${targetInfo.name}에게 기본공격으로 ${damage.toFixed(1)}만큼의 피해를 입혔습니다.`
 		);
 	}
 
-	defaultAttackDamage(targetInfo) {
-		const target = this.targetSetting(targetInfo);
+	async defaultAttackDamage(targetInfo) {
+		return new Promise((res, rej) => {
+			const target = this.targetSetting(targetInfo);
 		// const damage = this.criticalProcedure(this._stats.attackPoint * this._stats.damageAmplify);
 		const damage = this._stats.attackPoint * this._stats.damageAmplify;
 		const targetStats = target.getCharacterInfo().stats;
@@ -107,28 +139,32 @@ class Character {
 		console.log(this.damageReduce(targetDeffense));
 		const resultDamage = damage * this.damageReduce(targetDeffense);
 
-		return resultDamage.toFixed(1);
+		res(resultDamage);
+		});
+		
 	}
 
-	skillAttack(skill, targetInfo) {
+	async skillAttack(skill, targetInfo) {
 		const target = this.targetSetting(targetInfo);
-		const damage = this.skillAttackDamage(skill, targetInfo);
+		const damage = await this.skillAttackDamage(skill, targetInfo);
 		target.takeDamage(damage);
 		console.log(
-			`${targetInfo.name}에게 ${skill.name}(으)로 ${damage}만큼의 피해를 입혔습니다.`
+			`${targetInfo.name}에게 ${skill.name}(으)로 ${damage.toFixed(1)}만큼의 피해를 입혔습니다.`
 		);
 	}
 
-	skillAttackDamage(skill, targetInfo) {
+	async skillAttackDamage(skill, targetInfo) {
+		return new Promise((res, rej) => {
 		const target = this.targetSetting(targetInfo);
 		const damage1 =
-			skill.defaultDamage + this._stats.attackPoint * skill.damageFactor * this._stats.damageAmplify;
+			(skill.defaultDamage + (skill.level - 1) * skill.increasePerLevel + this._stats.attackPoint * skill.damageFactor) * this._stats.damageAmplify;
 		// const damage2 = this.criticalProcedure(damage1);
 		const targetStats = target.getCharacterInfo().stats;
 		const targetDeffense = targetStats.deffense - this._stats.deffensePierce;
 		// return damage2 * this.damageReduce(targetDeffense);
 		const resultDamage = damage1 * this.damageReduce(targetDeffense);
-		return resultDamage.toFixed(1);
+		res(resultDamage);
+		});
 	}
 
 	// criticalProcedure(damage) {
@@ -152,7 +188,12 @@ class Character {
 	}
 	
 	heal(amount){
-		this._stats.currentHp += amount;
+		const isOverMaxHp = this._stats.currentHp + amount > this._stats.maxHp;
+		if(isOverMaxHp){
+			this._stats.currentHp = this._stats.maxHp;
+		}else{
+			this._stats.currentHp += amount;
+		}
 	}
 	
 	hpReset(){

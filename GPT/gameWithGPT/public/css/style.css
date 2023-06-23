@@ -5,6 +5,66 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
+header{
+	position: sticky;
+  top: 0px; /* 도달했을때 고정시킬 위치 */
+	background: darkgray;
+	width: 100%;
+	opacity: 1;
+	z-index: 5;
+}
+
+.player-status {
+  height: 25px;
+	font-size: 20px;
+  color: white;
+  background: darkgray;
+  font-weight: bold;
+  display: inline;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+	margin: 0;
+	padding: 0;
+	opacity: 1;
+}
+
+.status {
+  height: 25px;
+	font-size: 20px;
+  color: orange;
+  background: black;
+  font-weight: bold;
+  display: inline;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+	margin: 0;
+	padding: 0;
+	opacity: 1;
+}
+
+.blinking{
+  -webkit-animation: blink 0.5s ease-in-out infinite alternate;
+  -moz-animation: blink 0.5s ease-in-out infinite alternate;
+  animation: blink 0.5s ease-in-out infinite alternate;
+}
+
+@-webkit-keyframes blink{
+  0% {opacity: 0;}
+  100% {opacity: 1;}
+}
+
+@-moz-keyframes blink{
+  0% {opacity: 0;}
+  100% {opacity: 1;}
+}
+
+@keyframes blink{
+  0% {opacity: 0;}
+  100% {opacity: 1;}
+}
+
 .hidden {
   display: none;
 }
@@ -13,6 +73,7 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+	position: relative;
 }
 
 input {
@@ -20,7 +81,6 @@ input {
   line-height: 48px;
   width: 200px;
   margin: 0;
-  padding: 0;
   margin: 3px 0px;
 }
 
@@ -52,6 +112,7 @@ input {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+	position: relative;
 }
 
 .signUp-form>button#signUp {
@@ -66,6 +127,9 @@ input {
   font-size: 16px;
 }
 
+.chat{
+	position: relative;
+}
 .chat>ul#messages {
   list-style-type: none;
   margin: 0;
@@ -74,6 +138,7 @@ input {
 
 .chat>ul#messages>li {
   padding: 0.5rem 1rem;
+	font-size: 90%
 }
 
 .chat>ul#messages>li:nth-child(odd) {
