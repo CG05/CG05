@@ -6,6 +6,9 @@ yarn-error.log*
 lerna-debug.log*
 .pnpm-debug.log*
 Node.js/node_modules/
+React/node_modules/
+React/Project/node_modules/
+
 session-practice/node_modules/
 .env
 .temp

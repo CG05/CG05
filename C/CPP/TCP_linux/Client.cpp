@@ -32,7 +32,7 @@ int main(int argc, char** argv){
 	}
 	memset(&serv_addr, 0, sizeof(serv_addr));
 	serv_addr.sin_family= AF_INET;
-	serv_addr.sin_addr.s_addr= inet_addr("172.17.0.42");
+	serv_addr.sin_addr.s_addr= inet_addr("172.17.0.7");
 	serv_addr.sin_port = htons(3000);
 	
 	int result = 0;

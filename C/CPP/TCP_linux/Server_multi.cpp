@@ -46,7 +46,7 @@ int main(int argc, char** argv){
 		printf("listen error\n");
 	}
 	long int serv_ip =serv_addr.sin_addr.s_addr;
-	printf("172.17.0.42 : %d Server Setup\n", PORT_NUM);
+	printf("172.17.0.7 : %d Server Setup\n", PORT_NUM);
 	
 	struct sockaddr_in clnt_addr;
 	unsigned int clnt_addr_size;

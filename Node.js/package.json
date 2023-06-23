@@ -13,7 +13,6 @@
     "constant": "file:../../.nvm/versions/node/v18.2.0/lib/node_modules/constant",
     "dotenv": "file:../../.nvm/versions/node/v18.2.0/lib/node_modules/dotenv",
     "ejs": "file:../../.nvm/versions/node/v18.2.0/lib/node_modules/ejs",
-    "express": "file:../../.nvm/versions/node/v18.2.0/lib/node_modules/express",
     "http": "file:../../.nvm/versions/node/v18.2.0/lib/node_modules/http",
     "jsonwebtoken": "file:../../.nvm/versions/node/v18.2.0/lib/node_modules/jsonwebtoken",
     "mysql": "file:../../.nvm/versions/node/v18.2.0/lib/node_modules/mysql",
