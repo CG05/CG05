@@ -1,4 +1,5 @@
 const fs = require('fs');
+const path = require('path');
 const {Character} = require('./character.js');
 const playerModule = require('./player.js');
 const { Stats } = require('./stats.js');
@@ -36,49 +37,49 @@ class Enemy extends Character {
 
 	targetSetting(info) {
 		const Player = playerModule.Player;
-		const targetData = () => {
-			return new Player(
-				info.name,
-				info.level,
-				info.maxExp,
-				info.exp,
-				info.job,
-				info.stats,
-				info.skills,
-				info.currentPosition,
-				info.items,
-				new Equips(info.equipment)
-			);
-		}
-		return targetData();
+		const equips = new Equips(info.equipments);
+  const stats = new Stats(info.stats);
+  const setting = () => {
+    return new Player(
+      info.name,
+      info.level,
+      info.maxExp,
+      info.exp,
+      info.job,
+      stats,
+      info.skills,
+      info.currentPosition,
+      info.items,
+      equips,
+      info.gold,
+      info.shopCount,
+      info.needMoveOn,
+      info.focusItem
+    );
+  };
+  const targetData = setting();
+		return targetData;
 	}
 }
 
 // 전체 몬스터 목록을 담은 배열
 
 async function loadEnemies() {
-	const response = await fs.readFileSync('../../Database/enemies.json');
+	const response = await fs.readFileSync(path.join(__dirname, "../database/enemies.json"));
 	const enemiesData = await JSON.parse(response);
 
 	const _enemies = [];
 	return new Promise((res, rej) => {
 		for (const data of enemiesData) {
 			const dataStats = data.stats;
-			const stats = new Stats(
-				dataStats.maxHp,
-				dataStats.currentHp,
-				dataStats.attackPoint,
-				dataStats.deffense,
-				dataStats.deffensePierce,
-				dataStats.damageAmplify
-			);
+			const stats = new Stats(dataStats);
 			const enemy = new Enemy(
 				data.name,
 				data.level,
 				data.type,
 				data.rarity,
 				data.job,
-				data.stats,
+				stats,
 				data.skills
 			);
 			_enemies.push(enemy);

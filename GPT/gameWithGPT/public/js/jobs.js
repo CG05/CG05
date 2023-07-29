@@ -1,4 +1,5 @@
 const fs = require('fs');
+const path = require('path');
 
 // 전직 정보와 스킬을 담을 클래스
 class Job {
@@ -13,7 +14,7 @@ class Job {
 
 // 전직 정보와 스킬을 담은 배열
 async function loadJobs() {
-  const response = await fs.readFileSync("../../Database/jobs.json");
+  const response = await fs.readFileSync(path.join(__dirname, "../database/jobs.json"));
   const jobsData = await JSON.parse(response);
   
 	const _jobs = [];

@@ -9,8 +9,8 @@
   <link rel="stylesheet" href="/css/style.css" />
   <title>socketChat</title>
 </head>
-
 <body>
+	
 	<header class="player-status hidden" >
 		<a class="NameLevelJob status"></a><a class="exp status"></a><a class="hp status"></a><a class="atk status"></a><a class="gold status"></a>
 	</header>
@@ -45,11 +45,17 @@
     var input = document.querySelector('.chat input');
 		const HIDDEN_CLASSNAME = 'hidden';
 		var s = document.querySelector('.chat input');
+		const audioElement = document.createElement("audio");
+	audioElement.autoplay = true;
+	audioElement.loop = true;
+	audioElement.volume = 0.2;
+	
 		var state = 'default';
 		var inputables = [];
 		var nameStored = "undefined";
 		var beforeStatus = {level: 0, job: "", exp: 0, maxExp: 0, hp: 0, maxHp: 0, atk: 0, gold: 0};
-		
+		var floor = 0;
+
 		function printChat(msg, type){
 			let _msg = msg;
 		  var item = document.createElement('li');
@@ -104,6 +110,8 @@
 			status.classList.remove(HIDDEN_CLASSNAME);
 			var NameLevelJob = document.querySelector('.NameLevelJob');
 			NameLevelJob.textContent = `| Name: ${msg.name} |`;
+			audioElement.src = '/src/login.mp3';
+
     });
 		
 		socket.on('text', (res) => {
@@ -179,6 +187,10 @@
 			const msg = res.msg;
 			const type = res.type;
 			state = type;
+			const isboss = res.isboss;
+			const nextFloor = res.nextFloor
+			console.log(isboss);
+			console.log(nextFloor);
 		//서버사이드 respond(현재상태, 다음 선택지) 출력
 			if(msg !== undefined){
 				printChat(msg);
@@ -187,6 +199,9 @@
 				case 'combat':
 					printChat("Enemy encountered!!");
 					socket.emit('combat encounter', nameStored);
+					if(isboss){
+					audioElement.src = `/src/boss${nextFloor}.mp3`;
+				} 
 					break;
 				case 'event':
 					printChat("Event encountered!!");
@@ -208,6 +223,11 @@
 					
 					break;
 				default:
+				if(nextFloor > floor){
+					audioElement.src = `/src/floor${nextFloor}.mp3`;
+					boss = false;
+					floor = nextFloor;
+				}
 					break;
 			}
 		});

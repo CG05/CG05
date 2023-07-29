@@ -12,6 +12,7 @@ const signUpPwInput = document.querySelector('.signUp-form input.pw');
 const signUpCheckInput = document.querySelector('.signUp-form input.check');
 const signUpSubmit = document.querySelector('.signUp-form button#signUp');
 const chat = document.querySelector('div.chat');
+const audioElement = document.querySelector("audio");
 
 const HIDDEN_CLASSNAME = 'hidden';
 const USERID_KEY = 'userId';

@@ -1,4 +1,5 @@
 const fs = require('fs');
+const path = require('path');
 
 // 전체 아이템 목록을 담을 클래스
 class Item {
@@ -15,7 +16,7 @@ class Item {
 // 전체 아이템 목록을 담은 배열
 
 async function loadItems() {
-  const response = await fs.readFileSync("../../Database/items.json");
+  const response = await fs.readFileSync(path.join(__dirname, "../database/items.json"));
   const itemsData = await JSON.parse(response);
   const items = [];
   for (const data of itemsData) {
@@ -25,7 +26,7 @@ async function loadItems() {
   return items;
 }
 async function loadBossItems() {
-  const response = await fs.readFileSync("../../Database/bossItems.json");
+  const response = await fs.readFileSync(path.join(__dirname, "../database/bossItems.json"));
   const itemsData = await JSON.parse(response);
   const items = [];
   for (const data of itemsData) {

@@ -1,13 +1,13 @@
 class Stats {
-	constructor(maxHp, currentHp, attackPoint, deffense, deffensePierce, damageAmplify, criticalChance, criticalDamage) {
-		this.maxHp = maxHp;
-		this.currentHp = currentHp;
-		this.attackPoint = attackPoint;
-		this.deffense = deffense;
-		this.deffensePierce = deffensePierce;
-		this.damageAmplify = damageAmplify;
-		this.criticalChance = criticalChance;
-		this.criticalDamage = criticalDamage;
+	constructor(stats) {
+		this.maxHp = stats.maxHp;
+		this.currentHp = stats.currentHp;
+		this.attackPoint = stats.attackPoint;
+		this.deffense = stats.deffense;
+		this.deffensePierce = stats.deffensePierce;
+		this.damageAmplify = stats.damageAmplify;
+		this.criticalChance = stats.criticalChance;
+		this.criticalDamage = stats.criticalDamage;
 	}
 	
 }

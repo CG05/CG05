@@ -25,34 +25,34 @@ class Player extends Character {
 
 	}
 	
-	async setCheck(){
-		const setEffectsList = await setEffects;
-		const setMap = this.equipments.checkSetEffect();
-		setMap.forEach((value, key) =>{
-			for(const setEffect of setEffectsList){
-				if(setEffect.set === key && setEffect.num === value){
-					setMap.set(key, setEffect);
-				}
-			}
-		});
-		return setMap;
+	// async setCheck(){
+	// 	const setEffectsList = await setEffects;
+	// 	const setMap = this.equipments.checkSetEffect();
+	// 	setMap.forEach((value, key) =>{
+	// 		for(const setEffect of setEffectsList){
+	// 			if(setEffect.set === key && setEffect.num === value){
+	// 				setMap.set(key, setEffect);
+	// 			}
+	// 		}
+	// 	});
+	// 	return setMap;
 
-	}
+	// }
 	
-	async mergeStat(){
-		const setMap = await this.setCheck();
-		console.log(`before stats:`);
-		console.log(this._stats);
-		setMap.forEach((value, key) => {
-			if(key !== ''){
-				console.log(`value.stats:`);
-				console.log(value.stats);
-				this.setStats(value.stats);
-			}
-		});
-		console.log(`after stats:`);
-		console.log(this._stats);
-	}
+	// async mergeStat(){
+	// 	const setMap = await this.setCheck();
+	// 	const stats = this._stats;
+	// 	setMap.forEach((value, key) => {
+	// 		if(key !== ''){
+	// 			for (const key in value) {
+	// 				if (stats.hasOwnProperty(key)) {
+	// 					stats[key] += value[key];
+	// 				}
+	// 			}
+	// 		}
+	// 	});
+	// 	return stats;
+	// }
 
 	getCharacterInfo() {
 		const characterInfo = {

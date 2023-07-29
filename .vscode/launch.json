@@ -2,13 +2,9 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "console": "integratedTerminal",
-      "internalConsoleOptions": "neverOpen",
-      "name": "nodemon",
-      "program": "${workspaceFolder}/main.js",
+      "name": "Launch Program",
+      "program": "${fileDirname}",
       "request": "launch",
-      "restart": true,
-      "runtimeExecutable": "nodemon",
       "skipFiles": [
         "<node_internals>/**"
       ],

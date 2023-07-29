@@ -1,4 +1,5 @@
 const fs = require('fs');
+const path = require('path');
 
 // 전체 아이템 목록을 담을 클래스
 class SetEffect {
@@ -13,7 +14,7 @@ class SetEffect {
 // 전체 아이템 목록을 담은 배열
 
 async function loadSetEffects() {
-  const response = await fs.readFileSync("../../Database/setEffect.json");
+  const response = await fs.readFileSync(path.join(__dirname, "../database/setEffect.json"));
   const setEffectData = await JSON.parse(response);
   
 	const setEffects = [];
