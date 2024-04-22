@@ -78,69 +78,53 @@
 #             eqSave = resSave;
 #         lastInput = curInput;
 
-# eq = "13-6/2*5+3";
+
+eq = "-13-6/2*5+3"; 
+# = -25
 # eq = "12-3+4/1*3";
-eq = "12*1+4/2-7";
+# = 21
+# eq = "12*1+4/2-7";
+# = 7
 new = "";
 res = 0;
-digitCount = -1;
-
-wait = [];
-done1 = 0;
-done2 = 0;
 
 for i,s in enumerate(eq):
     if s.isdigit():
         if new == "":
+            # 시작이 양수면 + 기호 붙여서 시작(통일성)
             new += "+ " + s;
         else:
             new += s;
-        digitCount += 1;
     else:
         new += " " + s + " ";
 
 list = new.split();
 
-for i in range(digitCount):
-    wait.append(True);
+index = 0;
+while index < len(list):
+    block = list[index];
+    print(index);
+    tmp = 0;
+    if block == "*" or block == "/":
+        if block == "*":
+            tmp = int(list[index - 1]) * int(list[index + 1]);
+        if block == "/":
+            tmp = int(list[index - 1]) / int(list[index + 1]);
+        
+        for i in range(3):
+            del list[index - 1];
+        list.insert(index - 1, tmp);
+        print(list);
+        # 삭제 후에 똑같이 index 증가시키면 건너뛰는 문제 발생 -> 삭제시엔 인덱스 증가 X
+    else:
+        index += 1;
 
 for index, block in enumerate(list):
-
-    
-    if block == "*" or block == "/":
-        tmp = 0;
-        if wait[int(index/2)] == True and wait[int(index/2)-1] == True:
-            wait[int(index/2)] = False;
-            wait[int(index/2)-1] = False;
-            if block == "*":
-                tmp = int(list[index - 1]) * int(list[index + 1]);
-            elif block == "/":
-                tmp = int(list[index - 1]) / int(list[index + 1]);
-            
-            if done1 == 0:
-                done1 = tmp;
-            else:
-                done2 = tmp;
-        else:
-            wait[int(index/2)] = False;
-            if block == "*":
-                done1 = done1 * int(list[index + 1]);
-            elif block == "/":
-                done1 = done1 / int(list[index + 1]);
-
-for i, isWait in enumerate(wait):
-    if isWait == True:
-        print(list[i * 2] + list[i * 2 + 1]);
-        res += int(list[i * 2] + list[i * 2 + 1]);
-    else:
-        if wait[i-1] == True:
-
-            if done1 != 0:
-                res += int(int(list[i * 2] + "1") * done1);
-                done1 = 0;
-            elif done2 != 0:
-                res += int(int(list[i * 2] + "1") * done2);
-                done2 = 0;
+    # 양수 시작이어도 통일시켜놓은 덕에 깔끔하게 계산 가능
+    if block == "+":
+        res += int(list[index + 1]);
+    if block == "-":
+        res -= int(list[index + 1]);
 
 print(res);
         
