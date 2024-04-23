@@ -79,8 +79,8 @@
 #         lastInput = curInput;
 
 
-eq = "-13-6/2*5+3"; 
-# = -25
+eq = "-13-6/2*5+3*2/5"; 
+# = -22
 # eq = "12-3+4/1*3";
 # = 21
 # eq = "12*1+4/2-7";
@@ -107,9 +107,9 @@ while index < len(list):
     tmp = 0;
     if block == "*" or block == "/":
         if block == "*":
-            tmp = int(list[index - 1]) * int(list[index + 1]);
+            tmp = float(list[index - 1]) * float(list[index + 1]);
         if block == "/":
-            tmp = int(list[index - 1]) / int(list[index + 1]);
+            tmp = float(list[index - 1]) / float(list[index + 1]);
         
         for i in range(3):
             del list[index - 1];
@@ -122,9 +122,9 @@ while index < len(list):
 for index, block in enumerate(list):
     # 양수 시작이어도 통일시켜놓은 덕에 깔끔하게 계산 가능
     if block == "+":
-        res += int(list[index + 1]);
+        res += float(list[index + 1]);
     if block == "-":
-        res -= int(list[index + 1]);
+        res -= float(list[index + 1]);
 
 print(res);
         
