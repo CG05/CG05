@@ -80,93 +80,156 @@
 # musicList = ["바람기억"];
 # curIndex = 0;
 # selected = False;
+# playing = False;
 # main = True;
 # while main:
 #     if selected == False:
-#       select = input("1. 재생 2. 정지 3. 다음곡 4. 이전곡 5. 곡 추가 6. 곡 삭제 0. 종료\n>> ");
-#       if select.isdigit() == False:
-#         print("숫자 키로 입력해주십시오.");
-#         continue;
-#       elif int(select) < 0 or int(select) > 6 :
-#         print("메뉴 중에서 선택해주십시오.");
-#         continue;
-#       else:
-#         selected == True;
+#         select = input("1. 재생 2. 정지 3. 다음곡 4. 이전곡 5. 곡 추가 6. 곡 삭제 0. 종료\n>> ");
+#         if select.isdigit() == False:
+#             print("숫자 키로 입력해주십시오.");
+#             continue;
+#         elif int(select) < 0 or int(select) > 6 :
+#             print("메뉴 중에서 선택해주십시오.");
+#             continue;
+#         else:
+#             selected == True;
 #     if select == "1":
-#       print("이전에 재생하던 음악을 재생합니다.");
-#       print(f"~재생중~ : {musicList[curIndex]}");
-#       selected = False;
-#       continue;
+#         if len(musicList) == 0:
+#             print("재생 가능한 음악이 없습니다. 음악을 추가해주십시오.");
+#             selected = False;
+#             continue;
+#         else:
+#             print("이전에 재생하던 음악을 재생합니다.");
+#             print(f"~재생중~ : {musicList[curIndex]}");
+#             playing = True;
+#             selected = False;
+#             continue;
 #     elif select == "2":
-#       print("음악을 정지합니다.");
-#       selected = False;
-#       continue;
+#         if playing:
+#             print("음악을 정지합니다.");
+#             playing = False;
+#         else:
+#             print("음악이 재생되고 있지 않습니다.");
+#         selected = False;
+#         continue;
 #     elif select == "3":
-#       print("재생하던 음악의 다음 곡을 재생합니다.");
-#       if curIndex + 1 == len(musicList):
-#         curIndex = 0;
-#       else:
-#         curIndex += 1;
-#       print(f"~재생중~ : {musicList[curIndex]}");
-#       selected = False;
-#       continue;
+#         if len(musicList) == 0:
+#             print("재생 가능한 음악이 없습니다. 음악을 추가해주십시오.");
+#             selected = False;
+#             continue;
+#         else:
+#             print("재생하던 음악의 다음 곡을 재생합니다.");
+#             if curIndex + 1 == len(musicList):
+#                 curIndex = 0;
+#             else:
+#                 curIndex += 1;
+#             print(f"~재생중~ : {musicList[curIndex]}");
+#             playing = True;
+#             selected = False;
+#             continue;
 #     elif select == "4":
-#       print("재생하던 음악의 이전 곡을 재생합니다.");
-#       if curIndex - 1 < 0:
-#         curIndex = len(musicList) - 1;
-#       else:
-#         curIndex -= 1;
-#       print(f"~재생중~ : {musicList[curIndex]}");
-#       selected = False;
-#       continue;
+#         if len(musicList) == 0:
+#             print("재생 가능한 음악이 없습니다. 음악을 추가해주십시오.");
+#             selected = False;
+#             continue;
+#         else:
+#             print("재생하던 음악의 이전 곡을 재생합니다.");
+#             if curIndex - 1 < 0:
+#                 curIndex = len(musicList) - 1;
+#             else:
+#                 curIndex -= 1;
+#             print(f"~재생중~ : {musicList[curIndex]}");
+#             playing = True;
+#             selected = False;
+#             continue;
 #     elif select == "5":
-#       add = input("추가할 음악을 입력해주십시오 : ");
-#       print(f"다음 음악이 추가되었습니다 : {add}");
-#       musicList.append(add);
-#       selected = False;
-#       continue;
+#         add = input("추가할 음악을 입력해주십시오 : ");
+#         if musicList.count(add) > 0:
+#             print("해당 음악은 이미 추가돼있습니다");
+#         else:
+#             print(f"다음 음악이 추가되었습니다 : {add}");
+#             musicList.append(add);
+#         selected = False;
+#         continue;
 #     elif select == "6":
-#       add = input("삭제할 음악을 입력해주십시오 : ");
-#       if musicList.count(add) > 0:
-#         print(f"다음 음악이 삭제되었습니다 : {add}");
-#         musicList.remove(add);
-#       else:
-#         print(f"다음 음악이 존재하지 않습니다 : {add}");
-#       selected = False;
-#       continue;
+#         if len(musicList) == 0:
+#             print("삭제 가능한 음악이 없습니다. 음악을 추가해주십시오.");
+#         else:
+#             delete = input("삭제할 음악을 입력해주십시오 : ");
+#             if musicList.count(delete) > 0:
+#                 print(f"다음 음악이 삭제되었습니다 : {delete}");
+#                 musicList.remove(delete);
+#             else:
+#                 print(f"다음 음악이 존재하지 않습니다 : {add}");
+#         selected = False;
+#         continue;
 #     elif select == "0":
-#       print("MP3를 종료합니다.");
-#       main = False;
-  
-import copy;
+#         print("MP3를 종료합니다.");
+#         main = False; 
 
-lsOrigin = [[3, 23, 85, 34, 17, 74, 25, 52, 65],
-[10, 7, 39, 42, 88, 52, 14, 72, 63],
-[87, 42, 18, 78, 53, 45, 18, 84, 53],
-[34, 28, 64, 85, 12, 16, 75, 36, 55],
-[21, 77, 45, 35, 28, 75, 90, 76, 1],
-[25, 87, 65, 15, 28, 11, 37, 28, 74],
-[65, 27, 75, 41, 7, 89, 78, 64, 39],
-[47, 47, 70, 45, 23, 65, 3, 41, 44],
-[87, 13, 82, 38, 31, 12, 29, 29, 80]]
-ls = copy.deepcopy(lsOrigin);
-raw = 0;
-colomn = 0;
-rawMax = [0,0,0,0,0,0,0,0,0];
-max = 0;
-for j in range(9):
-    ls[j].sort();
+# 백준 2566
+# import copy;
 
-    rawMax[j] = ls[j].pop();
-
-for k in range(9):
-  if max < rawMax[k]:
-      max = rawMax[k];
-      raw = k;
+# lsOrigin = [];
 
 
-colomn = lsOrigin[raw].index(max);
+# for i in range(9):
+#     rawStrList = [];
+#     rawNumList = [];
+#     inputRaw = input();
+#     rawStrList = inputRaw.split();
+#     for num in rawStrList:
+#         rawNumList.append(int(num));
+#     print(rawNumList);
+#     lsOrigin.append(rawNumList);
+#     print(lsOrigin); 
+# ls = copy.deepcopy(lsOrigin);
+# raw = 0;
+# colomn = 0;
+# rawMax = [0,0,0,0,0,0,0,0,0];
+# max = 0;
+# for j in range(9):
+#     ls[j].sort();
 
-print(f"{raw+1} {colomn+1}");
+#     rawMax[j] = ls[j].pop();
+
+# for k in range(9):
+#   if max < rawMax[k]:
+#       max = rawMax[k];
+#       raw = k;
+
+
+# colomn = lsOrigin[raw].index(max);
+# print(max);
+# print(f"{raw+1} {colomn+1}");
+
+# 백준 2563
+res = 0;
+
+base = [];
+for h in range(100):
+    base.append([]);
+    for w in range(100):
+        base[h].append(0);
+
+SIDE = 10;
+D = [];
+papers = [];
+pCount = int(input());
+for i in range(pCount):
+    D = input().split();
+    papers.append([int(D[0]), int(D[1])]);
+
+for p in papers:
+    for h in range(SIDE):
+        for w in range(SIDE):
+            base[p[1] + h][p[0] + w] = 1;
+
+for h in range(100):
+    count = base[h].count(1);
+    res += count;
+
+print(res);
+
 
 
