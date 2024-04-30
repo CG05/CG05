@@ -189,7 +189,7 @@ while main:
                             print(f"{getRandBullet+1}번째에 있는 탄은 {bulletLs[getRandBullet]}입니다.");
                         elif use == "수갑":
                             print("딜러에게 수갑을 채워 이번 턴과 관계없이 다음 턴은 유저에게 이어집니다.");
-                            userTurn -= 1;
+                            userTurn += 1;
                         elif use == "화약":
                             print("화약을 사용하여 이번 턴 실탄의 데미지를 1 증가시킵니다.");
                             damage = 2;
