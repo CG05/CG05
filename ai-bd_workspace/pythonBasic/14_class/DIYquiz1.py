@@ -80,17 +80,20 @@ class CloudExplorer:
             print(f">> {seq} 작업 진행 성공 : {res}");
             return res;
 
-    def update(self, name):
+    def update(self, name=None):
         seq = "수정"
         if name == None:
             return False;
         else:
             type = self.getType(name);
             res = True;
+            obj = self.inputText(seq, type);
+            if obj == "exit":
+                return False;
             if type == "폴더":
-                res = self.modify(name, type, self.inputText(seq, type));
+                res = self.modify(name, type, obj);
             elif type == "파일":
-                res = self.modify(name, type, self.inputText(seq, type));
+                res = self.modify(name, type, obj);
             print(f">> {seq} 작업 진행 성공 : {res}");
             return res;
 
@@ -169,11 +172,9 @@ while main:
             to = cli.replace("./", "");
             res = userCloud.toPath(to);
             while res:
-                inline = input(f"{to} >>> ");
-                if inline == "exit":
-                    res = False;
-                else:
-                    userCloud.update
+                res = userCloud.update(to);
+                if res == True:
+                    print(userCloud.read(to));
 
         elif cli == "new":
             userCloud.create();
