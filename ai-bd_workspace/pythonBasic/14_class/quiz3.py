@@ -93,8 +93,8 @@ def seqMenu(select):
                 elif selectSub == "0":
                     return;
             elif select == "3":
-                delStu = stuList.pop(i)
-                del delStu;
+                stuList.pop(i)
+                print(f"{name}학생의 정보가 삭제되었습니다.");
             elif select == "4":
                 print(stu.info());
             return;
