@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #z-index1{
+            position: absolute;
+            width: 100%;
+            height: 200px;
+            background-color: yellow;
+            z-index: 10;
+        }
+        #z-index2{
+            position: absolute;
+            width: 100%;
+            height: 200px;
+            background-color: blue;
+            z-index: 5;
+        }
+    </style>
+</head>
+<body>
+    <div id="z-index1"></div>
+    <!-- 겹치면 마지막 태그가 가장 위에 보인다 -->
+    <div id="z-index2"></div>
+    <!-- z-index로 무엇이 위에 보일 지 설정할 수 있다 -->
+</body>
+</html>

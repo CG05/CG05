@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- internal을 이용해서 header는 빨강, h1은 파랑, p는 초록으로 글자색을 바꾸기 -->
+    <style>
+        /*
+        - CSS 속성이 입력된 순서
+        - 선택자를 구체적으로 입력했는지 여부
+        - type, id, class 선택자
+        구체화되며 덮어씌워진다 
+         */
+        header{
+            color: red;
+        }
+        header > h1{
+            color: blue;
+        }
+        header > p{
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>header h1</h1>
+        <p>header p</p>
+    </header>
+    <footer>
+        <h1>footer h1</h1>
+        <p>footer p</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      body {
+        margin: 0 auto;
+        text-align: center;
+      }
+      table {
+        margin: 0 auto;
+      }
+      span{
+        font-weight: bold;
+      } 
+
+    </style>
+    <script>
+        function gugudanMain() {
+            let writeTxt = makeTitle();
+            writeTxt += "<table><tr>";
+            for (let dan = 2; dan < 10; dan++) {
+                writeTxt += "<td width='200px'>";
+                writeTxt += "<hr width='80%'><span>" + dan + "dan</span><br><hr width='80%'>";
+
+                for (let i = 1; i < 10; i++) {
+                    writeTxt += `${dan}*${i}=${dan * i}<br>`;
+                }
+                writeTxt += "</td>";
+                if(dan==5){
+                    writeTxt += "</tr>";
+
+                }
+            }
+            writeTxt += "</tr></table>"
+            document.write(writeTxt);
+        }
+
+        function makeTitle() {
+            let txt = "<h3>";
+            txt += "=======================================<br>";
+            txt += "gugudan<br>";
+            txt += "=======================================<br>";
+            txt += "</h3>";
+            return txt;
+        }
+    </script>
+  </head>
+  <body>
+    <script>
+      gugudanMain();
+    </script>
+  </body>
+</html>

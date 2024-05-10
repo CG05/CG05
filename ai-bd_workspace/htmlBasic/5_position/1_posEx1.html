@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #pos_static_parent{
+            width: 100px;
+            /* 부모의 높이가 없으면 자식의 높이와 같아진다 */
+            /* height: 500px; */
+            background-color: yellow;
+        }
+        #pos_static_child{
+            width: 200px;
+            height: 200px;
+            background-color: red;
+            position: static;
+            /* 부모자식간에 margin병합현상 발생 */
+            margin-top: 100px;
+            /* top속성 적용X */
+            top: 100px;
+        }
+    </style>
+</head>
+<body>
+    <div id="pos_static_parent">
+        <div id="pos_static_child"></div>
+    </div>
+    
+
+</body>
+</html>

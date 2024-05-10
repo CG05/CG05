@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* body에 있는 기본 margin 없애기 */
+        body{
+            margin: 0 auto;
+        }
+        #parent{
+            width: 100%;
+            height: 500px;
+            background-color: yellow;
+        }
+        #child{
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background-color: blue;
+            margin-top: 100px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 형제 margin병합 -->
+    <div id="parent">
+        <div id="child"></div>
+    </div>
+    
+
+</body>
+</html>

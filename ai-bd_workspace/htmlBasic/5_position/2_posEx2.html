@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #box1 {
+            width:500px;
+            height:200px;
+            background-color: gray;
+        }
+        #position_fixed_parent {
+            /* position: relative; */
+            width:500px;
+            /* 부모의 높이가 없어도 자식의 높이와 같아지지 않는다. */
+            height:500px;
+            background-color: yellow;
+        }
+        #position_fixed_child {
+            position:fixed;
+            width:200px;
+            height:200px;
+            background-color: blue;
+            /* 부모 자식간의 마진 병합 현상이 안 일어난다. */
+            margin-top:100px;
+            /* top, right, bottom, left 속성이 적용 된다. - 기준점 : 화면의 원점*/
+            top:100px;
+        }
+        #box2 {
+            width:500px;
+            height: 2000px;
+            background-color: pink;
+        }
+    </style>
+</head>
+<body>
+    <div id="box1"></div>
+    <div id="position_fixed_parent">
+        <div id="position_fixed_child"></div>
+    </div>
+    <div id="box2"></div>
+</body>
+</html>

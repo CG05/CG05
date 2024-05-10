@@ -1,0 +1,11 @@
+HTML, CSS 
+
+HTML : Hyper Text Markup Language - 웹에서 설계도의 역할
+CSS : 웹에서 디자인의 역할
+JavaScript : 웹에서 기능의 역할
+
+HTML Tag : 다양한 형태의 표현을 명시적으로 지정
+ 
+HTML Tag 형식
+<열린태그 속성="속성값">콘텐츠</닫힌태그>
+<열린태그 value="콘텐츠">

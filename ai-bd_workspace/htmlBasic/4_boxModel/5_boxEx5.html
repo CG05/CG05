@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #box_model{
+            width: 300px;
+            height: 300px;
+            background-color: yellow;
+            border: 20px dashed red;
+            padding-top: 100px;
+            padding-left: 80px;
+            padding: 100px 80px 60px 40px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 
+        padding 속성
+        - border와 content 속성의 간격
+        - border 안쪽 구역 내에서 좌표를 설정할 때 사용
+        - 종류 : padding-top,right,bottom,left
+     -->
+    <div id="box_model">
+        <span>Hello World</span>
+        <!-- 
+            content 속성
+            - 태그에 포함돼있는 내용물
+            - 현재 div의 content는 span이고 span의 content는 text "Hello World"
+         -->
+    </div>
+</body>
+</html>

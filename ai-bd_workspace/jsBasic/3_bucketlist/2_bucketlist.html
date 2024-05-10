@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>버킷리스트</title>
+    <link rel="stylesheet" href="style.css">
+    <script>
+        function listClick(){
+            let lst = document.getElementById("lst");
+            console.log(lst)
+            console.log(lst.children);
+            for(let i=0;i<lst.children.length;i++){
+                console.log(lst.children[i]);
+            }
+            // .children은 자식 요소들을 배열로 가져온다
+            let lst2 = document.getElementsByTagName("li");
+            console.log(lst2);
+            // getElements는 배열로 요소들을 가져온다 -> for문 가능
+            for(let i=0;i<lst2.length;i++){
+                console.log(lst2[i]);
+            }
+            lst2[0].onclick = function(){
+                // setAttribute('속성', '속성값') : 속성값 설정
+                // removeAttribute('속성') : 속성 내 값 제거
+                lst2[0].setAttribute('class', 'active');
+            }
+        }
+    </script>
+</head>
+<body>
+    <div id="mainDiv">
+        <h1 id="title">Bucket List</h1>
+        <hr>
+        <button id="addBtn">목록추가</button>
+        <ul id="lst">
+            <li>세계일주</li>
+            <li>달착륙</li>
+            <li>태양 근거리 실사</li>
+
+        </ul>
+    </div>
+    <script>
+        listClick();
+    </script>
+</body>
+</html>

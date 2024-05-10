@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        h1{
+            color: red;
+        }
+
+        #bg{
+            background-color: yellow;
+        }
+        #color{
+            color: green;
+        }
+        .size{
+            font-size: 50px;
+        }
+        .color{
+            color: blue;
+        }
+    </style>
+</head>
+<body>
+    <!-- 
+        CSS 선택자
+        - type 선택자 : 태그 이름 사용 (h1, span)
+        - id 선택자 : 태그 내의 id를 사용 (#"id")
+        - class 선택자 : 태그 내의 class를 사용 (."class")
+     -->
+     <!-- 
+        id : 태그 당 1개의 id를 가짐. 넓은 범위로 사용
+        class : 개수 제한 x. 작은 범위로 사용
+      -->
+      <h1>type 선택자</h1>
+      <h1 id="bg color">id 선택자</h1>
+      <h1 id="color">id 선택자</h1>
+      <h1 id="bg">id 선택자</h1>
+
+      <h1 class="size color">class 선택자</h1>
+      <h1 id="bg" class="color">중복 선택자</h1>
+
+</body>
+</html>

@@ -7,7 +7,7 @@
 			{
 				"name": "휘두르기",
 				"effect": "용사는 겁에 질려 손에 잡히는 아무 것이나 휘두릅니다.",
-				"defaultDamage": 12,
+				"defaultDamage": 4,
 				"level": 1,
 				"increasePerLevel": 4,
 				"damageFactor": 1,

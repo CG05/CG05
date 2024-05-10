@@ -1,0 +1,42 @@
+position 속성
+- 선택된 태그를 2차원 또는 3차원으로 지정
+- 속성에 따라 layer가 생기고 좌표 기준점이 달라진다.
+- 종류 : static, fixed, relative, absolute
+
+속성값의 특징을 확인하는 조건
+- 부모자식간에 발생하는 margin병합현상 유무
+- top,right,bottom,left속성 적용 여부
+- 부모가 높이를 갖고 있지 않을 때 자식의 높이가 부모의 높이에 영향을 주는지 여부
+
+속성값
+static : 2차원, 부모자식간에 발생하는 margin병합현상이 일어남
+    top,right,bottom,left 속성 적용X
+    부모가 높이를 갖고 있지 않을 때 자식의 높이가 부모의 높이에 영향을 줌
+
+fixed : 3차원, 부모자식간에 발생하는 margin병합현상이 일어나지 않음
+    top,right,bottom,left 속성 적용됨 - 항상 기준점이 화면 원점
+    부모가 높이를 갖고 있지 않을 때 자식의 높이가 부모의 높이에 영향을 주지 않음
+
+relative : 2차원 + 3차원, 부모자식간에 발생하는 margin병합현상이 일어남(2차원)
+    top,right,bottom,left 속성 적용됨(3차원) - 기준점이 부모 원점
+    부모가 높이를 갖고 있지 않을 때 자식의 높이가 부모의 높이에 영향을 줌(2차원)
+
+absolute : 3차원, 부모자식간에 발생하는 margin병합현상이 일어나지 않음
+    top,right,bottom,left 속성 적용됨(3차원) - 기준점이 상위 중 먼저 만나는 relative요소의 원점
+    부모가 높이를 갖고 있지 않을 때 자식의 높이가 부모의 높이에 영향을 주지 않음
+
+
+z - index
+- 레이어의 높낮이를 조정
+- 3차원요소인 fixed, relative, absolute 속성값과 함께 사용
+
+float
+- 선택된 태그를 띄워서 부모의 공간을 기준으로 왼쪽 끝이나 오른쪽 끝에 배치할 때 사용
+- 왼쪽끝부터 순서대로 정렬할 때는 float:left, 오른쪽은 float:right
+
+clear
+- float 속성의 기능을 제거 하는데 사용
+- 속성값으로는 left, right, both 
+- float:left 속성을 제거하려면 clear:left
+- float:right 속성을 제거하려면 clear:right
+- float:left와 float:right 속성이 둘다 제거 하려면 clear:both 사용

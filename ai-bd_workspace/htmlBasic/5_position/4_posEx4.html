@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #box1{
+            width: 500px;
+            height: 200px;
+            background-color: gray;
+        }
+        #pos_absolute_parent{
+            position: relative;
+            width: 500px;
+            height: 500px;
+            background-color: yellow;
+            
+        }
+        #pos_absolute_child{
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background-color: blue;
+            /* 부모자식간의 마진병합현상이 일어난다 */
+            /* margin-top: 100px; */
+            /* top,right,bottom,left속성이 적용된다 - 기준점 : 부모의 원점 */
+            top: 100px;
+        }
+        /* #box2{
+            width: 00px;
+            height: 200px;
+            background-color: pink;
+        } */
+    </style>
+</head>
+<body>
+    <div id="box1"></div>
+    <div id="pos_absolute_parent">
+        <div id="pos_absolute_child"></div>
+    </div>
+    <!-- <div id="box2"></div> -->
+
+</body>
+</html>

@@ -1,0 +1,58 @@
+특정 영영에 여러가지 변형 효과 적용할 수 있다.
+
+transform 속성
+- 선택된 태그의 각도를 조정하고 크기를 변경하고 위치를 옮길 때 사용
+- 자주 사용하는 속성 값 : rotate, scale, skew, translate
+
+rotate
+- 선택된 영역의 각도를 조정하는데 사용
+- 선택된 태그의 각도를 평면적으로 조정할 때 사용
+- 각도는 0 ~ 360에서 하나로 지정
+- 각도가 양수면 시계방향, 음수면 반시계반향으로 회전
+
+scale
+- 선택된 요소의 크기를 비율로 조정할 때 사용
+- 첫번째 숫자는 너비 비율, 두번째 숫자는 높이 비율을 뜻한다.
+- 원본 크기는 숫자 1을 기준으로 하고 1보다 크면 확대, 1보다 작으면 축소
+
+skew
+- 선택된 태그의 각도를 입체적으로 조정
+- 첫 번째 숫자는 x축, 두 번째 숫자는 y축
+- x축의 각도값이 양수면 오른쪽으로, 음수면 왼쪽으로 입력된 각도만큼 공간이 왜곡
+- y축의 각도값이 양수면 아래쪽으로 음수면 위쪽으로 입력된 각도만큼 공간이 왜곡
+
+translate
+- 선택된 요소를 x축이나 y축으로 이동
+- 첫 번째 숫자는 x축, 두 번째 숫자는 y축
+
+transition
+- 특정 조건에 따라 상태를 변화
+- 보통 마우스 포인터를 올렸을 때를 의미
+- transition-property : 변화를 주려는 CSS속성
+- transition-duration : 변화가 일어나는 시간
+- transition-timing-funtion : 변하는 속도
+    1. linear : 시작부터 종료까지 같은 속도
+    2. ease : 느리다가 빠르다가 느리게
+    3. ease-in : 시작의 변화가 천천히 진행
+    4. ease-out : 종료의 변화가 천천히 진행
+    5. ease-in-out : 시작과 종료의 변화가 천천히 진행
+- transition-delay : 변화가 시작하는 시간을 지연
+
+animation
+- 특정 조건이 아니라 시작할 때 동작을 진행시킬 수 있다
+- animation-name : 애니메이션 
+- animation-duration: 동작 시간;
+- animation-iteration-count: 반복 횟수
+- animation-timing-function: 동작 속도
+- animation-direction: 진행 방향
+    1. normal : from-to
+    2. reverse : to-from
+    3. alternate : from-to to-from으로 진행
+    4. alternate-reverse : to-from, from-to로 진행
+- animation-delay: 동작 지연 시간
+
+@keyframes
+- 애니메이션을 실행하기 위해 효과를 지정하는 공간
+- @keyframes [애니메이션 이름] 지정해서 효과를 설정한다
+- from 시작점, to 종료점
+- %를 이용해 0%부터 100%까지 각 진행정도에 따라 효과를 세부적으로 설정할 수 있다

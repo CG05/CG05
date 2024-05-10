@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            margin: 0 auto;
+            text-align: center;
+        }
+        table{
+            margin: 0 auto;
+        }
+    </style>
+    <script>
+        function gugudanMain(){
+            let dan;
+            do{
+                dan = prompt("구구단의 단을 입력 : ");
+            }while(isExcept(dan));
+            let writeTxt = makeTitle(); 
+            writeTxt += '<table width=20%>';
+            writeTxt += '<tr><td>';
+            writeTxt += '<hr>'+dan+'단<br><hr>';
+
+            for(let i=1;i<10;i++){
+                writeTxt += `${dan} * ${i} = ${dan * i}<br>`;
+
+            }
+            writeTxt += '</td></tr></table>';
+            document.write(writeTxt);
+        }
+        function isExcept(dan){
+            // /^ : 정규표현식 시작
+            // 공백+ : 공백 하나 이상 모두
+            // / : 정규표현식 끝
+            dan = dan.replace(/^ +/,'');//정규표현식을 활용한 공백 삭제
+            if(dan == '' || dan == null){
+                alert('값을 입력하세요');
+                return true;
+            }else if(isNaN(dan)){
+                alert('숫자만 입력하세요');
+                return true;
+            }else if(dan <2||dan>9){
+                alert('범위는 2~9입니다.');
+                return true;
+            }else{
+                return false;
+            }
+        }
+
+        function makeTitle(){
+            let txt = '<h3>';
+            txt += '=======================================<br>';
+            txt += 'gugudan<br>'
+            txt += '=======================================<br>';
+            txt += '</h3>';
+            return txt;
+        }
+    </script>
+</head>
+<body>
+    <script>
+        gugudanMain();
+    </script>
+</body>
+</html>

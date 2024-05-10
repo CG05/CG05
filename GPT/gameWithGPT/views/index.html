@@ -276,10 +276,10 @@
 		});
 
 		form.addEventListener('submit', function (e) {
-      e.preventDefault();
+      	e.preventDefault();
 			const msg = input.value;
 			console.log(msg);
-      if (msg) {
+      	if (msg) {
 				if(msg[0] === '/'){
 					socket.emit('command', {command: msg, name: nameStored});
 				}else if(msg === 'start'){
