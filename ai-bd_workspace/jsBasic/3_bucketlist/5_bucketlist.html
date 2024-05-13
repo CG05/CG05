@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>버킷리스트</title>
+    <link rel="stylesheet" href="style.css">
+    <script>
+        function listClick(){
+            let lst = document.getElementById("lst");
+            console.log(lst);
+            let liList = lst.children;
+            for(let i=0;i<liList.length;i++){
+                liList[i].onclick=function(){
+                    active(liList);
+                };
+            }
+        }
+
+        function active(liList){
+            for(let i=0;i<liList.length;i++){
+                liList[i].removeAttribute('class', 'active');
+            }
+            this.setAttribute('class', 'active');
+        }
+
+        function btnClick(){
+            let inputTxt = prompt("추가 내용을 입력하세요.");
+            
+            // 입력받은 내용은 li태그로 ul태그의 자식태그에 들어가야 한다.
+            let lst = document.getElementById('lst');
+            // 요소.innerText : 선택된 요소에 텍스트 내용을 넣고 싶을 때 사용
+            // 요소.innerHTML : 선택된 요소에 태그와 텍스트를 넣고 싶을 때 사용
+            lst.innerHTML += `<li>${inputTxt}</li>`;
+            listClick();
+        }
+    </script>
+</head>
+<body>
+    <div id="mainDiv">
+        <h1 id="title">Bucket List</h1>
+        <hr>
+        <!-- 
+            button 또는 input type="button"은  onclick="함수이름"으로
+            실행할 javascript 함수를 지정할 수 있다 
+        -->
+        <button id="addBtn" onclick="btnClick">목록추가</button>
+        <ul id="lst">
+            <li>세계일주</li>
+            <li>달착륙</li>
+            <li>태양 근거리 실사</li>
+
+        </ul>
+    </div>
+    <script>
+        listClick();
+    </script>
+</body>
+</html>

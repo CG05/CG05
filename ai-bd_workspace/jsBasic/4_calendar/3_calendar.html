@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendar</title>
+    <script>
+        let currentDate = new Date();
+
+        document.write(currentDate.getFullYear()+"년<br>");
+        document.write(currentDate.getYear()+"년<br><br>");
+
+        document.write(currentDate.getMonth()+1+"월<br><br>");
+
+        document.write(currentDate.getDate()+"일<br><br>");
+
+        document.write(currentDate.getDay()+"요일<br><br>");
+        
+        document.write(currentDate.getHours()+"시<br><br>");
+
+        document.write(currentDate.getMinutes()+"분<br><br>");
+        
+        document.write(currentDate.getSeconds()+"초<br><br>");
+
+    </script>
+</head>
+<body>
+    <div id="clock"></div>
+</body>
+</html>

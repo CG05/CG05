@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>버킷리스트</title>
+    <link rel="stylesheet" href="../style.css">
+    <script>
+        function listClick() {
+            let lst = document.getElementById("lst");
+            lst.addEventListener('click', activeLst)
+        }
+
+        function activeLst(event) {
+            let lstList = this.children;
+
+            for (let i=0;i<lstList.length;i++){
+                lstList[i].removeAttribute('class');
+            }
+
+            let target = event.target;
+            let targetTxt = target.toString()
+
+            if(targetTxt.includes("LI")) {
+                event.target.setAttribute('class', 'active');
+            }
+        }
+        function btnClick() {
+            let inputTxt = prompt("추가 내용을 입력하세요.");
+            console.log(inputTxt);
+
+            let lst = document.getElementById("lst");
+
+            let li = document.createElement("li");
+            li.innerHTML = "<span>"+ inputTxt + "</span>";
+            let btn = document.createElement("button");
+            btn.setAttribute("onclick", "delList(this.parentElement)")
+            btn.innerText = "삭제";
+
+            li.appendChild(btn);
+            lst.appendChild(li);
+        }
+        function delList(tag){
+            console.log(tag);
+            // alert('삭제 버튼을 눌렀습니다.');
+           
+            // console.log(txt);
+            // confirm("문자열") : 확인 작업 - 확인 (true), 취소 (false);
+            if (confirm("정말 삭제하시겠습니까?")){
+                // 요소.remove() : 요소 삭제
+                tag.remove();
+            } else {
+                alert("삭제 취소");
+            }
+            
+        }
+    </script>
+</head>
+<body>
+    <div id="mainDiv">
+        <h1 id="title">Bucket List</h1>
+        <hr>
+        <button id="addBtn" onclick="btnClick()">목록추가</button>
+        <ul id="lst">
+            <li><span>세계일주</span><button onclick="delList(this.parentElement)">삭제</button></li>
+            <li><span>달착륙</span><button onclick="delList(this.parentElement)">삭제</button></li>
+            <li><span>태양 근거리 실사</span><button onclick="delList(this.parentElement)">삭제</button>
+            </li>
+        </ul>
+    </div>
+    <script>
+        listClick();
+    </script>
+</body>
+</html>

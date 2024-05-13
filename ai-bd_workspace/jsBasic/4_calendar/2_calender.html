@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendar</title>
+    <script>
+        function dateTest(){
+            setInterval(function(){
+                let currentDate = new Date();
+    
+                let clock = document.getElementById("clock");
+                clock.innerText = currentDate;
+
+            },1000);
+        }
+        
+    </script>
+</head>
+<body>
+    <div id="clock"></div>
+    <script>
+        dateTest();
+    </script>
+</body>
+</html>

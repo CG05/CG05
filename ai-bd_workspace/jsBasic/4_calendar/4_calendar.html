@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="clock"></div>
+
+    <script>
+        let curYear = new Date().getFullYear();
+
+        document.write(curYear + "년<br><br>");
+        document.write(new Date(curYear, 0, 32) + "<br><br>");
+        document.write(32-new Date(curYear, 0, 32).getDate() + "<br><br>");
+        document.write(new Date(curYear, 1, 32) + "<br><br>");
+        document.write(32 - new Date(curYear, 1, 32).getDate() + "<br><br>");
+
+        for(var i=0;i<12;i++){
+            document.write((i+1)+"월의 마지막 일자 : " + (32 - new Date(curYear, i, 32).getDate()) + "일<br>");
+
+        }
+    </script>
+</body>
+</html>

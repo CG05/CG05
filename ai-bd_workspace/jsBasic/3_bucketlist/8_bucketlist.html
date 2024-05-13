@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>버킷리스트</title>
+    <link rel="stylesheet" href="style.css">
+    <script>
+        let todo = [];
+        function listClick() {
+            // 브라우저에 localstorage 저장
+            // localStorage.getItem("키이름") : 키 이름 데이터가 가져오기
+            todo = JSON.parse(localStorage.getItem("todo"));
+
+            for (var i=0;i<todo.length;i++){
+                listInput(todo[i]);
+            }
+
+            let lst = document.getElementById("lst");
+            lst.addEventListener('click', activeLst)
+        }
+
+        function listInput(inputTxt){
+            let lst = document.getElementById("lst");
+
+            let li = document.createElement("li");
+            li.innerHTML = "<span>"+ inputTxt + "</span>";
+            let btn = document.createElement("button");
+            btn.setAttribute("onclick", "delList(this.parentElement)")
+            btn.innerText = "삭제";
+
+            li.appendChild(btn);
+            lst.appendChild(li);
+        }
+
+        function activeLst(event) {
+            let lstList = this.children;
+
+            for (let i=0;i<lstList.length;i++){
+                lstList[i].removeAttribute('class');
+            }
+
+            let target = event.target;
+            let targetTxt = target.toString()
+
+            if(targetTxt.includes("LI")) {
+                event.target.setAttribute('class', 'active');
+            }else{
+                event.target.parentElement.setAttribute("class","active");
+            }
+        }
+
+        function btnClick() {
+            let inputTxt = prompt("추가 내용을 입력하세요.");
+            let todo = JSON.parse(localStorage.getItem("todo"))
+            // todo 리스트에 새로운 내용 저장
+            if (todo == null) {
+                todo = [inputTxt];
+            } else {
+                todo.push(inputTxt)
+            }
+            let todoStr = JSON.stringify(todo);
+            localStorage.setItem("todo", todoStr);
+            listInput(inputTxt);
+        }
+
+        function delList(tag){
+            let todo = JSON.parse(localStorage.getItem("todo"));
+            let txt = tag.textContent.replace("삭제","");
+            console.log(txt);
+            if (confirm("정말 삭제하시겠습니까?")){
+                tag.remove();
+                todo.pop(txt);
+                let todoStr = JSON.stringify(todoStr);
+                localStorage.setItem("todo", todoStr);
+
+            } else {
+                alert("삭제 취소");
+            }
+        }
+    </script>
+</head>
+<body>
+    <div id="mainDiv">
+        <h1 id="title">Bucket List</h1>
+        <hr>
+        <button id="addBtn" onclick="btnClick()">목록추가</button>
+        <ul id="lst">
+        </ul>
+    </div>
+    <script>
+        listClick();
+    </script>
+</body>
+</html>

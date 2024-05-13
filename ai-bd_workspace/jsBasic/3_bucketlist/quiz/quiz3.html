@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>버킷리스트</title>
+    <link rel="stylesheet" href="../style.css">
+    <script>
+        function listClick() {
+            let lst = document.getElementById("lst");
+            lst.addEventListener('click', clickLst);
+
+        }
+        function clickLst(event) {
+            console.log(event.target.className);
+            let lstList = this.children;
+            if (event.target.className != "del"){
+                for (let i=0;i<lstList.length;i++){
+                    lstList[i].removeAttribute('class');
+                }
+
+                let target = event.target;
+                let targetTxt = target.toString()
+
+                if(targetTxt.includes("LI")) {
+                    event.target.setAttribute('class', 'active');
+                }
+            }else{
+                console.log(event.target.parentElement);
+                let t = event.target;
+                let li = t.parentElement;
+                let ul = li.parentElement;
+                ul.removeChild(li);
+            }
+
+           
+        }
+        
+        function addBtnClick() {
+            let inputTxt = prompt("추가 내용을 입력하세요.");
+            console.log(inputTxt);
+
+            let lst = document.getElementById("lst");
+
+            let li = document.createElement("li");
+            li.innerText = inputTxt;
+            
+            let btn = document.createElement("button");
+            btn.setAttribute('class',"del");
+            btn.innerText = "삭제";
+            li.appendChild(btn);
+            lst.appendChild(li);
+
+        }
+    </script>
+</head>
+<body>
+    <div id="mainDiv">
+        <h1 id="title">Bucket List</h1>
+        <hr>
+        <button id="addBtn" onclick="addBtnClick()">목록추가</button>
+        <ul id="lst">
+            <li>세계일주<button class="del">삭제</button></li>
+            <li>달착륙<button class="del">삭제</button></li>
+            <li>태양 근거리 실사<button class="del">삭제</button></li>
+        </ul>
+    </div>
+    <script>
+        listClick();
+    </script>
+</body>
+</html>
