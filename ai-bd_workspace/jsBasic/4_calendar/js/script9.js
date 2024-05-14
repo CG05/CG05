@@ -137,6 +137,56 @@ function setAlterButton(){
     }
 }
 
+function setTimeWindowCtrlBtn(){
+    let timeWindowCtrlBtn = document.getElementById("timeWindowCtrlBtn");
+    timeWindowCtrlBtn.addEventListener('click',function(){
+        let timeWindowCtrlBtn = document.getElementById("timeWindowCtrlBtn");
+        let timeMain = document.getElementById("timeMain");
+        let timeView = document.getElementById("timeView");
+        let timeDateView = document.getElementById("timeDateView");
+
+        if(timeWindowCtrlBtn.innerText == "-"){
+            timeWindowCtrlBtn.innerText = "+";
+            timeMain.setAttribute('class', 'minimumMain');
+            timeView.setAttribute('class', 'minimum');
+            timeDateView.setAttribute('class', 'minimum');
+        }else{
+            timeWindowCtrlBtn.innerText = "-";
+            timeMain.removeAttribute('class');
+            timeView.removeAttribute('class');
+            timeDateView.removeAttribute('class');
+        }
+    });
+}
+
+function setCalendarWindowCtrlBtn(){
+    let calendarWindowCtrlBtn = document.getElementById("calendarWindowCtrlBtn");
+    calendarWindowCtrlBtn.addEventListener('click', function(){
+        let calendarWindowCtrlBtn = document.getElementById("calendarWindowCtrlBtn");
+        let calendarMain = document.getElementById("calendarMain");
+        let calendarYearMonth = document.getElementById("calendarYearMonth");
+        let calendarDate = document.getElementById("calendarDate");
+        let calendarBeforeBtn = document.getElementById("calendarBeforeBtn");
+        let calendarAfterBtn = document.getElementById("calendarAfterBtn");
+
+        if(calendarWindowCtrlBtn.innerText == "-"){
+            calendarWindowCtrlBtn.innerText = "+";
+            calendarMain.setAttribute('class', "minimumMain");
+            calendarYearMonth.setAttribute('class', "minimum");
+            calendarDate.setAttribute('class', "minimum");
+            calendarBeforeBtn.setAttribute('class', "minimum");
+            calendarAfterBtn.setAttribute('class', "minimum");
+        }else{
+            calendarWindowCtrlBtn.innerText = "-";
+            calendarMain.removeAttribute('class');
+            calendarYearMonth.removeAttribute('class');
+            calendarDate.removeAttribute('class');
+            calendarBeforeBtn.removeAttribute('class');
+            calendarAfterBtn.removeAttribute('class');
+        }
+    })
+}
+
 
 function main(){
     setInterval(function(){
@@ -148,6 +198,8 @@ function main(){
     setCalendarYearMonth();
     alterCalendarDate(0);
     setAlterButton();
+    setTimeWindowCtrlBtn();
+    setCalendarWindowCtrlBtn();
 }
 
 let player = {name:"nicco", fat:true};
