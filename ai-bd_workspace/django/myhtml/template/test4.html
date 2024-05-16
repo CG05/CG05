@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>if문과 태그안에 데이터</title>
+</head>
+<body>
+    
+    {% for key, value in site.items %}
+        <a href="{{value}}" target="_blank">{{key}}</a><br><br>
+    {% endfor %}
+
+    
+    {% if num1 < 10 %}
+        10보다 작습니다
+    {% elif num1 > 10 %}
+        10보다 큽니다
+    {% else %}
+        10과 같습니다
+    {% endif %}
+    <br><br>
+    
+    {% if num1 == float1 %}
+        num1과 float1은 같다
+    {% else %}
+        num1과 float1은 다르다
+    {% endif %}
+    <br><br>
+
+    
+    {% if num1 == float1 and num2 == float2 %}
+        10과 10.0, 5와 5.0은 같다
+    {% else %}
+        다르다
+    {% endif %}
+    <br><br>
+        
+        
+        
+</body>
+</html>

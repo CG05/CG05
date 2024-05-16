@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    phone book detail(상세) 페이지입니다
+    <ul>
+        
+        {% for key, value in userInfo.items %}
+            <li>{{key}} : {{value}}</li>
+        {% endfor %}
+        <br>
+            
+    </ul>
+    
+</body>
+</html>

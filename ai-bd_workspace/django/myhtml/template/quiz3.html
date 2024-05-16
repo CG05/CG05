@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <ul>
+        
+        {% for key, value in site.items %}
+            <li><a href="{{value}}" target="_blank">{{key}}</a></li>
+        {% endfor %}
+        <li><a href="/">메인페이지</a></li>
+        <li><a href="/test1/">test1페이지</a></li>
+            
+        
+    </ul>
+</body>
+</html>

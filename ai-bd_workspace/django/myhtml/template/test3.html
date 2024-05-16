@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>for문 index처리</title>
+</head>
+<body>
+    
+    {% for i in li %}
+    <!-- forloop.counter : 1~ -->
+    <!-- forloop.counter0 : 0~ -->
+    <!-- forloop.revcounter : 마지막 counter부터 1까지 -->
+    <!-- forloop.revcounter0 : 마지막 counter0부터 0까지 -->
+
+    
+        외부 : {{forloop.counter0}} <br>
+        {% for j in i %}
+            내부 : {{forloop.counter0}} <br>
+            {{j}} <br>
+        {% endfor %}
+        <br>
+        
+    {% endfor %}
+        
+</body>
+</html>

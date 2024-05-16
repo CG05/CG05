@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chat with the Bot</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .code-container {
+            background-color: #f5f5f5;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 20px 0;
+            overflow-x: auto;
+        }
+        .code-container pre {
+            margin: 0;
+        }
+        .code-container code {
+            font-family: "Courier New", Courier, monospace;
+            color: #2c3e50;
+        }
+    </style>
+</head>
+<body>
+    <h1>Chat with the Bot</h1>
+    <div id="chatbox">
+        <div id="messages"></div>
+        <input type="text" id="message" placeholder="Type your message here">
+        <button onclick="sendMessage()">Send</button>
+    </div>
+
+    <script>
+        // 음성 인식을 시작하는 함수
+        function startListening() {
+            var recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+            recognition.lang = 'en-US';
+            recognition.interimResults = false;
+            recognition.maxAlternatives = 1;
+            
+            recognition.continuous = true; // 지속적으로 듣기
+
+            recognition.start();
+
+            recognition.onresult = function(event) {
+                var speechResult = event.results[event.resultIndex][0].transcript;
+                $('#message').val(speechResult);
+                sendMessage();
+            }
+
+            recognition.onspeechend = function() {
+                recognition.stop();
+                recognition.start(); // 음성 입력 종료 후 다시 시작
+            }
+
+            recognition.onerror = function(event) {
+                console.error('Speech recognition error', event.error);
+                recognition.start(); // 에러 발생 시 다시 시작
+            }
+        }
+// CSRF 토큰을 AJAX 요청에 포함시키기 위한 설정
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        const csrftoken = getCookie('csrftoken');
+
+        function sendMessage() {
+            var message = $('#message').val();
+            $.ajax({
+                url: '/chat/response/',
+                type: 'POST',
+                data: {
+                    'message': message,
+                    'csrfmiddlewaretoken': csrftoken
+                },
+                success: function(data) {
+                    $('#messages').append('<p><strong>You:</strong> ' + message + '</p>');
+                    $('#messages').append('<p><strong>Bot:</strong> ' + data.response + '</p>');
+                    $('#message').val('');
+                    speak(data.response);
+                }
+            });
+        }
+
+        // 텍스트를 음성으로 변환하는 함수
+        function speak(text) {
+            var msg = new SpeechSynthesisUtterance(text);
+            window.speechSynthesis.speak(msg);
+        }
+
+        // 페이지가 로드되면 음성 인식을 시작
+        window.onload = function() {
+            startListening();
+        }
+    </script>
+    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+
+</body>
+</html>
+
+
